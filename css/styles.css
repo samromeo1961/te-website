@@ -1257,7 +1257,6 @@ ul {
 .product-logo img {
     max-height: 80px;
     width: auto;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
 
 .product-tagline {
@@ -1358,6 +1357,14 @@ ul {
     border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow: var(--shadow-xl);
+}
+
+.feature-screenshot-img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    display: block;
 }
 
 .screenshot-header {
