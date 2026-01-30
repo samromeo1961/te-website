@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bSDD Guide - buildingSMART Data Dictionary | Takeoff & Estimating</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .bsdd-header {
+            background: linear-gradient(135deg, #1a5276 0%, #2e86ab 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .bsdd-header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 2.5rem;
+        }
+
+        .bsdd-header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .bsdd-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem;
+        }
+
+        .intro-section {
+            background: linear-gradient(135deg, #e8f4f8 0%, #d5e8f0 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid #2e86ab;
+        }
+
+        .intro-section h2 {
+            color: #1a5276;
+            margin-top: 0;
+        }
+
+        .intro-section p {
+            color: #333;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .intro-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .key-benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .benefit-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .benefit-card h4 {
+            color: #1a5276;
+            margin: 0 0 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .benefit-card p {
+            margin: 0;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .section-title {
+            color: #1a5276;
+            border-bottom: 3px solid #2e86ab;
+            padding-bottom: 0.5rem;
+            margin: 2rem 0 1.5rem;
+        }
+
+        /* Concepts Grid */
+        .concepts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .concept-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+            border-top: 4px solid #2e86ab;
+        }
+
+        .concept-card h3 {
+            color: #1a5276;
+            margin: 0 0 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .concept-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #2e86ab 0%, #1a5276 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .concept-card p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .concept-card ul {
+            margin: 0;
+            padding-left: 1.25rem;
+            color: #555;
+        }
+
+        .concept-card li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Hierarchy Diagram */
+        .hierarchy-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .hierarchy-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .hierarchy-level {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .hierarchy-box {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            color: white;
+        }
+
+        .hierarchy-box.dictionary {
+            background: linear-gradient(135deg, #1a5276 0%, #2e86ab 100%);
+        }
+
+        .hierarchy-box.domain {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+        }
+
+        .hierarchy-box.classification {
+            background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);
+        }
+
+        .hierarchy-box.property {
+            background: linear-gradient(135deg, #e67e22 0%, #f39c12 100%);
+        }
+
+        .hierarchy-arrow {
+            color: #888;
+            font-size: 1.5rem;
+        }
+
+        .hierarchy-description {
+            font-size: 0.85rem;
+            color: #666;
+            max-width: 200px;
+        }
+
+        /* Properties Table */
+        .properties-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+
+        .properties-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .properties-table th {
+            background: #1a5276;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .properties-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+        }
+
+        .properties-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .property-name {
+            font-weight: 600;
+            color: #1a5276;
+        }
+
+        .data-type {
+            display: inline-block;
+            background: #e8f4f8;
+            color: #2e86ab;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-family: monospace;
+        }
+
+        /* Integration Section */
+        .integration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .integration-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        }
+
+        .integration-card h3 {
+            color: #1a5276;
+            margin: 0 0 1rem 0;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #e8f4f8;
+        }
+
+        .integration-card p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .integration-example {
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 1rem;
+            font-family: monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+        }
+
+        /* Use Cases */
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .use-case-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+            border-left: 4px solid #2e86ab;
+        }
+
+        .use-case-card h4 {
+            color: #1a5276;
+            margin: 0 0 0.75rem 0;
+        }
+
+        .use-case-card p {
+            color: #555;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* API Section */
+        .api-section {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .api-section h2 {
+            color: #fff;
+            margin-top: 0;
+        }
+
+        .api-section p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        .api-endpoints {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .api-endpoint {
+            background: #252542;
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .api-method {
+            background: #27ae60;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .api-path {
+            color: #88c8e8;
+            font-family: monospace;
+            flex: 1;
+        }
+
+        .api-desc {
+            color: #888;
+            font-size: 0.9rem;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        /* Tools Section */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .tool-card h4 {
+            color: #1a5276;
+            margin: 0.75rem 0;
+        }
+
+        .tool-card p {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 0 0 1rem 0;
+        }
+
+        .tool-link {
+            display: inline-block;
+            background: #2e86ab;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .tool-link:hover {
+            background: #1a5276;
+        }
+
+        /* Example JSON */
+        .json-example {
+            background: #1a1a2e;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .json-example pre {
+            margin: 0;
+            color: #e8e8e8;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .json-key {
+            color: #88c8e8;
+        }
+
+        .json-string {
+            color: #98c379;
+        }
+
+        .json-number {
+            color: #d19a66;
+        }
+
+        .json-bool {
+            color: #c678dd;
+        }
+
+        /* Back Link */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .bsdd-header {
+                padding: 2rem 1rem;
+            }
+
+            .bsdd-header h1 {
+                font-size: 1.75rem;
+            }
+
+            .bsdd-container {
+                padding: 0 1rem 1rem;
+            }
+
+            .hierarchy-level {
+                flex-direction: column;
+            }
+
+            .hierarchy-description {
+                max-width: 100%;
+                text-align: center;
+            }
+
+            .api-endpoint {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="bsdd-header">
+        <a href="resources.html" class="back-link">← Back to Resources</a>
+        <h1>bSDD Guide</h1>
+        <p>buildingSMART Data Dictionary - Connected Data for the Built Environment</p>
+    </header>
+
+    <div class="bsdd-container">
+        <!-- Introduction -->
+        <section class="intro-section">
+            <h2>What is bSDD?</h2>
+            <p>
+                The <strong>buildingSMART Data Dictionary (bSDD)</strong> is an online service that hosts classifications,
+                properties, and materials definitions for objects in the built environment. It provides a standardized
+                way to define and share data definitions across projects, organizations, and software platforms.
+            </p>
+            <p>
+                Think of bSDD as a global library of building product data definitions. Instead of every project or
+                organization creating their own property definitions, bSDD allows you to reference standardized
+                definitions that are understood universally, ensuring consistent data exchange throughout the
+                building lifecycle.
+            </p>
+
+            <div class="key-benefits">
+                <div class="benefit-card">
+                    <h4>🌐 Global Standards</h4>
+                    <p>Access internationally recognized classifications and property definitions from organizations worldwide.</p>
+                </div>
+                <div class="benefit-card">
+                    <h4>🔗 Interoperability</h4>
+                    <p>Enable seamless data exchange between different software tools and project stakeholders.</p>
+                </div>
+                <div class="benefit-card">
+                    <h4>📊 Consistent Data</h4>
+                    <p>Ensure properties are defined consistently with correct data types, units, and allowed values.</p>
+                </div>
+                <div class="benefit-card">
+                    <h4>🔄 Living Dictionary</h4>
+                    <p>Continuously updated with new content from industry organizations and standards bodies.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Concepts -->
+        <h2 class="section-title">Core Concepts</h2>
+        <div class="concepts-grid">
+            <div class="concept-card">
+                <h3><span class="concept-icon">📚</span> Dictionary</h3>
+                <p>
+                    A dictionary is a collection of related definitions published by an organization.
+                    Each dictionary has a unique namespace and version control.
+                </p>
+                <ul>
+                    <li>Published by organizations (e.g., buildingSMART, national bodies)</li>
+                    <li>Contains domains, classifications, and properties</li>
+                    <li>Versioned for change management</li>
+                    <li>Can reference other dictionaries</li>
+                </ul>
+            </div>
+
+            <div class="concept-card">
+                <h3><span class="concept-icon">🏗️</span> Domain</h3>
+                <p>
+                    Domains are subject areas or disciplines within a dictionary that group related
+                    classifications and properties together.
+                </p>
+                <ul>
+                    <li>Examples: Architecture, Structure, MEP, Civil</li>
+                    <li>Helps organize large dictionaries</li>
+                    <li>May have specific property sets</li>
+                    <li>Reflects industry disciplines</li>
+                </ul>
+            </div>
+
+            <div class="concept-card">
+                <h3><span class="concept-icon">📁</span> Classification</h3>
+                <p>
+                    Classifications are categories or types of objects, materials, or concepts.
+                    They form hierarchies that organize building elements logically.
+                </p>
+                <ul>
+                    <li>Hierarchical structure (parent-child)</li>
+                    <li>Maps to IFC entities</li>
+                    <li>Has associated properties</li>
+                    <li>Examples: Walls, Doors, Windows, Pumps</li>
+                </ul>
+            </div>
+
+            <div class="concept-card">
+                <h3><span class="concept-icon">📋</span> Property</h3>
+                <p>
+                    Properties define characteristics that can be assigned to classifications.
+                    Each property has a data type, unit, and may have allowed values.
+                </p>
+                <ul>
+                    <li>Data types: String, Number, Boolean, etc.</li>
+                    <li>Units of measurement</li>
+                    <li>Allowed values (enumerations)</li>
+                    <li>Can be required or optional</li>
+                </ul>
+            </div>
+
+            <div class="concept-card">
+                <h3><span class="concept-icon">🏷️</span> Property Set</h3>
+                <p>
+                    Property sets group related properties together for assignment to
+                    classifications. They define what information should be captured.
+                </p>
+                <ul>
+                    <li>Logical grouping of properties</li>
+                    <li>Assigned to one or more classifications</li>
+                    <li>Similar to IFC property sets</li>
+                    <li>Defines required vs optional properties</li>
+                </ul>
+            </div>
+
+            <div class="concept-card">
+                <h3><span class="concept-icon">🔗</span> Relations</h3>
+                <p>
+                    Relations define how classifications and properties connect to each other
+                    and to external standards like IFC.
+                </p>
+                <ul>
+                    <li>Parent-child hierarchies</li>
+                    <li>IFC entity mappings</li>
+                    <li>Cross-dictionary references</li>
+                    <li>Similar/related classifications</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Hierarchy -->
+        <section class="hierarchy-section">
+            <h2 style="color: #1a5276; margin-top: 0;">bSDD Structure Hierarchy</h2>
+            <div class="hierarchy-diagram">
+                <div class="hierarchy-level">
+                    <div class="hierarchy-box dictionary">Dictionary</div>
+                    <span class="hierarchy-description">Top-level container published by an organization</span>
+                </div>
+                <span class="hierarchy-arrow">↓</span>
+                <div class="hierarchy-level">
+                    <div class="hierarchy-box domain">Domain</div>
+                    <span class="hierarchy-description">Subject area grouping (Architecture, MEP, etc.)</span>
+                </div>
+                <span class="hierarchy-arrow">↓</span>
+                <div class="hierarchy-level">
+                    <div class="hierarchy-box classification">Classification</div>
+                    <span class="hierarchy-description">Object types with hierarchical relationships</span>
+                </div>
+                <span class="hierarchy-arrow">↓</span>
+                <div class="hierarchy-level">
+                    <div class="hierarchy-box property">Properties & Property Sets</div>
+                    <span class="hierarchy-description">Attributes with data types, units, and constraints</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Property Data Types -->
+        <section class="properties-section">
+            <h2 style="color: #1a5276; margin-top: 0;">Property Data Types</h2>
+            <p style="color: #666; margin-bottom: 1rem;">
+                bSDD supports various data types to accurately define property values:
+            </p>
+            <table class="properties-table">
+                <thead>
+                    <tr>
+                        <th>Data Type</th>
+                        <th>Description</th>
+                        <th>Example Properties</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="data-type">String</span></td>
+                        <td>Text values, optionally with pattern constraints</td>
+                        <td>Model Number, Manufacturer Name, Description</td>
+                    </tr>
+                    <tr>
+                        <td><span class="data-type">Real</span></td>
+                        <td>Decimal numbers with optional min/max bounds</td>
+                        <td>Thermal Conductivity, U-Value, Flow Rate</td>
+                    </tr>
+                    <tr>
+                        <td><span class="data-type">Integer</span></td>
+                        <td>Whole numbers with optional bounds</td>
+                        <td>Number of Panels, Floor Level, Capacity</td>
+                    </tr>
+                    <tr>
+                        <td><span class="data-type">Boolean</span></td>
+                        <td>True/false values</td>
+                        <td>Is External, Fire Rated, Load Bearing</td>
+                    </tr>
+                    <tr>
+                        <td><span class="data-type">Time</span></td>
+                        <td>Date and time values</td>
+                        <td>Installation Date, Warranty Expiry</td>
+                    </tr>
+                    <tr>
+                        <td><span class="data-type">Reference</span></td>
+                        <td>URIs linking to other resources</td>
+                        <td>Product Data Sheet URL, Technical Specification</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- JSON Example -->
+        <h2 class="section-title">bSDD Data Structure Example</h2>
+        <p style="color: #666; margin-bottom: 1rem;">
+            Here's an example of how a classification with properties is represented in bSDD JSON format:
+        </p>
+        <div class="json-example">
+            <pre>{
+  <span class="json-key">"uri"</span>: <span class="json-string">"https://identifier.buildingsmart.org/uri/acme/materials/1.0/class/concretewall"</span>,
+  <span class="json-key">"code"</span>: <span class="json-string">"ConcreteWall"</span>,
+  <span class="json-key">"name"</span>: <span class="json-string">"Concrete Wall"</span>,
+  <span class="json-key">"definition"</span>: <span class="json-string">"A wall constructed primarily of concrete"</span>,
+  <span class="json-key">"relatedIfcEntityNames"</span>: [<span class="json-string">"IfcWall"</span>, <span class="json-string">"IfcWallStandardCase"</span>],
+  <span class="json-key">"classProperties"</span>: [
+    {
+      <span class="json-key">"name"</span>: <span class="json-string">"Concrete Strength Class"</span>,
+      <span class="json-key">"dataType"</span>: <span class="json-string">"String"</span>,
+      <span class="json-key">"allowedValues"</span>: [
+        {<span class="json-key">"code"</span>: <span class="json-string">"C20/25"</span>, <span class="json-key">"value"</span>: <span class="json-string">"C20/25"</span>},
+        {<span class="json-key">"code"</span>: <span class="json-string">"C25/30"</span>, <span class="json-key">"value"</span>: <span class="json-string">"C25/30"</span>},
+        {<span class="json-key">"code"</span>: <span class="json-string">"C30/37"</span>, <span class="json-key">"value"</span>: <span class="json-string">"C30/37"</span>}
+      ]
+    },
+    {
+      <span class="json-key">"name"</span>: <span class="json-string">"Thermal Transmittance"</span>,
+      <span class="json-key">"dataType"</span>: <span class="json-string">"Real"</span>,
+      <span class="json-key">"unit"</span>: <span class="json-string">"W/(m²·K)"</span>,
+      <span class="json-key">"minValue"</span>: <span class="json-number">0</span>
+    },
+    {
+      <span class="json-key">"name"</span>: <span class="json-string">"Is Load Bearing"</span>,
+      <span class="json-key">"dataType"</span>: <span class="json-string">"Boolean"</span>,
+      <span class="json-key">"isRequired"</span>: <span class="json-bool">true</span>
+    }
+  ]
+}</pre>
+        </div>
+
+        <!-- Integration with Standards -->
+        <h2 class="section-title">Integration with BIM Standards</h2>
+        <div class="integration-grid">
+            <div class="integration-card">
+                <h3>IFC Integration</h3>
+                <p>
+                    bSDD classifications map directly to IFC entities, enabling consistent property
+                    definitions that align with the IFC schema. Properties defined in bSDD can be
+                    exported as IFC property sets.
+                </p>
+                <div class="integration-example">
+                    Classification: "ConcreteWall"<br>
+                    → Maps to: IfcWall, IfcWallStandardCase<br>
+                    → Properties become: Pset_WallCommon
+                </div>
+            </div>
+
+            <div class="integration-card">
+                <h3>IDS Integration</h3>
+                <p>
+                    Information Delivery Specifications (IDS) can reference bSDD for property
+                    requirements. This ensures that property names, data types, and allowed
+                    values are consistent across the specification.
+                </p>
+                <div class="integration-example">
+                    IDS Requirement:<br>
+                    Property "FireRating" from bSDD<br>
+                    → Validates: data type, allowed values<br>
+                    → Ensures: consistent naming
+                </div>
+            </div>
+
+            <div class="integration-card">
+                <h3>Classification Systems</h3>
+                <p>
+                    bSDD hosts multiple classification systems including Uniclass, OmniClass,
+                    and national standards. This allows projects to use their preferred
+                    classification while maintaining interoperability.
+                </p>
+                <div class="integration-example">
+                    Available Systems:<br>
+                    • Uniclass 2015 (UK)<br>
+                    • OmniClass (US)<br>
+                    • CCS (Denmark)<br>
+                    • And many more...
+                </div>
+            </div>
+
+            <div class="integration-card">
+                <h3>Product Data Templates</h3>
+                <p>
+                    Manufacturers can publish product data templates (PDTs) to bSDD, defining
+                    exactly what properties their products support. This enables accurate
+                    product specification in BIM models.
+                </p>
+                <div class="integration-example">
+                    Product Template:<br>
+                    • Manufacturer properties<br>
+                    • Technical specifications<br>
+                    • Performance data<br>
+                    • Sustainability info
+                </div>
+            </div>
+        </div>
+
+        <!-- API Section -->
+        <section class="api-section">
+            <h2>bSDD API</h2>
+            <p>
+                The bSDD provides a REST API for programmatic access to dictionary content.
+                This allows software applications to query and retrieve definitions dynamically.
+            </p>
+            <div class="api-endpoints">
+                <div class="api-endpoint">
+                    <span class="api-method">GET</span>
+                    <span class="api-path">/api/Dictionary/v1</span>
+                    <span class="api-desc">List all available dictionaries</span>
+                </div>
+                <div class="api-endpoint">
+                    <span class="api-method">GET</span>
+                    <span class="api-path">/api/Dictionary/v1/{namespaceUri}</span>
+                    <span class="api-desc">Get details of a specific dictionary</span>
+                </div>
+                <div class="api-endpoint">
+                    <span class="api-method">GET</span>
+                    <span class="api-path">/api/Class/v1/{namespaceUri}</span>
+                    <span class="api-desc">Get classification details with properties</span>
+                </div>
+                <div class="api-endpoint">
+                    <span class="api-method">GET</span>
+                    <span class="api-path">/api/Property/v1/{namespaceUri}</span>
+                    <span class="api-desc">Get property details including data type and constraints</span>
+                </div>
+                <div class="api-endpoint">
+                    <span class="api-method">GET</span>
+                    <span class="api-path">/api/SearchInDictionary/v1</span>
+                    <span class="api-desc">Search for classifications or properties by text</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Use Cases -->
+        <h2 class="section-title">Common Use Cases</h2>
+        <div class="use-cases-grid">
+            <div class="use-case-card">
+                <h4>Model Validation</h4>
+                <p>
+                    Use bSDD property definitions to validate that BIM model elements contain
+                    required properties with correct data types and values.
+                </p>
+            </div>
+            <div class="use-case-card">
+                <h4>Specification Writing</h4>
+                <p>
+                    Reference bSDD when writing project information requirements to ensure
+                    unambiguous property definitions across all stakeholders.
+                </p>
+            </div>
+            <div class="use-case-card">
+                <h4>Software Development</h4>
+                <p>
+                    Integrate bSDD API into BIM authoring tools to provide standardized
+                    property templates and validation during model creation.
+                </p>
+            </div>
+            <div class="use-case-card">
+                <h4>Product Data</h4>
+                <p>
+                    Manufacturers publish product properties to bSDD, enabling accurate
+                    specification and data exchange with design teams.
+                </p>
+            </div>
+            <div class="use-case-card">
+                <h4>Data Exchange</h4>
+                <p>
+                    Map properties between different classification systems using bSDD
+                    relationships, enabling international project collaboration.
+                </p>
+            </div>
+            <div class="use-case-card">
+                <h4>Asset Management</h4>
+                <p>
+                    Ensure COBie and asset data deliverables use consistent property
+                    definitions that facility managers can understand and use.
+                </p>
+            </div>
+        </div>
+
+        <!-- Tools -->
+        <h2 class="section-title">Tools & Resources</h2>
+        <div class="tools-grid">
+            <div class="tool-card">
+                <h4>bSDD Search</h4>
+                <p>Web interface to browse and search all dictionaries, classifications, and properties</p>
+                <a href="https://search.bsdd.buildingsmart.org/" target="_blank" class="tool-link">Open bSDD Search</a>
+            </div>
+            <div class="tool-card">
+                <h4>bSDD Management Portal</h4>
+                <p>For organizations to publish and manage their own dictionaries</p>
+                <a href="https://manage.bsdd.buildingsmart.org/" target="_blank" class="tool-link">Management Portal</a>
+            </div>
+            <div class="tool-card">
+                <h4>API Documentation</h4>
+                <p>Technical documentation for integrating bSDD into software applications</p>
+                <a href="https://app.swaggerhub.com/apis/buildingSMART/Dictionaries/v1" target="_blank" class="tool-link">View API Docs</a>
+            </div>
+            <div class="tool-card">
+                <h4>buildingSMART Technical</h4>
+                <p>Official documentation and standards information from buildingSMART</p>
+                <a href="https://technical.buildingsmart.org/services/bsdd/" target="_blank" class="tool-link">Learn More</a>
+            </div>
+        </div>
+
+        <!-- Best Practices -->
+        <section class="intro-section" style="background: linear-gradient(135deg, #f0f8e8 0%, #e8f4d8 100%); border-left-color: #27ae60;">
+            <h2 style="color: #1e8449;">Best Practices</h2>
+            <div style="display: grid; gap: 1rem;">
+                <p><strong>1. Use Existing Definitions:</strong> Before creating new properties, search bSDD for existing definitions. Reusing established definitions improves interoperability.</p>
+                <p><strong>2. Reference by URI:</strong> Always reference bSDD content by its URI rather than copying definitions. This ensures you always have the current version.</p>
+                <p><strong>3. Map to IFC:</strong> When defining classifications, include mappings to relevant IFC entities to enable data exchange via IFC files.</p>
+                <p><strong>4. Use Allowed Values:</strong> Define enumerated values for properties where applicable. This prevents free-text variations and improves data quality.</p>
+                <p><strong>5. Document Units:</strong> Always specify units of measurement for numeric properties to avoid confusion and conversion errors.</p>
+                <p><strong>6. Version Control:</strong> When publishing dictionaries, use semantic versioning and document changes between versions.</p>
+            </div>
+        </section>
+    </div>
+
+    <footer style="background: #1a5276; color: white; padding: 2rem; text-align: center; margin-top: 2rem;">
+        <p style="margin: 0;">Takeoff & Estimating Resources</p>
+        <p style="margin: 0.5rem 0 0; opacity: 0.8; font-size: 0.9rem;">
+            bSDD is maintained by buildingSMART International
+        </p>
+    </footer>
+</body>
+</html>

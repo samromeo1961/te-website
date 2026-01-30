@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Takeoff and Estimating - Australia's leading construction estimating software consultancy. Home of DBx Cloud - modern cloud-based construction management and BOQ software.">
+    <meta name="keywords" content="construction estimating, BOQ software, Databuild, bill of quantities, Australian construction software">
+    <title>Takeoff and Estimating | Construction Estimating Solutions</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="images/logo-colour.svg" alt="Takeoff and Estimating" height="40">
+            </a>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="dbx-cloud.html">DBx Cloud</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="dbx-cloud.html#login-section" class="btn btn-primary btn-nav">Login / Sign Up</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Carousel -->
+    <header class="hero hero-carousel">
+        <div class="hero-slides">
+            <!-- Slide 1: DBx Cloud -->
+            <div class="hero-slide active" data-slide="0">
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-badge">Now in the Cloud</div>
+                        <h1>Modern Construction Estimating Starts Here</h1>
+                        <p class="hero-subtitle">Transform your workflow with DBx Cloud - powerful BOQ management, invoicing, and document control accessible from anywhere.</p>
+                        <div class="hero-cta">
+                            <a href="dbx-cloud.html#login-section" class="btn btn-primary btn-lg">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+                                </svg>
+                                Try DBx Cloud
+                            </a>
+                            <a href="dbx-cloud.html" class="btn btn-outline btn-lg">Learn More</a>
+                        </div>
+                        <div class="hero-stats">
+                            <div class="stat">
+                                <span class="stat-number">20+</span>
+                                <span class="stat-label">Years Experience</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">7,000+</span>
+                                <span class="stat-label">Companies Helped</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">AU & NZ</span>
+                                <span class="stat-label">Coverage</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-image">
+                        <div class="screenshot-preview">
+                            <img src="images/dbx-cloud-screenshot.jpg" alt="DBx Cloud interface showing Bill of Quantities with trade groups, item codes, descriptions, quantities, and pricing columns" class="hero-screenshot">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: zzTakeoff -->
+            <div class="hero-slide" data-slide="1">
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-badge zztakeoff-badge">Precision Takeoff</div>
+                        <h1>Fast & Accurate Construction Takeoffs</h1>
+                        <p class="hero-subtitle">zzTakeoff delivers lightning-fast quantity takeoffs with AI-powered features. Extract measurements from PDF plans in seconds, not hours.</p>
+                        <div class="hero-cta">
+                            <a href="https://www.zztakeoff.com/" target="_blank" rel="noopener" class="btn btn-primary btn-lg btn-zztakeoff">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                                </svg>
+                                Try zzTakeoff Free
+                            </a>
+                            <a href="contact.html" class="btn btn-outline btn-lg">Book a Demo</a>
+                        </div>
+                        <div class="hero-stats">
+                            <div class="stat">
+                                <span class="stat-number">10x</span>
+                                <span class="stat-label">Faster Takeoffs</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">AI</span>
+                                <span class="stat-label">Powered</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">PDF</span>
+                                <span class="stat-label">Native Support</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-image">
+                        <div class="video-preview">
+                            <video autoplay loop muted playsinline class="hero-video">
+                                <source src="https://d2t5nuahib5yds.cloudfront.net/public/mp4/zztakeoff-monitor-video.mp4?v2" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Free Resources -->
+            <div class="hero-slide" data-slide="2">
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-badge resources-badge">100% Free</div>
+                        <h1>Free Construction Resources & Tools</h1>
+                        <p class="hero-subtitle">Access our library of free tools - classification viewers for MasterFormat, NatSpec, Uniclass, OmniClass, and more. Plus our IFC Viewer for BIM files.</p>
+                        <div class="hero-cta">
+                            <a href="resources.html" class="btn btn-primary btn-lg btn-resources">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                </svg>
+                                Explore Resources
+                            </a>
+                            <a href="https://takeoff-and-estimating-pty-ltd.github.io/masterformat/" target="_blank" rel="noopener" class="btn btn-outline btn-lg">View MasterFormat</a>
+                        </div>
+                        <div class="hero-stats">
+                            <div class="stat">
+                                <span class="stat-number">8+</span>
+                                <span class="stat-label">Free Tools</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">IFC</span>
+                                <span class="stat-label">BIM Viewer</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">Open</span>
+                                <span class="stat-label">Access</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-image">
+                        <div class="app-preview resources-preview">
+                            <div class="app-header resources-header">
+                                <div class="app-dots">
+                                    <span></span><span></span><span></span>
+                                </div>
+                                <span class="app-title">Free Resources</span>
+                            </div>
+                            <div class="app-content resources-content">
+                                <div class="resource-preview-card">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                    </svg>
+                                    <h5>MasterFormat</h5>
+                                    <p>CSI Classification</p>
+                                </div>
+                                <div class="resource-preview-card">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                    </svg>
+                                    <h5>NatSpec</h5>
+                                    <p>AU Worksections</p>
+                                </div>
+                                <div class="resource-preview-card">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                    </svg>
+                                    <h5>IFC Viewer</h5>
+                                    <p>BIM File Viewer</p>
+                                </div>
+                                <div class="resource-preview-card">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <path d="M12 6v6l4 2"></path>
+                                    </svg>
+                                    <h5>Uniclass</h5>
+                                    <p>UK Classification</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carousel Controls -->
+        <div class="hero-carousel-controls slide-0-bg">
+            <div class="carousel-indicators">
+                <button type="button" class="carousel-indicator active" data-slide="0" aria-label="DBx Cloud">
+                    <span class="indicator-label">DBx Cloud</span>
+                </button>
+                <button type="button" class="carousel-indicator" data-slide="1" aria-label="zzTakeoff">
+                    <span class="indicator-label">zzTakeoff</span>
+                </button>
+                <button type="button" class="carousel-indicator" data-slide="2" aria-label="Free Resources">
+                    <span class="indicator-label">Free Resources</span>
+                </button>
+            </div>
+            <div class="carousel-arrows">
+                <button type="button" class="carousel-arrow prev" aria-label="Previous slide">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <button type="button" class="carousel-arrow next" aria-label="Next slide">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Featured Product -->
+    <section class="featured-product">
+        <div class="container">
+            <div class="featured-card">
+                <div class="featured-content">
+                    <span class="featured-tag">Featured Product</span>
+                    <h2>DBx Cloud</h2>
+                    <p class="featured-tagline">Construction Management in the Cloud</p>
+                    <p>Transform your estimating workflow with DBx Cloud - a powerful cloud platform for BOQ management, invoicing, progress claims, and document control. Access from anywhere, collaborate in real-time.</p>
+                    <ul class="featured-list">
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Access from anywhere, any device
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Real-time team collaboration
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Invoicing, claims & payments
+                        </li>
+                        <li>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Document management & transmittals
+                        </li>
+                    </ul>
+                    <a href="dbx-cloud.html" class="btn btn-primary">Learn More</a>
+                </div>
+                <div class="featured-visual">
+                    <div class="feature-cards">
+                        <div class="feature-card">
+                            <div class="feature-icon boq">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
+                                </svg>
+                            </div>
+                            <h4>BOQ Editor</h4>
+                            <p>Powerful grid with formulas</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon claims">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                                </svg>
+                            </div>
+                            <h4>Accounting</h4>
+                            <p>Invoices, claims & payments</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon orders">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                </svg>
+                            </div>
+                            <h4>Documents</h4>
+                            <p>Drawings & transmittals</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon reports">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+                                </svg>
+                            </div>
+                            <h4>Cloud</h4>
+                            <p>Access from anywhere</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Services</h2>
+                <p>Comprehensive support for your construction estimating needs</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                    </div>
+                    <h3>Software Selection</h3>
+                    <p>Not sure which estimating software is right for you? We'll analyze your needs and recommend the perfect solution for your business size and workflow.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 20h9"></path>
+                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                        </svg>
+                    </div>
+                    <h3>Implementation</h3>
+                    <p>We handle complete setup including database configuration, template customization, and integration with your existing systems.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <h3>Training</h3>
+                    <p>Comprehensive training programs to get your team up to speed quickly. On-site, remote, or self-paced options available.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                        </svg>
+                    </div>
+                    <h3>Custom Templates</h3>
+                    <p>Professional quote templates, price databases, and document layouts tailored to your brand and industry requirements.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Software Partners -->
+    <section class="partners">
+        <div class="container">
+            <div class="section-header">
+                <h2>Software We Support</h2>
+                <p>Expert implementation and training for industry-leading platforms</p>
+            </div>
+            <div class="partners-grid">
+                <a href="https://www.zztakeoff.com/" target="_blank" rel="noopener" class="partner-card">
+                    <div class="partner-logo">
+                        <img src="images/zztakeoff-logo-black.svg" alt="zzTakeoff">
+                    </div>
+                </a>
+                <div class="partner-card">
+                    <div class="partner-logo">
+                        <img src="images/databuild-logo.png" alt="Databuild" height="30">
+                    </div>
+                </div>
+                <div class="partner-card">
+                    <div class="partner-logo">
+                        <img src="images/planswift-logo.svg" alt="PlanSwift" height="30">
+                    </div>
+                </div>
+                <div class="partner-card">
+                    <div class="partner-logo">
+                        <img src="images/sigma-logo.webp" alt="Sigma Estimates" height="25">
+                    </div>
+                </div>
+                <div class="partner-card">
+                    <div class="partner-logo">
+                        <img src="images/costminer-logo.svg" alt="CostMiner" height="30">
+                    </div>
+                </div>
+                <div class="partner-card">
+                    <div class="partner-logo">
+                        <img src="images/quotewerks-logo.png" alt="QuoteWerks" height="25">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2>Trusted by Builders Across Australia</h2>
+                <p>See what our clients say about working with us</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"The team at Takeoff and Estimating helped us choose and implement the right software. Our estimating time has been cut in half."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">JM</div>
+                        <div class="author-info">
+                            <strong>James Mitchell</strong>
+                            <span>Mitchell Construction, Sydney</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"DBx Cloud transformed how we manage our bills of quantities. The formula support alone saves us hours every week."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SR</div>
+                        <div class="author-info">
+                            <strong>Sarah Reynolds</strong>
+                            <span>Reynolds Builders, Melbourne</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"Professional service from start to finish. They understood our needs and delivered exactly what we needed."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">DK</div>
+                        <div class="author-info">
+                            <strong>David Kim</strong>
+                            <span>Kim & Associates, Brisbane</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Transform Your Estimating?</h2>
+                <p>Try DBx Cloud today or speak with our team about your software needs.</p>
+                <div class="cta-buttons">
+                    <a href="dbx-cloud.html#login-section" class="btn btn-white btn-lg">Try DBx Cloud</a>
+                    <a href="contact.html" class="btn btn-outline-white btn-lg">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="images/logo-reversed.svg" alt="Takeoff and Estimating" class="footer-logo">
+                    <p>Australia's trusted partner for construction estimating software solutions.</p>
+                    <div class="footer-contact">
+                        <p><strong>Phone:</strong> 1300 818 620</p>
+                        <p><strong>Email:</strong> info@takeoffandestimating.com.au</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Products</h4>
+                    <ul>
+                        <li><a href="dbx-cloud.html">DBx Cloud</a></li>
+                        <li><a href="#">Databuild</a></li>
+                        <li><a href="#">PlanSwift</a></li>
+                        <li><a href="#">Sigma Estimates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="https://takeoff-and-estimating-pty-ltd.github.io/masterformat/" target="_blank" rel="noopener">MasterFormat</a></li>
+                        <li><a href="https://takeoff-and-estimating-pty-ltd.github.io/natspec/" target="_blank" rel="noopener">NatSpec</a></li>
+                        <li><a href="resources.html">All Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Takeoff and Estimating Pty Ltd. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

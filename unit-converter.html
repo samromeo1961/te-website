@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free unit conversion calculator for construction professionals - convert between metric and imperial length, area, and volume measurements.">
+    <title>Unit Conversion Calculator | Takeoff and Estimating</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Unit Converter Specific Styles */
+        .converter-hero {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: var(--color-white);
+            padding: 6rem 0 3rem;
+            text-align: center;
+        }
+
+        .converter-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .converter-hero p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .converter-section {
+            padding: 3rem 0 5rem;
+            background: var(--color-gray-50);
+        }
+
+        .converter-card {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: 2rem;
+            max-width: 600px;
+            margin: -3rem auto 3rem;
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .converter-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--color-gray-200);
+            padding-bottom: 1rem;
+        }
+
+        .converter-tab {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: transparent;
+            color: var(--color-gray-600);
+            font-weight: 600;
+            font-size: 0.9375rem;
+            cursor: pointer;
+            border-radius: var(--radius) var(--radius) 0 0;
+            transition: all 0.2s ease;
+        }
+
+        .converter-tab:hover {
+            color: var(--color-primary);
+            background: var(--color-gray-50);
+        }
+
+        .converter-tab.active {
+            color: var(--color-white);
+            background: var(--color-primary);
+        }
+
+        .converter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .converter-row {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .converter-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .converter-field label {
+            font-weight: 600;
+            color: var(--color-gray-700);
+            font-size: 0.875rem;
+        }
+
+        .converter-field input,
+        .converter-field select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--color-gray-200);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .converter-field input:focus,
+        .converter-field select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        .converter-field input {
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            font-size: 1.25rem;
+        }
+
+        .swap-btn {
+            width: 48px;
+            height: 48px;
+            border: 2px solid var(--color-gray-200);
+            background: var(--color-white);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-gray-500);
+            transition: all 0.2s ease;
+            margin-bottom: 0.25rem;
+        }
+
+        .swap-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            background: var(--color-primary-light);
+        }
+
+        .result-display {
+            background: linear-gradient(135deg, var(--color-gray-50) 0%, var(--color-gray-100) 100%);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .result-label {
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+            margin-bottom: 0.5rem;
+        }
+
+        .result-value {
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .result-unit {
+            font-size: 1rem;
+            color: var(--color-gray-600);
+            margin-left: 0.5rem;
+        }
+
+        .result-formula {
+            font-size: 0.8125rem;
+            color: var(--color-gray-500);
+            margin-top: 0.75rem;
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+        }
+
+        /* Quick Conversions */
+        .quick-conversions {
+            margin-top: 3rem;
+        }
+
+        .quick-conversions h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .conversion-tables {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .conversion-table {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .conversion-table h3 {
+            background: var(--color-gray-800);
+            color: var(--color-white);
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .conversion-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .conversion-table th,
+        .conversion-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--color-gray-100);
+        }
+
+        .conversion-table th {
+            background: var(--color-gray-50);
+            font-weight: 600;
+            color: var(--color-gray-600);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .conversion-table td {
+            font-size: 0.875rem;
+        }
+
+        .conversion-table td:last-child {
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            color: var(--color-primary);
+        }
+
+        .conversion-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Unit Abbreviations */
+        .unit-reference {
+            margin-top: 3rem;
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+        }
+
+        .unit-reference h3 {
+            margin-bottom: 1.5rem;
+            color: var(--color-gray-800);
+        }
+
+        .unit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .unit-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--color-gray-50);
+            border-radius: var(--radius);
+        }
+
+        .unit-abbrev {
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            font-weight: 700;
+            color: var(--color-primary);
+            min-width: 50px;
+        }
+
+        .unit-name {
+            color: var(--color-gray-600);
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .converter-row {
+                grid-template-columns: 1fr;
+            }
+
+            .swap-btn {
+                margin: 0 auto;
+                transform: rotate(90deg);
+            }
+
+            .converter-tabs {
+                flex-wrap: wrap;
+            }
+
+            .converter-tab {
+                flex: 1;
+                min-width: calc(50% - 0.25rem);
+                text-align: center;
+                padding: 0.625rem 0.75rem;
+                font-size: 0.8125rem;
+            }
+
+            .result-value {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="images/logo-colour.svg" alt="Takeoff and Estimating" height="40">
+            </a>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dbx-cloud.html">DBx Cloud</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="resources.html" class="active">Resources</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="dbx-cloud.html#login-section" class="btn btn-primary btn-nav">Login / Sign Up</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="converter-hero">
+        <div class="container">
+            <h1>Unit Conversion Calculator</h1>
+            <p>Convert between metric and imperial measurements for construction estimating. All calculations performed instantly in your browser.</p>
+        </div>
+    </header>
+
+    <!-- Converter Section -->
+    <section class="converter-section">
+        <div class="container">
+            <!-- Main Converter Card -->
+            <div class="converter-card">
+                <div class="converter-tabs">
+                    <button type="button" class="converter-tab active" data-type="length">Length</button>
+                    <button type="button" class="converter-tab" data-type="area">Area</button>
+                    <button type="button" class="converter-tab" data-type="volume">Volume</button>
+                </div>
+
+                <div class="converter-form">
+                    <div class="converter-row">
+                        <div class="converter-field">
+                            <label for="fromValue">From</label>
+                            <input type="number" id="fromValue" value="1" step="any" aria-label="Value to convert">
+                            <select id="fromUnit" aria-label="From unit">
+                                <!-- Populated by JavaScript -->
+                            </select>
+                        </div>
+
+                        <button type="button" class="swap-btn" id="swapUnits" aria-label="Swap units">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 16l-4-4 4-4"></path>
+                                <path d="M17 8l4 4-4 4"></path>
+                                <path d="M3 12h18"></path>
+                            </svg>
+                        </button>
+
+                        <div class="converter-field">
+                            <label for="toValue">To</label>
+                            <input type="number" id="toValue" readonly aria-label="Converted value">
+                            <select id="toUnit" aria-label="To unit">
+                                <!-- Populated by JavaScript -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="result-display">
+                        <div class="result-label">Result</div>
+                        <div>
+                            <span class="result-value" id="resultValue">1</span>
+                            <span class="result-unit" id="resultUnit">m</span>
+                        </div>
+                        <div class="result-formula" id="resultFormula">1 m = 1 m</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Reference Tables -->
+            <div class="quick-conversions">
+                <h2>Quick Reference Tables</h2>
+                <div class="conversion-tables">
+                    <!-- Length Conversions -->
+                    <div class="conversion-table">
+                        <h3>Length Conversions</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>Multiply By</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Inches</td><td>Millimeters</td><td>25.4</td></tr>
+                                <tr><td>Feet</td><td>Meters</td><td>0.3048</td></tr>
+                                <tr><td>Yards</td><td>Meters</td><td>0.9144</td></tr>
+                                <tr><td>Miles</td><td>Kilometers</td><td>1.609344</td></tr>
+                                <tr><td>Meters</td><td>Feet</td><td>3.28084</td></tr>
+                                <tr><td>Meters</td><td>Yards</td><td>1.09361</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Area Conversions -->
+                    <div class="conversion-table">
+                        <h3>Area Conversions</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>Multiply By</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>sq ft</td><td>sq m</td><td>0.0929</td></tr>
+                                <tr><td>sq yd</td><td>sq m</td><td>0.8361</td></tr>
+                                <tr><td>sq m</td><td>sq ft</td><td>10.7639</td></tr>
+                                <tr><td>acres</td><td>hectares</td><td>0.4047</td></tr>
+                                <tr><td>hectares</td><td>acres</td><td>2.4711</td></tr>
+                                <tr><td>sq mi</td><td>sq km</td><td>2.59</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Volume Conversions -->
+                    <div class="conversion-table">
+                        <h3>Volume Conversions</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>Multiply By</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>cu ft</td><td>cu m</td><td>0.0283</td></tr>
+                                <tr><td>cu yd</td><td>cu m</td><td>0.7646</td></tr>
+                                <tr><td>cu m</td><td>cu ft</td><td>35.3147</td></tr>
+                                <tr><td>cu m</td><td>cu yd</td><td>1.30795</td></tr>
+                                <tr><td>gallons (US)</td><td>liters</td><td>3.7854</td></tr>
+                                <tr><td>liters</td><td>gallons (US)</td><td>0.2642</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unit Abbreviations Reference -->
+            <div class="unit-reference">
+                <h3>Standard Unit Abbreviations</h3>
+                <div class="unit-grid">
+                    <div class="unit-item">
+                        <span class="unit-abbrev">mm</span>
+                        <span class="unit-name">Millimeter</span>
+                    </div>
+                    <div class="unit-item">
+                        <span class="unit-abbrev">cm</span>
+                        <span class="unit-name">Centimeter</span>
+                    </div>
+                    <div class="unit-item">
+                        <span class="unit-abbrev">m / Lm</span>
+                        <span class="unit-name">Meter / Linear Meter</span>
+                    </div>
+                    <div class="unit-item">
+                        <span class="unit-abbrev">km</span>
+                        <span class="unit-name">Kilometer</span>
+                    </div>
+                    <div class="unit-item">
+                        <span class="unit-abbrev">m² / Sm</span>
+                        <span class="unit-name">Square Meter</span>
+                    </div>
+                    <div class="unit-item">
+                        <span class="unit-abbrev">m³</span>
+                        <span class="unit-name">Cubic Meter</span>
+                    </div>
+                    <div class="unit-item">
+                        <span class="unit-abbrev">EA</span>
+                        <span class="unit-name">Each / Count</span>
+                    </div>
+                    <div class="unit-item">
+                        <span class="unit-abbrev">LSUM</span>
+                        <span class="unit-name">Lump Sum</span>
+                    </div>
+                    <div class="unit-item">
+                        <span class="unit-abbrev">HRS</span>
+                        <span class="unit-name">Hours</span>
+                    </div>
+                    <div class="unit-item">
+                        <span class="unit-abbrev">MDYS</span>
+                        <span class="unit-name">Man Days</span>
+                    </div>
+                    <div class="unit-item">
+                        <span class="unit-abbrev">WKS</span>
+                        <span class="unit-name">Weeks</span>
+                    </div>
+                    <div class="unit-item">
+                        <span class="unit-abbrev">MTHS</span>
+                        <span class="unit-name">Months</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Resources -->
+    <section class="cta" style="background: var(--color-gray-800);">
+        <div class="container">
+            <div class="cta-content">
+                <h2>More Free Resources</h2>
+                <p>Explore our library of free tools for construction professionals including classification viewers, formulas, and more.</p>
+                <div class="cta-buttons">
+                    <a href="resources.html" class="btn btn-white btn-lg">View All Resources</a>
+                    <a href="estimator-formulas.html" class="btn btn-outline-white btn-lg">Estimator's Formulas</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="images/logo-reversed.svg" alt="Takeoff and Estimating" height="40" class="footer-logo">
+                    <p>Australia's trusted partner for construction estimating software solutions.</p>
+                    <div class="footer-contact">
+                        <p><strong>Phone:</strong> 1300 818 620</p>
+                        <p><strong>Email:</strong> info@takeoffandestimating.com.au</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Products</h4>
+                    <ul>
+                        <li><a href="dbx-cloud.html">DBx Cloud</a></li>
+                        <li><a href="#">Databuild</a></li>
+                        <li><a href="#">PlanSwift</a></li>
+                        <li><a href="#">Sigma Estimates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="estimator-formulas.html">Estimator's Formulas</a></li>
+                        <li><a href="unit-converter.html">Unit Converter</a></li>
+                        <li><a href="resources.html">All Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Takeoff and Estimating Pty Ltd. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Unit Conversion Calculator
+        (function() {
+            // Conversion factors to base unit (meters for length, sq meters for area, cubic meters for volume)
+            const units = {
+                length: {
+                    mm: { name: 'Millimeters (mm)', factor: 0.001 },
+                    cm: { name: 'Centimeters (cm)', factor: 0.01 },
+                    m: { name: 'Meters (m)', factor: 1 },
+                    km: { name: 'Kilometers (km)', factor: 1000 },
+                    in: { name: 'Inches (in)', factor: 0.0254 },
+                    ft: { name: 'Feet (ft)', factor: 0.3048 },
+                    yd: { name: 'Yards (yd)', factor: 0.9144 },
+                    mi: { name: 'Miles (mi)', factor: 1609.344 }
+                },
+                area: {
+                    'mm²': { name: 'Square Millimeters (mm²)', factor: 0.000001 },
+                    'cm²': { name: 'Square Centimeters (cm²)', factor: 0.0001 },
+                    'm²': { name: 'Square Meters (m²)', factor: 1 },
+                    'km²': { name: 'Square Kilometers (km²)', factor: 1000000 },
+                    'in²': { name: 'Square Inches (in²)', factor: 0.00064516 },
+                    'ft²': { name: 'Square Feet (ft²)', factor: 0.09290304 },
+                    'yd²': { name: 'Square Yards (yd²)', factor: 0.83612736 },
+                    'ac': { name: 'Acres', factor: 4046.8564224 },
+                    'ha': { name: 'Hectares', factor: 10000 }
+                },
+                volume: {
+                    'mm³': { name: 'Cubic Millimeters (mm³)', factor: 0.000000001 },
+                    'cm³': { name: 'Cubic Centimeters (cm³)', factor: 0.000001 },
+                    'm³': { name: 'Cubic Meters (m³)', factor: 1 },
+                    'in³': { name: 'Cubic Inches (in³)', factor: 0.000016387064 },
+                    'ft³': { name: 'Cubic Feet (ft³)', factor: 0.028316846592 },
+                    'yd³': { name: 'Cubic Yards (yd³)', factor: 0.764554857984 },
+                    'L': { name: 'Liters (L)', factor: 0.001 },
+                    'gal': { name: 'Gallons US (gal)', factor: 0.003785411784 }
+                }
+            };
+
+            let currentType = 'length';
+
+            const fromValue = document.getElementById('fromValue');
+            const toValue = document.getElementById('toValue');
+            const fromUnit = document.getElementById('fromUnit');
+            const toUnit = document.getElementById('toUnit');
+            const swapBtn = document.getElementById('swapUnits');
+            const resultValue = document.getElementById('resultValue');
+            const resultUnit = document.getElementById('resultUnit');
+            const resultFormula = document.getElementById('resultFormula');
+            const tabs = document.querySelectorAll('.converter-tab');
+
+            // Populate unit dropdowns
+            function populateUnits(type) {
+                fromUnit.innerHTML = '';
+                toUnit.innerHTML = '';
+
+                const unitList = units[type];
+                for (const [key, data] of Object.entries(unitList)) {
+                    fromUnit.innerHTML += `<option value="${key}">${data.name}</option>`;
+                    toUnit.innerHTML += `<option value="${key}">${data.name}</option>`;
+                }
+
+                // Set default selections
+                if (type === 'length') {
+                    fromUnit.value = 'm';
+                    toUnit.value = 'ft';
+                } else if (type === 'area') {
+                    fromUnit.value = 'm²';
+                    toUnit.value = 'ft²';
+                } else if (type === 'volume') {
+                    fromUnit.value = 'm³';
+                    toUnit.value = 'ft³';
+                }
+            }
+
+            // Convert units
+            function convert() {
+                const value = parseFloat(fromValue.value) || 0;
+                const from = fromUnit.value;
+                const to = toUnit.value;
+                const unitList = units[currentType];
+
+                // Convert to base unit, then to target unit
+                const baseValue = value * unitList[from].factor;
+                const result = baseValue / unitList[to].factor;
+
+                // Format result
+                let formatted;
+                if (result === 0) {
+                    formatted = '0';
+                } else if (Math.abs(result) >= 1000000) {
+                    formatted = result.toExponential(4);
+                } else if (Math.abs(result) < 0.0001) {
+                    formatted = result.toExponential(4);
+                } else {
+                    formatted = parseFloat(result.toPrecision(8)).toString();
+                }
+
+                toValue.value = formatted;
+                resultValue.textContent = formatted;
+                resultUnit.textContent = to;
+
+                // Show conversion factor
+                const factor = unitList[from].factor / unitList[to].factor;
+                let factorFormatted;
+                if (factor >= 1000000 || factor < 0.0001) {
+                    factorFormatted = factor.toExponential(4);
+                } else {
+                    factorFormatted = parseFloat(factor.toPrecision(6)).toString();
+                }
+                resultFormula.textContent = `1 ${from} = ${factorFormatted} ${to}`;
+            }
+
+            // Swap units
+            function swap() {
+                const tempUnit = fromUnit.value;
+                const tempValue = fromValue.value;
+
+                fromUnit.value = toUnit.value;
+                toUnit.value = tempUnit;
+                fromValue.value = toValue.value;
+
+                convert();
+            }
+
+            // Switch measurement type
+            function switchType(type) {
+                currentType = type;
+                tabs.forEach(tab => {
+                    tab.classList.toggle('active', tab.dataset.type === type);
+                });
+                populateUnits(type);
+                convert();
+            }
+
+            // Event listeners
+            fromValue.addEventListener('input', convert);
+            fromUnit.addEventListener('change', convert);
+            toUnit.addEventListener('change', convert);
+            swapBtn.addEventListener('click', swap);
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => switchType(tab.dataset.type));
+            });
+
+            // Initialize
+            populateUnits('length');
+            convert();
+        })();
+    </script>
+</body>
+</html>

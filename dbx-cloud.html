@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DBx Cloud - Modern cloud-based Bill of Quantities and construction management software. Access from anywhere, collaborate in real-time.">
+    <meta name="keywords" content="DBx Cloud, bill of quantities, cloud construction software, estimating software, BOQ management, construction accounting">
+    <title>DBx Cloud - Cloud BOQ & Construction Management | Takeoff and Estimating</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="images/logo-colour.svg" alt="Takeoff and Estimating" height="40">
+            </a>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dbx-cloud.html" class="active">DBx Cloud</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="#login-section" class="btn btn-primary btn-nav">Login / Sign Up</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Product Hero -->
+    <header class="product-hero cloud-hero">
+        <div class="container">
+            <div class="product-hero-content">
+                <div class="product-badge">
+                    <span class="version">Cloud</span>
+                    <span class="status">Now Available</span>
+                </div>
+                <h1 class="cloud-title">DBx Cloud</h1>
+                <p class="product-tagline">Construction Management in the Cloud</p>
+                <p class="product-description">A powerful cloud-based platform for Bill of Quantities, purchase orders, invoicing, progress claims, and document management. Access from anywhere, collaborate with your team in real-time, and take control of your construction projects.</p>
+                <div class="product-cta">
+                    <a href="#login-section" class="btn btn-primary btn-lg">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                            <polyline points="10 17 15 12 10 7"></polyline>
+                            <line x1="15" y1="12" x2="3" y2="12"></line>
+                        </svg>
+                        Login to DBx Cloud
+                    </a>
+                    <a href="contact.html" class="btn btn-outline btn-lg">Request a Demo</a>
+                </div>
+                <p class="product-meta">Access anywhere | Real-time collaboration | No installation required</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Key Features -->
+    <section class="product-features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Complete Construction Management Suite</h2>
+                <p>Everything you need to manage your projects from estimating to completion</p>
+            </div>
+
+            <div class="features-showcase">
+                <!-- Feature 1 - Dashboard -->
+                <div class="feature-block">
+                    <div class="feature-content">
+                        <div class="feature-number">01</div>
+                        <h3>Real-Time Dashboard</h3>
+                        <p>Get a complete overview of your business with live KPIs, job status tracking, and actionable insights. Monitor project progress, track financials, and stay on top of deadlines.</p>
+                        <ul class="feature-highlights">
+                            <li>Live KPI cards and metrics</li>
+                            <li>Job progress tracking</li>
+                            <li>Recent activity feed</li>
+                            <li>Quick navigation to all modules</li>
+                            <li>Customizable widgets</li>
+                        </ul>
+                    </div>
+                    <div class="feature-visual">
+                        <div class="feature-screenshot cloud-dashboard">
+                            <div class="screenshot-header">
+                                <span>Dashboard Overview</span>
+                            </div>
+                            <div class="screenshot-content">
+                                <div class="kpi-cards">
+                                    <div class="kpi-card">
+                                        <span class="kpi-label">Active Jobs</span>
+                                        <span class="kpi-value">24</span>
+                                    </div>
+                                    <div class="kpi-card">
+                                        <span class="kpi-label">Pending Claims</span>
+                                        <span class="kpi-value">$245K</span>
+                                    </div>
+                                    <div class="kpi-card">
+                                        <span class="kpi-label">Orders This Month</span>
+                                        <span class="kpi-value">156</span>
+                                    </div>
+                                    <div class="kpi-card">
+                                        <span class="kpi-label">Invoices Due</span>
+                                        <span class="kpi-value">12</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature 2 - BOQ -->
+                <div class="feature-block reverse">
+                    <div class="feature-content">
+                        <div class="feature-number">02</div>
+                        <h3>Bill of Quantities Editor</h3>
+                        <p>A powerful, spreadsheet-like interface powered by AG Grid. Edit quantities, descriptions, and prices with formula support. Organize by cost centres and generate reports instantly.</p>
+                        <ul class="feature-highlights">
+                            <li>Formula support: <code>10*2.5</code>, <code>sqrt(144)</code></li>
+                            <li>Cost centre tree navigation</li>
+                            <li>Inline editing with validation</li>
+                            <li>Add items from catalogue</li>
+                            <li>Supplier assignment</li>
+                        </ul>
+                    </div>
+                    <div class="feature-visual">
+                        <div class="feature-screenshot boq-editor">
+                            <div class="screenshot-header">
+                                <span>Bill of Quantities - Job #1234</span>
+                            </div>
+                            <div class="screenshot-content">
+                                <table class="mock-grid">
+                                    <tr class="header">
+                                        <td>Code</td>
+                                        <td>Description</td>
+                                        <td>Qty</td>
+                                        <td>Unit</td>
+                                        <td>Rate</td>
+                                        <td>Total</td>
+                                    </tr>
+                                    <tr>
+                                        <td>CONC01</td>
+                                        <td>Concrete 32MPa</td>
+                                        <td class="formula">25</td>
+                                        <td>m3</td>
+                                        <td>$285.00</td>
+                                        <td>$7,125.00</td>
+                                    </tr>
+                                    <tr class="highlight">
+                                        <td>FORM02</td>
+                                        <td>Formwork to slab</td>
+                                        <td class="formula">10*2.5</td>
+                                        <td>m2</td>
+                                        <td>$45.00</td>
+                                        <td>$1,125.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>REIN03</td>
+                                        <td>Steel reinforcement</td>
+                                        <td>850</td>
+                                        <td>kg</td>
+                                        <td>$2.50</td>
+                                        <td>$2,125.00</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature 3 - Accounting -->
+                <div class="feature-block">
+                    <div class="feature-content">
+                        <div class="feature-number">03</div>
+                        <h3>Accounting & Payments</h3>
+                        <p>Complete financial management including invoice entry, payment batches, progress claims, and budget tracking. Match invoices to orders and generate ABA files for batch payments.</p>
+                        <ul class="feature-highlights">
+                            <li>Invoice entry and matching</li>
+                            <li>Payment batch generation</li>
+                            <li>ABA file export for banks</li>
+                            <li>Progress claims management</li>
+                            <li>Budget vs actual tracking</li>
+                        </ul>
+                    </div>
+                    <div class="feature-visual">
+                        <div class="feature-screenshot claims-view">
+                            <div class="screenshot-header">
+                                <span>Accounting Dashboard</span>
+                            </div>
+                            <div class="screenshot-content">
+                                <div class="claims-cards">
+                                    <div class="claim-card">
+                                        <div class="claim-header">Invoice #INV-456</div>
+                                        <div class="claim-amount">$12,450.00</div>
+                                        <div class="claim-status approved">Matched</div>
+                                    </div>
+                                    <div class="claim-card">
+                                        <div class="claim-header">Claim #PC-003</div>
+                                        <div class="claim-amount">$85,750.00</div>
+                                        <div class="claim-status pending">Submitted</div>
+                                    </div>
+                                    <div class="claim-card">
+                                        <div class="claim-header">Payment Batch</div>
+                                        <div class="claim-amount">$45,200.00</div>
+                                        <div class="claim-status draft">Ready</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature 4 - Documents -->
+                <div class="feature-block reverse">
+                    <div class="feature-content">
+                        <div class="feature-number">04</div>
+                        <h3>Document Management</h3>
+                        <p>Centralized document storage with version control, drawing registers, and transmittal tracking. Upload drawings, contracts, and specifications with full revision history.</p>
+                        <ul class="feature-highlights">
+                            <li>Drawing register with revisions</li>
+                            <li>Transmittal creation and tracking</li>
+                            <li>PDF viewer and markup</li>
+                            <li>Version history</li>
+                            <li>Document attributes</li>
+                        </ul>
+                    </div>
+                    <div class="feature-visual">
+                        <div class="feature-screenshot catalogue-view">
+                            <div class="screenshot-header">
+                                <span>Document Management</span>
+                            </div>
+                            <div class="screenshot-content catalogue-content">
+                                <div class="catalogue-search">
+                                    <input type="text" placeholder="Search documents..." value="">
+                                </div>
+                                <div class="catalogue-list">
+                                    <div class="catalogue-item">
+                                        <span class="code">A-100</span>
+                                        <span class="desc">Ground Floor Plan</span>
+                                        <span class="price">Rev C</span>
+                                    </div>
+                                    <div class="catalogue-item">
+                                        <span class="code">A-101</span>
+                                        <span class="desc">First Floor Plan</span>
+                                        <span class="price">Rev B</span>
+                                    </div>
+                                    <div class="catalogue-item recipe">
+                                        <span class="code">S-001</span>
+                                        <span class="desc">Structural Details</span>
+                                        <span class="badge">New</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- More Features Grid -->
+    <section class="services" style="background: var(--color-gray-100);">
+        <div class="container">
+            <div class="section-header">
+                <h2>And Much More</h2>
+                <p>A complete toolkit for construction management</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <h3>Supplier Management</h3>
+                    <p>Complete supplier database with contacts, banking details, insurance tracking, and price lists.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                            <line x1="1" y1="10" x2="23" y2="10"></line>
+                        </svg>
+                    </div>
+                    <h3>Purchase Orders</h3>
+                    <p>Generate POs from BOQ items, track order status, and manage procurement workflow.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                        </svg>
+                    </div>
+                    <h3>Catalogue & Recipes</h3>
+                    <p>Comprehensive item catalogue with multiple price levels and recipe/assembly management.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3>Contacts & CRM</h3>
+                    <p>Manage contacts across clients, suppliers, and subcontractors with communication history.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                    </div>
+                    <h3>Reports & Analytics</h3>
+                    <p>Generate comprehensive reports for jobs, orders, claims, and financial summaries.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                    </div>
+                    <h3>Settings & Config</h3>
+                    <p>Company profile, cost centres, units of measure, user management, and branding.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cloud Benefits -->
+    <section class="tech-specs">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Cloud?</h2>
+                <p>Modern infrastructure for modern construction businesses</p>
+            </div>
+            <div class="specs-grid">
+                <div class="spec-card">
+                    <h4>Access Anywhere</h4>
+                    <ul>
+                        <li><strong>Browser-based:</strong> Works on any device</li>
+                        <li><strong>Mobile ready:</strong> Check jobs on site</li>
+                        <li><strong>No VPN needed:</strong> Secure HTTPS access</li>
+                        <li><strong>Real-time sync:</strong> Always up to date</li>
+                    </ul>
+                </div>
+                <div class="spec-card">
+                    <h4>Team Collaboration</h4>
+                    <ul>
+                        <li><strong>Multi-user:</strong> Work simultaneously</li>
+                        <li><strong>Role-based access:</strong> Control permissions</li>
+                        <li><strong>Activity tracking:</strong> See who changed what</li>
+                        <li><strong>Notifications:</strong> Stay informed</li>
+                    </ul>
+                </div>
+                <div class="spec-card">
+                    <h4>Data Security</h4>
+                    <ul>
+                        <li><strong>Encryption:</strong> Data encrypted at rest</li>
+                        <li><strong>Backups:</strong> Automatic daily backups</li>
+                        <li><strong>Uptime:</strong> 99.9% availability SLA</li>
+                        <li><strong>Compliance:</strong> Australian data hosting</li>
+                    </ul>
+                </div>
+                <div class="spec-card">
+                    <h4>Zero Maintenance</h4>
+                    <ul>
+                        <li><strong>No servers:</strong> We handle infrastructure</li>
+                        <li><strong>Auto updates:</strong> Always latest version</li>
+                        <li><strong>No IT overhead:</strong> Focus on your work</li>
+                        <li><strong>Scalable:</strong> Grows with your business</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login/Registration Section -->
+    <section class="download-section" id="login-section">
+        <div class="container">
+            <div class="download-card login-card-section">
+                <div class="download-info">
+                    <h2>Access DBx Cloud</h2>
+                    <p>Login to your account or request access to get started with DBx Cloud.</p>
+                    <div class="version-info">
+                        <span class="version-badge">Cloud</span>
+                        <span class="version-date">Secure & Always Available</span>
+                    </div>
+                </div>
+                <div class="download-actions login-actions">
+                    <a href="https://dbxcloud.takeoffandestimating.com.au/" target="_blank" rel="noopener" class="btn btn-primary btn-xl">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                            <polyline points="10 17 15 12 10 7"></polyline>
+                            <line x1="15" y1="12" x2="3" y2="12"></line>
+                        </svg>
+                        Login to DBx Cloud
+                    </a>
+                    <a href="contact.html?interest=dbx-cloud" class="btn btn-outline-primary btn-xl">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <line x1="19" y1="8" x2="19" y2="14"></line>
+                            <line x1="22" y1="11" x2="16" y2="11"></line>
+                        </svg>
+                        Request Access
+                    </a>
+                </div>
+                <div class="login-demo-info">
+                    <p>Want to try before you commit? <a href="contact.html">Contact us</a> for a demo account.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Migration Section -->
+    <section class="featured-product">
+        <div class="container">
+            <div class="featured-card" style="grid-template-columns: 1fr;">
+                <div class="featured-content" style="text-align: center; max-width: 800px; margin: 0 auto;">
+                    <span class="featured-tag">For Databuild Users</span>
+                    <h2>Seamless Migration</h2>
+                    <p>Already using Databuild? We can migrate your existing data to DBx Cloud with full history preserved. Your catalogue, jobs, orders, and suppliers - all transferred securely to the cloud.</p>
+                    <div style="margin-top: 2rem;">
+                        <a href="contact.html" class="btn btn-white btn-lg">Discuss Migration Options</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>How is my data secured?</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>DBx Cloud uses industry-standard encryption for data in transit (TLS 1.3) and at rest (AES-256). All data is hosted in Australian data centres with automatic daily backups and point-in-time recovery capability.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Can multiple users work simultaneously?</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! DBx Cloud is designed for team collaboration. Multiple users can work on the same job simultaneously with real-time updates. Role-based permissions let you control who can view, edit, or approve different areas.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What's included in the subscription?</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Your subscription includes full access to all modules (BOQ, Orders, Accounting, Documents, Reports), unlimited jobs and suppliers, automatic updates, data backups, and email support. Contact us for detailed pricing and enterprise options.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Can I migrate from the desktop version?</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Absolutely! We have a migration tool that can import your existing Databuild data including catalogue items, jobs, orders, suppliers, and historical records. Contact us to discuss your migration requirements.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What browsers are supported?</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>DBx Cloud works on all modern browsers including Chrome, Firefox, Edge, and Safari. For the best experience, we recommend using the latest version of Chrome or Edge.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Move to the Cloud?</h2>
+                <p>Contact us for a demo or to discuss your requirements.</p>
+                <div class="cta-buttons">
+                    <a href="contact.html" class="btn btn-white btn-lg">Request a Demo</a>
+                    <a href="#login-section" class="btn btn-outline-white btn-lg">Login Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="images/logo-reversed.svg" alt="Takeoff and Estimating" height="40" class="footer-logo">
+                    <p>Australia's trusted partner for construction estimating software solutions.</p>
+                    <div class="footer-contact">
+                        <p><strong>Phone:</strong> 1300 818 620</p>
+                        <p><strong>Email:</strong> info@takeoffandestimating.com.au</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Products</h4>
+                    <ul>
+                        <li><a href="dbx-cloud.html">DBx Cloud</a></li>
+                        <li><a href="#">Databuild</a></li>
+                        <li><a href="#">PlanSwift</a></li>
+                        <li><a href="#">Sigma Estimates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="https://takeoff-and-estimating-pty-ltd.github.io/masterformat/" target="_blank" rel="noopener">MasterFormat</a></li>
+                        <li><a href="https://takeoff-and-estimating-pty-ltd.github.io/natspec/" target="_blank" rel="noopener">NatSpec</a></li>
+                        <li><a href="resources.html">All Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Takeoff and Estimating Pty Ltd. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

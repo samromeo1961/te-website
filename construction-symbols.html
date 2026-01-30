@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construction Symbols Library - Takeoff & Estimating Resources</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .symbols-hero {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            color: var(--color-white);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .symbols-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-white);
+        }
+
+        .symbols-hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .symbols-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem 3rem;
+        }
+
+        .search-filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 2px solid var(--color-gray-200);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        .search-box svg {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1.25rem;
+            height: 1.25rem;
+            color: var(--color-gray-400);
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--color-gray-200);
+            background: var(--color-white);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .filter-btn.architectural.active {
+            background: #2563eb;
+            border-color: #2563eb;
+        }
+
+        .filter-btn.structural.active {
+            background: #dc2626;
+            border-color: #dc2626;
+        }
+
+        .filter-btn.mechanical.active {
+            background: #059669;
+            border-color: #059669;
+        }
+
+        .filter-btn.electrical.active {
+            background: #d97706;
+            border-color: #d97706;
+        }
+
+        .filter-btn.plumbing.active {
+            background: #7c3aed;
+            border-color: #7c3aed;
+        }
+
+        .symbols-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            background: var(--color-gray-800);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .section-header:hover {
+            background: var(--color-gray-700);
+        }
+
+        .section-header h2 {
+            font-size: 1.25rem;
+            color: var(--color-white);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-header .category-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+        }
+
+        .category-badge.architectural {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .category-badge.structural {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .category-badge.mechanical {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .category-badge.electrical {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .category-badge.plumbing {
+            background: #ede9fe;
+            color: #5b21b6;
+        }
+
+        .section-header .toggle-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: var(--color-white);
+            transition: transform 0.3s;
+        }
+
+        .section-header.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            background: var(--color-white);
+            border: 1px solid var(--color-gray-200);
+            border-top: none;
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .section-content.collapsed {
+            display: none;
+        }
+
+        .symbol-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--color-gray-50);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-gray-200);
+            transition: all 0.2s;
+        }
+
+        .symbol-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .symbol-card.hidden {
+            display: none;
+        }
+
+        .symbol-graphic {
+            width: 60px;
+            height: 60px;
+            min-width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-white);
+            border: 2px solid var(--color-gray-300);
+            border-radius: var(--radius-md);
+            font-size: 1.5rem;
+        }
+
+        .symbol-graphic svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        .symbol-info {
+            flex: 1;
+        }
+
+        .symbol-info h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--color-gray-900);
+            margin: 0 0 0.25rem 0;
+        }
+
+        .symbol-info p {
+            font-size: 0.8rem;
+            color: var(--color-gray-600);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .symbol-code {
+            font-family: monospace;
+            font-size: 0.7rem;
+            background: var(--color-gray-200);
+            padding: 0.125rem 0.375rem;
+            border-radius: var(--radius-sm);
+            color: var(--color-gray-700);
+            margin-top: 0.375rem;
+            display: inline-block;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--color-gray-500);
+            font-size: 1.1rem;
+        }
+
+        .no-results.hidden {
+            display: none;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-white);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        .back-link svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .symbol-count {
+            font-size: 0.875rem;
+            color: var(--color-gray-500);
+            margin-bottom: 1rem;
+        }
+
+        @media print {
+            .search-filter-bar {
+                display: none;
+            }
+            .section-header {
+                background: var(--color-gray-200) !important;
+            }
+            .section-header h2 {
+                color: var(--color-gray-900) !important;
+            }
+            .section-content {
+                display: grid !important;
+            }
+            .symbol-card {
+                break-inside: avoid;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .symbols-hero h1 {
+                font-size: 1.75rem;
+            }
+            .search-filter-bar {
+                flex-direction: column;
+            }
+            .filter-buttons {
+                justify-content: center;
+            }
+            .section-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="symbols-hero">
+        <a href="resources.html" class="back-link">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Back to Resources
+        </a>
+        <h1>Construction Symbols Library</h1>
+        <p>Comprehensive reference for architectural, structural, and MEP drawing symbols used in construction documentation</p>
+    </div>
+
+    <div class="symbols-container">
+        <div class="search-filter-bar">
+            <div class="search-box">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <input type="text" id="searchInput" placeholder="Search symbols (e.g., door, beam, outlet)...">
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn architectural" data-filter="architectural">Architectural</button>
+                <button class="filter-btn structural" data-filter="structural">Structural</button>
+                <button class="filter-btn mechanical" data-filter="mechanical">Mechanical</button>
+                <button class="filter-btn electrical" data-filter="electrical">Electrical</button>
+                <button class="filter-btn plumbing" data-filter="plumbing">Plumbing</button>
+            </div>
+        </div>
+
+        <p class="symbol-count"><span id="visibleCount">0</span> symbols shown</p>
+
+        <!-- Architectural Symbols -->
+        <div class="symbols-section" data-category="architectural">
+            <div class="section-header">
+                <h2>
+                    <span class="category-badge architectural">ARCH</span>
+                    Architectural Symbols
+                </h2>
+                <svg class="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+            <div class="section-content">
+                <!-- Doors -->
+                <div class="symbol-card" data-keywords="door swing single entry opening">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="5" width="4" height="30"/>
+                            <path d="M9 35 Q30 35 30 15" stroke-dasharray="2,2"/>
+                            <line x1="9" y1="35" x2="30" y2="15"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Single Swing Door</h4>
+                        <p>Standard hinged door showing swing direction</p>
+                        <span class="symbol-code">DR-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="door double swing entry opening pair">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="5" width="3" height="30"/>
+                            <rect x="34" y="5" width="3" height="30"/>
+                            <path d="M6 35 Q18 35 18 20" stroke-dasharray="2,2"/>
+                            <line x1="6" y1="35" x2="18" y2="20"/>
+                            <path d="M34 35 Q22 35 22 20" stroke-dasharray="2,2"/>
+                            <line x1="34" y1="35" x2="22" y2="20"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Double Swing Door</h4>
+                        <p>Pair of hinged doors opening in same direction</p>
+                        <span class="symbol-code">DR-02</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="door sliding pocket cavity">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="15" width="15" height="3"/>
+                            <rect x="20" y="15" width="15" height="10" fill="none" stroke-dasharray="3,2"/>
+                            <line x1="20" y1="18" x2="35" y2="18" stroke-dasharray="2,2"/>
+                            <path d="M18 15 L22 12 M18 18 L22 21"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Sliding/Pocket Door</h4>
+                        <p>Door slides into wall cavity</p>
+                        <span class="symbol-code">DR-03</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="door bi-fold folding closet wardrobe">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="5" width="3" height="30"/>
+                            <line x1="8" y1="35" x2="15" y2="20"/>
+                            <line x1="15" y1="20" x2="22" y2="35"/>
+                            <rect x="32" y="5" width="3" height="30"/>
+                            <line x1="32" y1="35" x2="25" y2="20"/>
+                            <line x1="25" y1="20" x2="22" y2="35"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Bi-Fold Door</h4>
+                        <p>Folding door panels, typically for wardrobes</p>
+                        <span class="symbol-code">DR-04</span>
+                    </div>
+                </div>
+
+                <!-- Windows -->
+                <div class="symbol-card" data-keywords="window fixed glazing glass panel">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="10" width="30" height="4"/>
+                            <line x1="8" y1="10" x2="8" y2="14"/>
+                            <line x1="20" y1="10" x2="20" y2="14"/>
+                            <line x1="32" y1="10" x2="32" y2="14"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Fixed Window</h4>
+                        <p>Non-operable window panel</p>
+                        <span class="symbol-code">WN-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="window casement awning opening operable">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="10" width="30" height="4"/>
+                            <line x1="20" y1="10" x2="20" y2="14"/>
+                            <line x1="5" y1="12" x2="12" y2="5" stroke-dasharray="2,2"/>
+                            <line x1="35" y1="12" x2="28" y2="5" stroke-dasharray="2,2"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Casement/Awning Window</h4>
+                        <p>Hinged window showing swing direction</p>
+                        <span class="symbol-code">WN-02</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="window sliding horizontal">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="10" width="30" height="4"/>
+                            <line x1="20" y1="10" x2="20" y2="14"/>
+                            <path d="M12 12 L8 10 M12 12 L8 14"/>
+                            <path d="M28 12 L32 10 M28 12 L32 14"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Sliding Window</h4>
+                        <p>Horizontal sliding window sashes</p>
+                        <span class="symbol-code">WN-03</span>
+                    </div>
+                </div>
+
+                <!-- Walls & Partitions -->
+                <div class="symbol-card" data-keywords="wall masonry brick block concrete solid">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="12" width="30" height="16" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Masonry Wall</h4>
+                        <p>Solid brick or block construction</p>
+                        <span class="symbol-code">WL-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="wall stud frame timber partition internal">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="12" width="30" height="16"/>
+                            <line x1="5" y1="20" x2="35" y2="20"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Stud/Frame Wall</h4>
+                        <p>Timber or steel stud partition</p>
+                        <span class="symbol-code">WL-02</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="wall cavity insulated external double skin">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="12" width="10" height="16" fill="currentColor"/>
+                            <rect x="25" y="12" width="10" height="16" fill="currentColor"/>
+                            <line x1="18" y1="14" x2="22" y2="18"/>
+                            <line x1="18" y1="18" x2="22" y2="22"/>
+                            <line x1="18" y1="22" x2="22" y2="26"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Cavity Wall</h4>
+                        <p>Double-skin wall with insulation</p>
+                        <span class="symbol-code">WL-03</span>
+                    </div>
+                </div>
+
+                <!-- Stairs -->
+                <div class="symbol-card" data-keywords="stairs stair staircase up direction">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="5" y1="35" x2="5" y2="30"/>
+                            <line x1="5" y1="30" x2="12" y2="30"/>
+                            <line x1="12" y1="30" x2="12" y2="24"/>
+                            <line x1="12" y1="24" x2="19" y2="24"/>
+                            <line x1="19" y1="24" x2="19" y2="18"/>
+                            <line x1="19" y1="18" x2="26" y2="18"/>
+                            <line x1="26" y1="18" x2="26" y2="12"/>
+                            <line x1="26" y1="12" x2="33" y2="12"/>
+                            <path d="M29 8 L33 12 L29 16"/>
+                            <text x="30" y="8" font-size="6" fill="currentColor">UP</text>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Staircase (Up)</h4>
+                        <p>Stairs with arrow indicating up direction</p>
+                        <span class="symbol-code">ST-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="stairs stair staircase down direction">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="5" y1="12" x2="5" y2="18"/>
+                            <line x1="5" y1="18" x2="12" y2="18"/>
+                            <line x1="12" y1="18" x2="12" y2="24"/>
+                            <line x1="12" y1="24" x2="19" y2="24"/>
+                            <line x1="19" y1="24" x2="19" y2="30"/>
+                            <line x1="19" y1="30" x2="26" y2="30"/>
+                            <line x1="26" y1="30" x2="26" y2="35"/>
+                            <path d="M22 31 L26 35 L30 31"/>
+                            <text x="22" y="10" font-size="6" fill="currentColor">DN</text>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Staircase (Down)</h4>
+                        <p>Stairs with arrow indicating down direction</p>
+                        <span class="symbol-code">ST-02</span>
+                    </div>
+                </div>
+
+                <!-- North Point & Symbols -->
+                <div class="symbol-card" data-keywords="north point arrow compass orientation direction">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="20,5 25,30 20,25 15,30" fill="currentColor"/>
+                            <text x="17" y="38" font-size="8" fill="currentColor">N</text>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>North Point</h4>
+                        <p>Indicates true north orientation</p>
+                        <span class="symbol-code">NP-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="section cut line reference mark">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="10" cy="20" r="6"/>
+                            <circle cx="30" cy="20" r="6"/>
+                            <line x1="16" y1="20" x2="24" y2="20" stroke-width="3"/>
+                            <text x="8" y="23" font-size="8" fill="currentColor">A</text>
+                            <text x="28" y="23" font-size="8" fill="currentColor">A</text>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Section Cut Line</h4>
+                        <p>Indicates section cut location and direction</p>
+                        <span class="symbol-code">SC-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="level datum elevation height rl reduced">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="20,10 30,25 10,25"/>
+                            <line x1="20" y1="25" x2="20" y2="35"/>
+                            <text x="12" y="33" font-size="6" fill="currentColor">RL</text>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Level/Datum Point</h4>
+                        <p>Indicates reduced level or elevation</p>
+                        <span class="symbol-code">LV-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="grid line reference structural axis column">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="20" cy="12" r="8"/>
+                            <line x1="20" y1="20" x2="20" y2="38"/>
+                            <text x="17" y="16" font-size="10" fill="currentColor">1</text>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Grid Line</h4>
+                        <p>Structural grid reference line</p>
+                        <span class="symbol-code">GR-01</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Structural Symbols -->
+        <div class="symbols-section" data-category="structural">
+            <div class="section-header">
+                <h2>
+                    <span class="category-badge structural">STRUCT</span>
+                    Structural Symbols
+                </h2>
+                <svg class="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+            <div class="section-content">
+                <!-- Columns -->
+                <div class="symbol-card" data-keywords="column concrete reinforced square rectangular">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="10" y="10" width="20" height="20" fill="currentColor"/>
+                            <line x1="10" y1="10" x2="30" y2="30"/>
+                            <line x1="30" y1="10" x2="10" y2="30"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Concrete Column</h4>
+                        <p>Reinforced concrete column (plan view)</p>
+                        <span class="symbol-code">COL-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="column steel i-beam uc universal section">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="8" y="10" width="24" height="4" fill="currentColor"/>
+                            <rect x="8" y="26" width="24" height="4" fill="currentColor"/>
+                            <rect x="17" y="14" width="6" height="12" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Steel Column (UC)</h4>
+                        <p>Universal column section (plan view)</p>
+                        <span class="symbol-code">COL-02</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="column circular round concrete pipe">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="20" cy="20" r="12" fill="currentColor"/>
+                            <line x1="12" y1="12" x2="28" y2="28"/>
+                            <line x1="28" y1="12" x2="12" y2="28"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Circular Column</h4>
+                        <p>Round concrete or steel column</p>
+                        <span class="symbol-code">COL-03</span>
+                    </div>
+                </div>
+
+                <!-- Beams -->
+                <div class="symbol-card" data-keywords="beam concrete reinforced section">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="15" width="30" height="10" fill="currentColor"/>
+                            <line x1="5" y1="15" x2="35" y2="25" stroke="white"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Concrete Beam</h4>
+                        <p>Reinforced concrete beam (section)</p>
+                        <span class="symbol-code">BM-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="beam steel i-beam ub universal section">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="10" y="8" width="20" height="3" fill="currentColor"/>
+                            <rect x="10" y="29" width="20" height="3" fill="currentColor"/>
+                            <rect x="18" y="11" width="4" height="18" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Steel Beam (UB)</h4>
+                        <p>Universal beam section</p>
+                        <span class="symbol-code">BM-02</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="beam hidden above below dashed dotted">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="15" width="30" height="10" stroke-dasharray="4,3"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Hidden Beam</h4>
+                        <p>Beam above or below current level</p>
+                        <span class="symbol-code">BM-03</span>
+                    </div>
+                </div>
+
+                <!-- Footings -->
+                <div class="symbol-card" data-keywords="footing pad foundation isolated column base">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="20" width="30" height="15" fill="currentColor"/>
+                            <rect x="15" y="10" width="10" height="10" fill="currentColor"/>
+                            <line x1="5" y1="20" x2="35" y2="35"/>
+                            <line x1="35" y1="20" x2="5" y2="35"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Pad Footing</h4>
+                        <p>Isolated column footing</p>
+                        <span class="symbol-code">FT-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="footing strip foundation wall continuous">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="22" width="30" height="13" fill="currentColor"/>
+                            <rect x="12" y="10" width="16" height="12" fill="currentColor"/>
+                            <line x1="5" y1="22" x2="35" y2="35"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Strip Footing</h4>
+                        <p>Continuous wall footing</p>
+                        <span class="symbol-code">FT-02</span>
+                    </div>
+                </div>
+
+                <!-- Reinforcement -->
+                <div class="symbol-card" data-keywords="rebar reinforcement bar steel round">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="20" cy="20" r="5" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Rebar (Section)</h4>
+                        <p>Steel reinforcement bar cross-section</p>
+                        <span class="symbol-code">RB-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="mesh reinforcement welded wire fabric slab">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <line x1="5" y1="12" x2="35" y2="12"/>
+                            <line x1="5" y1="20" x2="35" y2="20"/>
+                            <line x1="5" y1="28" x2="35" y2="28"/>
+                            <line x1="10" y1="8" x2="10" y2="32"/>
+                            <line x1="20" y1="8" x2="20" y2="32"/>
+                            <line x1="30" y1="8" x2="30" y2="32"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Welded Wire Mesh</h4>
+                        <p>Steel reinforcement mesh for slabs</p>
+                        <span class="symbol-code">RB-02</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="slab concrete floor deck suspended ground">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="15" width="30" height="10" fill="currentColor"/>
+                            <circle cx="12" cy="20" r="2" fill="white"/>
+                            <circle cx="20" cy="20" r="2" fill="white"/>
+                            <circle cx="28" cy="20" r="2" fill="white"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Concrete Slab</h4>
+                        <p>Reinforced concrete floor slab</p>
+                        <span class="symbol-code">SL-01</span>
+                    </div>
+                </div>
+
+                <!-- Steel Sections -->
+                <div class="symbol-card" data-keywords="angle steel section l-shape bracket">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M10 10 L10 30 L30 30 L30 26 L14 26 L14 10 Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Steel Angle</h4>
+                        <p>L-shaped steel section</p>
+                        <span class="symbol-code">SS-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="channel steel section c-shape pfc">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M10 8 L10 32 L26 32 L26 28 L14 28 L14 12 L26 12 L26 8 Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Steel Channel (PFC)</h4>
+                        <p>C-shaped parallel flange channel</p>
+                        <span class="symbol-code">SS-02</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="rhs shs tube hollow section rectangular square">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="8" y="12" width="24" height="16"/>
+                            <rect x="12" y="16" width="16" height="8"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>RHS/SHS</h4>
+                        <p>Rectangular/Square hollow section</p>
+                        <span class="symbol-code">SS-03</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="chs tube hollow section circular round pipe">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="20" cy="20" r="12"/>
+                            <circle cx="20" cy="20" r="8"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>CHS</h4>
+                        <p>Circular hollow section</p>
+                        <span class="symbol-code">SS-04</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mechanical Symbols -->
+        <div class="symbols-section" data-category="mechanical">
+            <div class="section-header">
+                <h2>
+                    <span class="category-badge mechanical">MECH</span>
+                    Mechanical Symbols
+                </h2>
+                <svg class="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+            <div class="section-content">
+                <!-- HVAC -->
+                <div class="symbol-card" data-keywords="duct rectangular supply return hvac air">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="15" width="30" height="10"/>
+                            <path d="M30 18 L35 20 L30 22"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Rectangular Duct</h4>
+                        <p>HVAC supply/return ductwork</p>
+                        <span class="symbol-code">DT-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="duct round circular flexible spiral hvac">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <ellipse cx="20" cy="20" rx="15" ry="8"/>
+                            <path d="M30 18 L35 20 L30 22"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Round Duct</h4>
+                        <p>Circular/spiral ductwork</p>
+                        <span class="symbol-code">DT-02</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="diffuser supply air ceiling grille register">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="10" y="10" width="20" height="20"/>
+                            <line x1="10" y1="10" x2="30" y2="30"/>
+                            <line x1="30" y1="10" x2="10" y2="30"/>
+                            <circle cx="20" cy="20" r="4"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Supply Diffuser</h4>
+                        <p>Ceiling air supply diffuser</p>
+                        <span class="symbol-code">DF-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="grille return exhaust air extract ceiling wall">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="10" y="10" width="20" height="20"/>
+                            <line x1="13" y1="15" x2="27" y2="15"/>
+                            <line x1="13" y1="20" x2="27" y2="20"/>
+                            <line x1="13" y1="25" x2="27" y2="25"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Return/Exhaust Grille</h4>
+                        <p>Air return or exhaust grille</p>
+                        <span class="symbol-code">GR-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="fan exhaust extract ceiling inline ventilation">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="20" cy="20" r="12"/>
+                            <path d="M20 12 Q25 17 20 20 Q15 23 20 28"/>
+                            <path d="M12 20 Q17 15 20 20 Q23 25 28 20"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Exhaust Fan</h4>
+                        <p>Mechanical exhaust/extract fan</p>
+                        <span class="symbol-code">FN-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="damper volume control vcd fire smoke">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="8" y="15" width="24" height="10"/>
+                            <line x1="12" y1="20" x2="28" y2="20" stroke-width="3"/>
+                            <circle cx="20" cy="20" r="3" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Volume Control Damper</h4>
+                        <p>Manual or motorized damper</p>
+                        <span class="symbol-code">DM-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="fcu fan coil unit hvac terminal">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="12" width="30" height="16" rx="2"/>
+                            <circle cx="14" cy="20" r="4"/>
+                            <line x1="22" y1="15" x2="22" y2="25"/>
+                            <line x1="26" y1="15" x2="26" y2="25"/>
+                            <line x1="30" y1="15" x2="30" y2="25"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Fan Coil Unit</h4>
+                        <p>FCU terminal unit</p>
+                        <span class="symbol-code">FC-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="ahu air handling unit hvac plant">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="10" width="30" height="20" rx="2"/>
+                            <line x1="15" y1="10" x2="15" y2="30"/>
+                            <line x1="25" y1="10" x2="25" y2="30"/>
+                            <circle cx="10" cy="20" r="3"/>
+                            <text x="17" y="23" font-size="6" fill="currentColor">AHU</text>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Air Handling Unit</h4>
+                        <p>Central air handling plant</p>
+                        <span class="symbol-code">AH-01</span>
+                    </div>
+                </div>
+
+                <!-- Fire -->
+                <div class="symbol-card" data-keywords="sprinkler fire pendant head suppression">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="20" cy="15" r="6"/>
+                            <line x1="20" y1="21" x2="20" y2="28"/>
+                            <path d="M14 28 L20 35 L26 28"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Pendant Sprinkler</h4>
+                        <p>Fire sprinkler head (pendant type)</p>
+                        <span class="symbol-code">SP-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="sprinkler upright fire head suppression">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="20" cy="25" r="6"/>
+                            <line x1="20" y1="19" x2="20" y2="12"/>
+                            <path d="M14 12 L20 5 L26 12"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Upright Sprinkler</h4>
+                        <p>Fire sprinkler head (upright type)</p>
+                        <span class="symbol-code">SP-02</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="fire extinguisher portable safety equipment">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="14" y="12" width="12" height="22" rx="3"/>
+                            <path d="M17 12 L17 8 L23 8 L23 12"/>
+                            <line x1="20" y1="5" x2="20" y2="8"/>
+                            <circle cx="20" cy="22" r="3"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Fire Extinguisher</h4>
+                        <p>Portable fire extinguisher location</p>
+                        <span class="symbol-code">FE-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="fire hose reel cabinet hydrant">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="8" y="8" width="24" height="24" rx="2"/>
+                            <circle cx="20" cy="20" r="8"/>
+                            <circle cx="20" cy="20" r="4"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Fire Hose Reel</h4>
+                        <p>Fire hose reel cabinet</p>
+                        <span class="symbol-code">FH-01</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Electrical Symbols -->
+        <div class="symbols-section" data-category="electrical">
+            <div class="section-header">
+                <h2>
+                    <span class="category-badge electrical">ELEC</span>
+                    Electrical Symbols
+                </h2>
+                <svg class="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+            <div class="section-content">
+                <!-- Power -->
+                <div class="symbol-card" data-keywords="outlet power point socket gpo single">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="20" cy="20" r="10"/>
+                            <line x1="15" y1="17" x2="15" y2="23"/>
+                            <line x1="25" y1="17" x2="25" y2="23"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Single Power Outlet</h4>
+                        <p>General purpose outlet (GPO)</p>
+                        <span class="symbol-code">PO-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="outlet power point socket gpo double twin">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="20" cy="20" r="10"/>
+                            <line x1="15" y1="17" x2="15" y2="23"/>
+                            <line x1="25" y1="17" x2="25" y2="23"/>
+                            <line x1="10" y1="20" x2="6" y2="20"/>
+                            <line x1="30" y1="20" x2="34" y2="20"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Double Power Outlet</h4>
+                        <p>Twin general purpose outlet</p>
+                        <span class="symbol-code">PO-02</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="outlet floor box power data service">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="10" y="10" width="20" height="20"/>
+                            <line x1="15" y1="17" x2="15" y2="23"/>
+                            <line x1="25" y1="17" x2="25" y2="23"/>
+                            <line x1="10" y1="10" x2="30" y2="30"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Floor Outlet</h4>
+                        <p>Floor-mounted service outlet</p>
+                        <span class="symbol-code">PO-03</span>
+                    </div>
+                </div>
+
+                <!-- Switches -->
+                <div class="symbol-card" data-keywords="switch light single pole wall">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="20" cy="20" r="3" fill="currentColor"/>
+                            <line x1="23" y1="17" x2="32" y2="8"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Single Switch</h4>
+                        <p>Single pole light switch</p>
+                        <span class="symbol-code">SW-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="switch double two gang wall">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="20" cy="20" r="3" fill="currentColor"/>
+                            <line x1="23" y1="17" x2="32" y2="8"/>
+                            <line x1="23" y1="23" x2="32" y2="32"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Double Switch</h4>
+                        <p>Two gang light switch</p>
+                        <span class="symbol-code">SW-02</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="switch dimmer light control">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="20" cy="20" r="3" fill="currentColor"/>
+                            <line x1="23" y1="17" x2="32" y2="8"/>
+                            <text x="28" y="18" font-size="8" fill="currentColor">D</text>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Dimmer Switch</h4>
+                        <p>Light dimmer control</p>
+                        <span class="symbol-code">SW-03</span>
+                    </div>
+                </div>
+
+                <!-- Lighting -->
+                <div class="symbol-card" data-keywords="light ceiling surface mounted downlight">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="20" cy="20" r="10"/>
+                            <line x1="14" y1="14" x2="26" y2="26"/>
+                            <line x1="26" y1="14" x2="14" y2="26"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Ceiling Light</h4>
+                        <p>Surface or recessed ceiling light</p>
+                        <span class="symbol-code">LT-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="light downlight led recessed spot">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="20" cy="20" r="8"/>
+                            <circle cx="20" cy="20" r="4" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Downlight</h4>
+                        <p>Recessed LED downlight</p>
+                        <span class="symbol-code">LT-02</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="light fluorescent tube linear batten">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="16" width="30" height="8"/>
+                            <line x1="5" y1="20" x2="35" y2="20"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Linear/Batten Light</h4>
+                        <p>Fluorescent or LED batten</p>
+                        <span class="symbol-code">LT-03</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="light wall sconce bracket">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="10" y1="10" x2="10" y2="30" stroke-width="4"/>
+                            <circle cx="22" cy="20" r="8"/>
+                            <line x1="10" y1="20" x2="14" y2="20"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Wall Light</h4>
+                        <p>Wall-mounted sconce or bracket</p>
+                        <span class="symbol-code">LT-04</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="emergency exit light sign egress">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="8" y="12" width="24" height="16" rx="2"/>
+                            <text x="11" y="24" font-size="8" fill="currentColor">EXIT</text>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Exit Sign</h4>
+                        <p>Emergency exit light/sign</p>
+                        <span class="symbol-code">EM-01</span>
+                    </div>
+                </div>
+
+                <!-- Distribution -->
+                <div class="symbol-card" data-keywords="switchboard distribution board panel msb db">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="8" y="8" width="24" height="24"/>
+                            <line x1="8" y1="14" x2="32" y2="14"/>
+                            <line x1="8" y1="20" x2="32" y2="20"/>
+                            <line x1="8" y1="26" x2="32" y2="26"/>
+                            <text x="12" y="12" font-size="5" fill="currentColor">DB</text>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Distribution Board</h4>
+                        <p>Electrical distribution panel</p>
+                        <span class="symbol-code">DB-01</span>
+                    </div>
+                </div>
+
+                <!-- Data & Comms -->
+                <div class="symbol-card" data-keywords="data outlet rj45 ethernet network cat6">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="20,8 32,20 20,32 8,20"/>
+                            <text x="15" y="24" font-size="8" fill="currentColor">D</text>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Data Outlet</h4>
+                        <p>RJ45 network data point</p>
+                        <span class="symbol-code">DA-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="telephone phone outlet rj11 voice">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="20,8 32,20 20,32 8,20"/>
+                            <text x="15" y="24" font-size="8" fill="currentColor">T</text>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Telephone Outlet</h4>
+                        <p>Voice/telephone point</p>
+                        <span class="symbol-code">TE-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="tv television antenna coax outlet">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="20,8 32,20 20,32 8,20"/>
+                            <text x="13" y="24" font-size="8" fill="currentColor">TV</text>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>TV Outlet</h4>
+                        <p>Television antenna point</p>
+                        <span class="symbol-code">TV-01</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plumbing Symbols -->
+        <div class="symbols-section" data-category="plumbing">
+            <div class="section-header">
+                <h2>
+                    <span class="category-badge plumbing">PLMB</span>
+                    Plumbing Symbols
+                </h2>
+                <svg class="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+            <div class="section-content">
+                <!-- Fixtures -->
+                <div class="symbol-card" data-keywords="basin sink wash hand vanity">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <ellipse cx="20" cy="20" rx="12" ry="8"/>
+                            <circle cx="20" cy="20" r="2" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Wash Basin</h4>
+                        <p>Hand wash basin/vanity</p>
+                        <span class="symbol-code">WB-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="toilet wc pan water closet lavatory">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <ellipse cx="20" cy="24" rx="10" ry="8"/>
+                            <rect x="12" y="8" width="16" height="10" rx="2"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Toilet (WC)</h4>
+                        <p>Water closet/toilet pan</p>
+                        <span class="symbol-code">WC-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="urinal male toilet sanitary">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 8 L12 28 Q12 32 20 32 Q28 32 28 28 L28 8"/>
+                            <ellipse cx="20" cy="10" rx="8" ry="3"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Urinal</h4>
+                        <p>Wall-mounted urinal</p>
+                        <span class="symbol-code">UR-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="bath bathtub tub">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="10" width="30" height="20" rx="3"/>
+                            <circle cx="30" cy="20" r="2" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Bathtub</h4>
+                        <p>Standard bath tub</p>
+                        <span class="symbol-code">BT-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="shower tray base recess wet area">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="8" y="8" width="24" height="24" rx="2"/>
+                            <circle cx="20" cy="20" r="2" fill="currentColor"/>
+                            <line x1="8" y1="8" x2="32" y2="32" stroke-dasharray="3,2"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Shower</h4>
+                        <p>Shower tray/recess</p>
+                        <span class="symbol-code">SH-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="sink kitchen single bowl">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="12" width="30" height="16" rx="2"/>
+                            <circle cx="20" cy="20" r="2" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Kitchen Sink (Single)</h4>
+                        <p>Single bowl kitchen sink</p>
+                        <span class="symbol-code">KS-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="sink kitchen double bowl twin">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="5" y="12" width="30" height="16" rx="2"/>
+                            <line x1="20" y1="12" x2="20" y2="28"/>
+                            <circle cx="12" cy="20" r="2" fill="currentColor"/>
+                            <circle cx="28" cy="20" r="2" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Kitchen Sink (Double)</h4>
+                        <p>Double bowl kitchen sink</p>
+                        <span class="symbol-code">KS-02</span>
+                    </div>
+                </div>
+
+                <!-- Drains & Pipes -->
+                <div class="symbol-card" data-keywords="floor waste drain gully trap">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="20" cy="20" r="10"/>
+                            <circle cx="20" cy="20" r="4"/>
+                            <line x1="13" y1="13" x2="17" y2="17"/>
+                            <line x1="27" y1="13" x2="23" y2="17"/>
+                            <line x1="13" y1="27" x2="17" y2="23"/>
+                            <line x1="27" y1="27" x2="23" y2="23"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Floor Waste</h4>
+                        <p>Floor drain/gully</p>
+                        <span class="symbol-code">FW-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="cleanout access inspection opening co">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="20" cy="20" r="10"/>
+                            <text x="13" y="24" font-size="10" fill="currentColor">CO</text>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Cleanout</h4>
+                        <p>Drainage inspection/access point</p>
+                        <span class="symbol-code">CO-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="valve gate isolation stop water">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="5" y1="20" x2="15" y2="20"/>
+                            <line x1="25" y1="20" x2="35" y2="20"/>
+                            <polygon points="15,12 25,20 15,28" fill="none"/>
+                            <polygon points="25,12 15,20 25,28" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Gate Valve</h4>
+                        <p>Isolation/stop valve</p>
+                        <span class="symbol-code">GV-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="hwu hot water unit heater storage tank">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="10" y="8" width="20" height="28" rx="3"/>
+                            <text x="12" y="26" font-size="8" fill="currentColor">HW</text>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Hot Water Unit</h4>
+                        <p>Storage water heater</p>
+                        <span class="symbol-code">HW-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="grease trap interceptor gt kitchen">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="8" y="12" width="24" height="16" rx="2"/>
+                            <line x1="8" y1="18" x2="32" y2="18"/>
+                            <text x="12" y="26" font-size="6" fill="currentColor">GT</text>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Grease Trap</h4>
+                        <p>Grease interceptor</p>
+                        <span class="symbol-code">GT-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="pump sump sewage submersible ejector">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="20" cy="20" r="10"/>
+                            <polygon points="20,12 28,24 12,24" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Pump</h4>
+                        <p>Sump/ejector pump</p>
+                        <span class="symbol-code">PM-01</span>
+                    </div>
+                </div>
+
+                <!-- Gas -->
+                <div class="symbol-card" data-keywords="gas point outlet meter natural lpg">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="20" cy="20" r="10"/>
+                            <text x="14" y="24" font-size="10" fill="currentColor">G</text>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Gas Point</h4>
+                        <p>Gas outlet/connection</p>
+                        <span class="symbol-code">GP-01</span>
+                    </div>
+                </div>
+
+                <div class="symbol-card" data-keywords="gas meter natural lpg supply">
+                    <div class="symbol-graphic">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="8" y="10" width="24" height="20" rx="2"/>
+                            <text x="11" y="24" font-size="7" fill="currentColor">GM</text>
+                        </svg>
+                    </div>
+                    <div class="symbol-info">
+                        <h4>Gas Meter</h4>
+                        <p>Gas supply meter</p>
+                        <span class="symbol-code">GM-01</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="no-results hidden" id="noResults">
+            No symbols found matching your search. Try different keywords.
+        </div>
+    </div>
+
+    <script>
+        // Toggle section collapse
+        document.querySelectorAll('.section-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.classList.toggle('collapsed');
+                header.nextElementSibling.classList.toggle('collapsed');
+            });
+        });
+
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const sections = document.querySelectorAll('.symbols-section');
+        const searchInput = document.getElementById('searchInput');
+        const noResults = document.getElementById('noResults');
+        const visibleCount = document.getElementById('visibleCount');
+
+        let activeFilter = 'all';
+
+        function updateVisibleCount() {
+            const visible = document.querySelectorAll('.symbol-card:not(.hidden)').length;
+            visibleCount.textContent = visible;
+            noResults.classList.toggle('hidden', visible > 0);
+        }
+
+        function applyFilters() {
+            const searchTerm = searchInput.value.toLowerCase();
+
+            sections.forEach(section => {
+                const category = section.dataset.category;
+                const matchesFilter = activeFilter === 'all' || category === activeFilter;
+
+                if (!matchesFilter) {
+                    section.style.display = 'none';
+                    return;
+                }
+
+                section.style.display = 'block';
+                const cards = section.querySelectorAll('.symbol-card');
+                let visibleCards = 0;
+
+                cards.forEach(card => {
+                    const keywords = card.dataset.keywords || '';
+                    const title = card.querySelector('h4').textContent.toLowerCase();
+                    const description = card.querySelector('p').textContent.toLowerCase();
+                    const searchContent = `${keywords} ${title} ${description}`;
+
+                    const matchesSearch = !searchTerm || searchContent.includes(searchTerm);
+
+                    if (matchesSearch) {
+                        card.classList.remove('hidden');
+                        visibleCards++;
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+
+                // Hide section if no visible cards
+                if (visibleCards === 0 && searchTerm) {
+                    section.style.display = 'none';
+                }
+            });
+
+            updateVisibleCount();
+        }
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeFilter = btn.dataset.filter;
+                applyFilters();
+            });
+        });
+
+        searchInput.addEventListener('input', applyFilters);
+
+        // Initial count
+        updateVisibleCount();
+    </script>
+</body>
+</html>

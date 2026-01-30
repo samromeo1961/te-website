@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drawing Naming Conventions - Takeoff & Estimating Resources</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .naming-hero {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            color: var(--color-white);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .naming-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-white);
+        }
+
+        .naming-hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .naming-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem 3rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-white);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        .back-link svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .intro-section {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-left: 4px solid #0284c7;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .intro-section h2 {
+            font-size: 1.1rem;
+            color: #0369a1;
+            margin: 0 0 0.75rem 0;
+        }
+
+        .intro-section p {
+            color: var(--color-gray-700);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .section {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: var(--color-gray-800);
+            color: var(--color-white);
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.2s;
+        }
+
+        .section-header:hover {
+            background: var(--color-gray-700);
+        }
+
+        .section-header h2 {
+            font-size: 1.2rem;
+            margin: 0;
+            color: var(--color-white);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-header .toggle-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .section-header.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 1.5rem;
+        }
+
+        .section-content.collapsed {
+            display: none;
+        }
+
+        .prefix-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .prefix-card {
+            background: var(--color-gray-50);
+            border: 1px solid var(--color-gray-200);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            transition: all 0.2s;
+        }
+
+        .prefix-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .prefix-code {
+            font-family: monospace;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-primary-dark);
+            background: var(--color-white);
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--color-gray-200);
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .prefix-name {
+            font-weight: 600;
+            color: var(--color-gray-900);
+            margin-bottom: 0.25rem;
+        }
+
+        .prefix-desc {
+            font-size: 0.8rem;
+            color: var(--color-gray-600);
+        }
+
+        .numbering-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .numbering-table th {
+            background: var(--color-gray-100);
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.875rem;
+            border-bottom: 2px solid var(--color-gray-200);
+        }
+
+        .numbering-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--color-gray-100);
+            font-size: 0.9rem;
+        }
+
+        .numbering-table tbody tr:hover {
+            background: var(--color-gray-50);
+        }
+
+        .numbering-table code {
+            font-family: monospace;
+            background: var(--color-gray-100);
+            padding: 0.2rem 0.4rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            color: var(--color-primary-dark);
+        }
+
+        .example-box {
+            background: var(--color-gray-50);
+            border: 1px solid var(--color-gray-200);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .example-box h4 {
+            font-size: 0.9rem;
+            color: var(--color-gray-700);
+            margin: 0 0 1rem 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .example-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .example-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .example-code {
+            font-family: monospace;
+            font-size: 1rem;
+            font-weight: 600;
+            background: var(--color-white);
+            border: 1px solid var(--color-gray-300);
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-sm);
+            min-width: 160px;
+            color: var(--color-primary-dark);
+        }
+
+        .example-meaning {
+            color: var(--color-gray-700);
+            font-size: 0.9rem;
+        }
+
+        .format-breakdown {
+            background: var(--color-white);
+            border: 2px solid var(--color-primary);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .format-breakdown h4 {
+            font-size: 1rem;
+            color: var(--color-primary-dark);
+            margin: 0 0 1rem 0;
+        }
+
+        .format-visual {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .format-part {
+            text-align: center;
+        }
+
+        .format-value {
+            font-family: monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-white);
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-sm);
+            display: block;
+        }
+
+        .format-label {
+            font-size: 0.7rem;
+            color: var(--color-gray-600);
+            margin-top: 0.25rem;
+            text-transform: uppercase;
+        }
+
+        .format-separator {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-gray-400);
+        }
+
+        .format-part.discipline .format-value { background: #2563eb; }
+        .format-part.level .format-value { background: #059669; }
+        .format-part.type .format-value { background: #d97706; }
+        .format-part.sequence .format-value { background: #dc2626; }
+        .format-part.revision .format-value { background: #7c3aed; }
+
+        .discipline-table {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .discipline-group {
+            background: var(--color-gray-50);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            border: 1px solid var(--color-gray-200);
+        }
+
+        .discipline-group h4 {
+            font-size: 0.85rem;
+            color: var(--color-gray-700);
+            margin: 0 0 0.75rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+
+        .discipline-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .discipline-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .discipline-item code {
+            font-family: monospace;
+            font-weight: 600;
+            background: var(--color-white);
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .discipline-item span {
+            font-size: 0.85rem;
+            color: var(--color-gray-700);
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 4px solid #f59e0b;
+            border-radius: var(--radius-md);
+            padding: 1rem 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .tip-box h4 {
+            font-size: 0.9rem;
+            color: #92400e;
+            margin: 0 0 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tip-box p {
+            font-size: 0.875rem;
+            color: #78350f;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .revision-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .revision-table th,
+        .revision-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+
+        .revision-table th {
+            background: var(--color-gray-100);
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .revision-table code {
+            font-family: monospace;
+            background: var(--color-gray-100);
+            padding: 0.2rem 0.4rem;
+            border-radius: var(--radius-sm);
+        }
+
+        @media print {
+            .section-header {
+                background: var(--color-gray-200) !important;
+            }
+            .section-header h2 {
+                color: var(--color-gray-900) !important;
+            }
+            .section-content.collapsed {
+                display: block !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .naming-hero h1 {
+                font-size: 1.75rem;
+            }
+            .prefix-grid {
+                grid-template-columns: 1fr;
+            }
+            .format-visual {
+                flex-direction: column;
+            }
+            .format-separator {
+                display: none;
+            }
+            .example-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="naming-hero">
+        <a href="resources.html" class="back-link">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Back to Resources
+        </a>
+        <h1>Drawing Naming Conventions</h1>
+        <p>Standard prefixes, sheet numbering systems, and file naming protocols for construction documentation</p>
+    </div>
+
+    <div class="naming-container">
+        <div class="intro-section">
+            <h2>Why Consistent Naming Matters</h2>
+            <p>Standardised drawing naming conventions ensure all project stakeholders can quickly locate and identify documents. Consistent naming reduces errors, improves document control, and streamlines the construction process from design through to handover.</p>
+        </div>
+
+        <!-- Discipline Prefixes -->
+        <div class="section">
+            <div class="section-header">
+                <h2>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                    </svg>
+                    Discipline Prefixes
+                </h2>
+                <svg class="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+            <div class="section-content">
+                <p>Drawing prefixes identify the discipline or trade responsible for the document. These prefixes form the first part of the drawing number.</p>
+
+                <div class="discipline-table">
+                    <div class="discipline-group">
+                        <h4>General & Survey</h4>
+                        <div class="discipline-list">
+                            <div class="discipline-item"><code>G</code><span>General / Cover Sheets</span></div>
+                            <div class="discipline-item"><code>SK</code><span>Sketch</span></div>
+                            <div class="discipline-item"><code>SU</code><span>Survey</span></div>
+                            <div class="discipline-item"><code>SD</code><span>Shop Drawings</span></div>
+                        </div>
+                    </div>
+
+                    <div class="discipline-group">
+                        <h4>Architectural</h4>
+                        <div class="discipline-list">
+                            <div class="discipline-item"><code>A</code><span>Architectural</span></div>
+                            <div class="discipline-item"><code>AD</code><span>Architectural Details</span></div>
+                            <div class="discipline-item"><code>AI</code><span>Interior Design</span></div>
+                            <div class="discipline-item"><code>AL</code><span>Landscape Architecture</span></div>
+                        </div>
+                    </div>
+
+                    <div class="discipline-group">
+                        <h4>Structural</h4>
+                        <div class="discipline-list">
+                            <div class="discipline-item"><code>S</code><span>Structural</span></div>
+                            <div class="discipline-item"><code>SD</code><span>Structural Details</span></div>
+                            <div class="discipline-item"><code>SF</code><span>Structural Formwork</span></div>
+                            <div class="discipline-item"><code>SR</code><span>Structural Reinforcement</span></div>
+                        </div>
+                    </div>
+
+                    <div class="discipline-group">
+                        <h4>Civil</h4>
+                        <div class="discipline-list">
+                            <div class="discipline-item"><code>C</code><span>Civil</span></div>
+                            <div class="discipline-item"><code>CD</code><span>Civil Details</span></div>
+                            <div class="discipline-item"><code>CG</code><span>Civil Grading</span></div>
+                            <div class="discipline-item"><code>CS</code><span>Civil Stormwater</span></div>
+                        </div>
+                    </div>
+
+                    <div class="discipline-group">
+                        <h4>Mechanical</h4>
+                        <div class="discipline-list">
+                            <div class="discipline-item"><code>M</code><span>Mechanical</span></div>
+                            <div class="discipline-item"><code>MD</code><span>Mechanical Details</span></div>
+                            <div class="discipline-item"><code>MH</code><span>HVAC</span></div>
+                            <div class="discipline-item"><code>MF</code><span>Fire Services</span></div>
+                        </div>
+                    </div>
+
+                    <div class="discipline-group">
+                        <h4>Electrical</h4>
+                        <div class="discipline-list">
+                            <div class="discipline-item"><code>E</code><span>Electrical</span></div>
+                            <div class="discipline-item"><code>ED</code><span>Electrical Details</span></div>
+                            <div class="discipline-item"><code>EL</code><span>Electrical Lighting</span></div>
+                            <div class="discipline-item"><code>EP</code><span>Electrical Power</span></div>
+                        </div>
+                    </div>
+
+                    <div class="discipline-group">
+                        <h4>Hydraulic/Plumbing</h4>
+                        <div class="discipline-list">
+                            <div class="discipline-item"><code>H</code><span>Hydraulic</span></div>
+                            <div class="discipline-item"><code>P</code><span>Plumbing</span></div>
+                            <div class="discipline-item"><code>HD</code><span>Hydraulic Details</span></div>
+                            <div class="discipline-item"><code>HG</code><span>Gas Services</span></div>
+                        </div>
+                    </div>
+
+                    <div class="discipline-group">
+                        <h4>Communications & Security</h4>
+                        <div class="discipline-list">
+                            <div class="discipline-item"><code>T</code><span>Telecommunications</span></div>
+                            <div class="discipline-item"><code>EC</code><span>Communications</span></div>
+                            <div class="discipline-item"><code>ES</code><span>Security Systems</span></div>
+                            <div class="discipline-item"><code>FA</code><span>Fire Alarm</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Drawing Types -->
+        <div class="section">
+            <div class="section-header">
+                <h2>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7"/>
+                    </svg>
+                    Drawing Type Codes
+                </h2>
+                <svg class="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+            <div class="section-content">
+                <p>Drawing type codes identify what the drawing represents (plan, section, elevation, etc.). These codes typically follow the discipline prefix.</p>
+
+                <div class="prefix-grid">
+                    <div class="prefix-card">
+                        <span class="prefix-code">00</span>
+                        <div class="prefix-name">Cover Sheet / Index</div>
+                        <div class="prefix-desc">Drawing list and project info</div>
+                    </div>
+                    <div class="prefix-card">
+                        <span class="prefix-code">01</span>
+                        <div class="prefix-name">General Notes</div>
+                        <div class="prefix-desc">Specifications and standards</div>
+                    </div>
+                    <div class="prefix-card">
+                        <span class="prefix-code">10</span>
+                        <div class="prefix-name">Site Plan</div>
+                        <div class="prefix-desc">Overall site layout</div>
+                    </div>
+                    <div class="prefix-card">
+                        <span class="prefix-code">11</span>
+                        <div class="prefix-name">Demolition Plan</div>
+                        <div class="prefix-desc">Items to be removed</div>
+                    </div>
+                    <div class="prefix-card">
+                        <span class="prefix-code">20</span>
+                        <div class="prefix-name">Floor Plan</div>
+                        <div class="prefix-desc">Horizontal layout views</div>
+                    </div>
+                    <div class="prefix-card">
+                        <span class="prefix-code">21</span>
+                        <div class="prefix-name">Reflected Ceiling Plan</div>
+                        <div class="prefix-desc">Ceiling layouts</div>
+                    </div>
+                    <div class="prefix-card">
+                        <span class="prefix-code">22</span>
+                        <div class="prefix-name">Roof Plan</div>
+                        <div class="prefix-desc">Roof layout and drainage</div>
+                    </div>
+                    <div class="prefix-card">
+                        <span class="prefix-code">30</span>
+                        <div class="prefix-name">Elevation</div>
+                        <div class="prefix-desc">External facade views</div>
+                    </div>
+                    <div class="prefix-card">
+                        <span class="prefix-code">31</span>
+                        <div class="prefix-name">Internal Elevation</div>
+                        <div class="prefix-desc">Interior wall views</div>
+                    </div>
+                    <div class="prefix-card">
+                        <span class="prefix-code">40</span>
+                        <div class="prefix-name">Section</div>
+                        <div class="prefix-desc">Building cross-sections</div>
+                    </div>
+                    <div class="prefix-card">
+                        <span class="prefix-code">50</span>
+                        <div class="prefix-name">Detail</div>
+                        <div class="prefix-desc">Enlarged detail drawings</div>
+                    </div>
+                    <div class="prefix-card">
+                        <span class="prefix-code">60</span>
+                        <div class="prefix-name">Schedule</div>
+                        <div class="prefix-desc">Door, window, finish schedules</div>
+                    </div>
+                    <div class="prefix-card">
+                        <span class="prefix-code">70</span>
+                        <div class="prefix-name">Diagram</div>
+                        <div class="prefix-desc">Schematic diagrams</div>
+                    </div>
+                    <div class="prefix-card">
+                        <span class="prefix-code">80</span>
+                        <div class="prefix-name">3D View</div>
+                        <div class="prefix-desc">Isometric / perspective</div>
+                    </div>
+                    <div class="prefix-card">
+                        <span class="prefix-code">90</span>
+                        <div class="prefix-name">As-Built</div>
+                        <div class="prefix-desc">Record drawings</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sheet Numbering -->
+        <div class="section">
+            <div class="section-header">
+                <h2>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/>
+                    </svg>
+                    Sheet Numbering Systems
+                </h2>
+                <svg class="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+            <div class="section-content">
+                <p>There are several common approaches to sheet numbering. The most widely adopted formats combine discipline, level/zone, and sequence information.</p>
+
+                <div class="format-breakdown">
+                    <h4>Standard Format: Discipline + Level + Type + Sequence</h4>
+                    <div class="format-visual">
+                        <div class="format-part discipline">
+                            <span class="format-value">A</span>
+                            <span class="format-label">Discipline</span>
+                        </div>
+                        <span class="format-separator">-</span>
+                        <div class="format-part level">
+                            <span class="format-value">02</span>
+                            <span class="format-label">Level</span>
+                        </div>
+                        <span class="format-separator">-</span>
+                        <div class="format-part type">
+                            <span class="format-value">20</span>
+                            <span class="format-label">Type</span>
+                        </div>
+                        <span class="format-separator">-</span>
+                        <div class="format-part sequence">
+                            <span class="format-value">01</span>
+                            <span class="format-label">Sequence</span>
+                        </div>
+                    </div>
+                    <p style="text-align: center; color: var(--color-gray-600); font-size: 0.9rem;">Example: A-02-20-01 = Architectural Level 2 Floor Plan Sheet 1</p>
+                </div>
+
+                <table class="numbering-table">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Description</th>
+                            <th>Example Values</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Discipline</strong></td>
+                            <td>Single or double letter code for trade</td>
+                            <td><code>A</code>, <code>S</code>, <code>M</code>, <code>E</code>, <code>H</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Level/Zone</strong></td>
+                            <td>Building level or project zone</td>
+                            <td><code>B1</code> (basement), <code>00</code> (ground), <code>01</code>-<code>99</code>, <code>RF</code> (roof)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Drawing Type</strong></td>
+                            <td>Type of view or information</td>
+                            <td><code>20</code> (plan), <code>30</code> (elevation), <code>40</code> (section)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sequence</strong></td>
+                            <td>Sequential sheet number</td>
+                            <td><code>01</code>, <code>02</code>, <code>03</code>...</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="example-box">
+                    <h4>Common Examples</h4>
+                    <div class="example-list">
+                        <div class="example-item">
+                            <span class="example-code">A-00-00-01</span>
+                            <span class="example-meaning">Architectural Cover Sheet</span>
+                        </div>
+                        <div class="example-item">
+                            <span class="example-code">A-00-20-01</span>
+                            <span class="example-meaning">Architectural Ground Floor Plan Sheet 1</span>
+                        </div>
+                        <div class="example-item">
+                            <span class="example-code">A-01-20-01</span>
+                            <span class="example-meaning">Architectural Level 1 Floor Plan Sheet 1</span>
+                        </div>
+                        <div class="example-item">
+                            <span class="example-code">A-XX-30-01</span>
+                            <span class="example-meaning">Architectural Elevations Sheet 1 (XX = all levels)</span>
+                        </div>
+                        <div class="example-item">
+                            <span class="example-code">S-00-20-01</span>
+                            <span class="example-meaning">Structural Ground Floor Plan</span>
+                        </div>
+                        <div class="example-item">
+                            <span class="example-code">M-02-70-01</span>
+                            <span class="example-meaning">Mechanical Level 2 Schematic Diagram</span>
+                        </div>
+                        <div class="example-item">
+                            <span class="example-code">E-01-20-01</span>
+                            <span class="example-meaning">Electrical Level 1 Floor Plan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <h4>
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                        </svg>
+                        Pro Tip
+                    </h4>
+                    <p>Leave gaps in sequence numbers (01, 05, 10...) to allow for future additions without renumbering entire sets. This is especially useful for multi-stage projects.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- File Naming -->
+        <div class="section">
+            <div class="section-header">
+                <h2>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z"/>
+                    </svg>
+                    File Naming Conventions
+                </h2>
+                <svg class="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+            <div class="section-content">
+                <p>Digital file names should include project identification, drawing number, revision, and optionally a brief description. Consistent naming enables efficient file management and retrieval.</p>
+
+                <div class="format-breakdown">
+                    <h4>Recommended File Name Format</h4>
+                    <div class="format-visual">
+                        <div class="format-part discipline">
+                            <span class="format-value">PRJ001</span>
+                            <span class="format-label">Project Code</span>
+                        </div>
+                        <span class="format-separator">_</span>
+                        <div class="format-part type">
+                            <span class="format-value">A-01-20-01</span>
+                            <span class="format-label">Drawing Number</span>
+                        </div>
+                        <span class="format-separator">_</span>
+                        <div class="format-part revision">
+                            <span class="format-value">C</span>
+                            <span class="format-label">Revision</span>
+                        </div>
+                    </div>
+                    <p style="text-align: center; color: var(--color-gray-600); font-size: 0.9rem;">Example: PRJ001_A-01-20-01_C.pdf</p>
+                </div>
+
+                <table class="numbering-table">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Format</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Project Code</strong></td>
+                            <td><code>XXXXXX</code></td>
+                            <td>Unique project identifier (6-8 characters)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Drawing Number</strong></td>
+                            <td><code>X-XX-XX-XX</code></td>
+                            <td>Full drawing number as per sheet</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Revision</strong></td>
+                            <td><code>A, B, C...</code> or <code>P01, P02</code></td>
+                            <td>Current revision letter/number</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Description</strong></td>
+                            <td><code>_FloorPlan</code></td>
+                            <td>Optional brief description (no spaces)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="tip-box">
+                    <h4>
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                        </svg>
+                        File Naming Rules
+                    </h4>
+                    <p>Avoid spaces, special characters, and excessively long names. Use underscores or hyphens as separators. Keep names under 50 characters where possible for compatibility across systems.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Revision Control -->
+        <div class="section">
+            <div class="section-header">
+                <h2>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
+                    Revision Control
+                </h2>
+                <svg class="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+            <div class="section-content">
+                <p>Revision control tracks changes throughout the design and construction process. Use a consistent system to identify drawing status and change history.</p>
+
+                <table class="revision-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px;">Revision</th>
+                            <th>Stage</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>P01, P02...</code></td>
+                            <td>Preliminary</td>
+                            <td>Draft/preliminary issues for internal review</td>
+                        </tr>
+                        <tr>
+                            <td><code>T01, T02...</code></td>
+                            <td>Tender</td>
+                            <td>Issued for pricing/tendering</td>
+                        </tr>
+                        <tr>
+                            <td><code>A, B, C...</code></td>
+                            <td>Construction</td>
+                            <td>Issued for construction (IFC)</td>
+                        </tr>
+                        <tr>
+                            <td><code>AB01, AB02...</code></td>
+                            <td>As-Built</td>
+                            <td>Record drawings post-construction</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="example-box">
+                    <h4>Common Issue Status Codes</h4>
+                    <div class="example-list">
+                        <div class="example-item">
+                            <span class="example-code">PRELIMINARY</span>
+                            <span class="example-meaning">Draft for internal review only</span>
+                        </div>
+                        <div class="example-item">
+                            <span class="example-code">FOR APPROVAL</span>
+                            <span class="example-meaning">Submitted for client/authority approval</span>
+                        </div>
+                        <div class="example-item">
+                            <span class="example-code">FOR TENDER</span>
+                            <span class="example-meaning">Issued for contractor pricing</span>
+                        </div>
+                        <div class="example-item">
+                            <span class="example-code">FOR CONSTRUCTION</span>
+                            <span class="example-meaning">Approved for building (IFC)</span>
+                        </div>
+                        <div class="example-item">
+                            <span class="example-code">AS-BUILT</span>
+                            <span class="example-meaning">Final record of completed work</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <h4>
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                        </svg>
+                        Revision Best Practice
+                    </h4>
+                    <p>Always cloud and delta mark changes between revisions. Include a revision table in the title block documenting the date, revision, and description of each issue.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle section collapse
+        document.querySelectorAll('.section-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.classList.toggle('collapsed');
+                header.nextElementSibling.classList.toggle('collapsed');
+            });
+        });
+    </script>
+</body>
+</html>

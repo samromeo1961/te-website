@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COBie Reference Guide - Takeoff & Estimating Resources</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .cobie-hero {
+            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+            color: var(--color-white);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .cobie-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-white);
+        }
+
+        .cobie-hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cobie-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem 3rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-white);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        .back-link svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .intro-box {
+            background: linear-gradient(135deg, #f3e8ff 0%, #ede9fe 100%);
+            border-left: 4px solid #7c3aed;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .intro-box h2 {
+            font-size: 1.1rem;
+            color: #5b21b6;
+            margin: 0 0 0.75rem 0;
+        }
+
+        .intro-box p {
+            color: var(--color-gray-700);
+            margin: 0;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .section {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: var(--color-gray-800);
+            color: var(--color-white);
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.2s;
+        }
+
+        .section-header:hover {
+            background: var(--color-gray-700);
+        }
+
+        .section-header h2 {
+            font-size: 1.2rem;
+            margin: 0;
+            color: var(--color-white);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-header .toggle-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .section-header.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 1.5rem;
+        }
+
+        .section-content.collapsed {
+            display: none;
+        }
+
+        .sheet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1rem;
+        }
+
+        .sheet-card {
+            background: var(--color-gray-50);
+            border: 1px solid var(--color-gray-200);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            transition: all 0.2s;
+        }
+
+        .sheet-card:hover {
+            border-color: #7c3aed;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .sheet-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .sheet-name {
+            font-family: monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #5b21b6;
+            background: #ede9fe;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+        }
+
+        .sheet-type {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .type-required { background: #fee2e2; color: #dc2626; }
+        .type-reference { background: #dbeafe; color: #1e40af; }
+        .type-picklist { background: #d1fae5; color: #065f46; }
+
+        .sheet-description {
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .sheet-columns {
+            border-top: 1px solid var(--color-gray-200);
+            padding-top: 0.75rem;
+        }
+
+        .sheet-columns h4 {
+            font-size: 0.75rem;
+            color: var(--color-gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .column-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.375rem;
+        }
+
+        .column-tag {
+            font-family: monospace;
+            font-size: 0.7rem;
+            background: var(--color-white);
+            border: 1px solid var(--color-gray-300);
+            color: var(--color-gray-700);
+            padding: 0.15rem 0.35rem;
+            border-radius: var(--radius-sm);
+        }
+
+        .column-tag.required {
+            background: #fef2f2;
+            border-color: #fca5a5;
+            color: #dc2626;
+        }
+
+        .workflow-diagram {
+            background: var(--color-gray-50);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .workflow-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .workflow-step {
+            background: var(--color-white);
+            border: 2px solid var(--color-gray-200);
+            border-radius: var(--radius-md);
+            padding: 1rem 1.5rem;
+            text-align: center;
+            min-width: 140px;
+        }
+
+        .workflow-step.active {
+            border-color: #7c3aed;
+            background: #f3e8ff;
+        }
+
+        .workflow-step h4 {
+            font-size: 0.9rem;
+            color: var(--color-gray-900);
+            margin: 0 0 0.25rem 0;
+        }
+
+        .workflow-step p {
+            font-size: 0.75rem;
+            color: var(--color-gray-600);
+            margin: 0;
+        }
+
+        .workflow-arrow {
+            color: var(--color-gray-400);
+            font-size: 1.5rem;
+        }
+
+        .relationships-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+
+        .relationships-table th {
+            background: var(--color-gray-100);
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--color-gray-200);
+        }
+
+        .relationships-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--color-gray-100);
+            vertical-align: top;
+        }
+
+        .relationships-table code {
+            font-family: monospace;
+            background: var(--color-gray-100);
+            padding: 0.15rem 0.35rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 4px solid #f59e0b;
+            border-radius: var(--radius-md);
+            padding: 1rem 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .tip-box h4 {
+            font-size: 0.9rem;
+            color: #92400e;
+            margin: 0 0 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tip-box p {
+            font-size: 0.875rem;
+            color: #78350f;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .validation-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .validation-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--color-gray-100);
+        }
+
+        .validation-list li:last-child {
+            border-bottom: none;
+        }
+
+        .validation-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .validation-icon.error {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .validation-icon.warning {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .validation-icon.success {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .validation-text {
+            flex: 1;
+        }
+
+        .validation-text strong {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--color-gray-900);
+            margin-bottom: 0.25rem;
+        }
+
+        .validation-text span {
+            font-size: 0.8rem;
+            color: var(--color-gray-600);
+        }
+
+        @media print {
+            .section-header {
+                background: var(--color-gray-200) !important;
+            }
+            .section-header h2 {
+                color: var(--color-gray-900) !important;
+            }
+            .section-content.collapsed {
+                display: block !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cobie-hero h1 {
+                font-size: 1.75rem;
+            }
+            .sheet-grid {
+                grid-template-columns: 1fr;
+            }
+            .workflow-steps {
+                flex-direction: column;
+            }
+            .workflow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cobie-hero">
+        <a href="resources.html" class="back-link">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Back to Resources
+        </a>
+        <h1>COBie Reference Guide</h1>
+        <p>Construction Operations Building information exchange - structured data handover for facility management</p>
+    </div>
+
+    <div class="cobie-container">
+        <div class="intro-box">
+            <h2>What is COBie?</h2>
+            <p>COBie (Construction Operations Building information exchange) is an international standard (ISO 15686-4) for capturing and delivering asset data from design and construction to operations and maintenance. It provides a structured format for handover information, typically delivered as a spreadsheet with interconnected worksheets. COBie ensures the right information reaches facility managers at project completion.</p>
+        </div>
+
+        <div class="workflow-diagram">
+            <div class="workflow-steps">
+                <div class="workflow-step">
+                    <h4>Design</h4>
+                    <p>Spaces, Types defined</p>
+                </div>
+                <span class="workflow-arrow">→</span>
+                <div class="workflow-step">
+                    <h4>Construction</h4>
+                    <p>Components installed</p>
+                </div>
+                <span class="workflow-arrow">→</span>
+                <div class="workflow-step active">
+                    <h4>COBie Export</h4>
+                    <p>Data compiled</p>
+                </div>
+                <span class="workflow-arrow">→</span>
+                <div class="workflow-step">
+                    <h4>Handover</h4>
+                    <p>FM receives data</p>
+                </div>
+                <span class="workflow-arrow">→</span>
+                <div class="workflow-step">
+                    <h4>Operations</h4>
+                    <p>CAFM/CMMS import</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Core Worksheets -->
+        <div class="section">
+            <div class="section-header">
+                <h2>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7"/>
+                    </svg>
+                    Core Worksheets
+                </h2>
+                <svg class="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+            <div class="section-content">
+                <p style="margin-bottom: 1.5rem; color: var(--color-gray-600);">The essential worksheets that form the backbone of every COBie deliverable. These contain the primary asset and spatial data.</p>
+
+                <div class="sheet-grid">
+                    <div class="sheet-card">
+                        <div class="sheet-header">
+                            <span class="sheet-name">Facility</span>
+                            <span class="sheet-type type-required">Required</span>
+                        </div>
+                        <p class="sheet-description">Top-level information about the building or facility. Contains project name, address, phases, and site data.</p>
+                        <div class="sheet-columns">
+                            <h4>Key Columns</h4>
+                            <div class="column-list">
+                                <span class="column-tag required">Name</span>
+                                <span class="column-tag required">CreatedBy</span>
+                                <span class="column-tag">ProjectName</span>
+                                <span class="column-tag">SiteName</span>
+                                <span class="column-tag">AreaUnits</span>
+                                <span class="column-tag">CurrencyUnit</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sheet-card">
+                        <div class="sheet-header">
+                            <span class="sheet-name">Floor</span>
+                            <span class="sheet-type type-required">Required</span>
+                        </div>
+                        <p class="sheet-description">Building levels and floors. Links to Facility and contains elevation and area information.</p>
+                        <div class="sheet-columns">
+                            <h4>Key Columns</h4>
+                            <div class="column-list">
+                                <span class="column-tag required">Name</span>
+                                <span class="column-tag required">CreatedBy</span>
+                                <span class="column-tag">Elevation</span>
+                                <span class="column-tag">Height</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sheet-card">
+                        <div class="sheet-header">
+                            <span class="sheet-name">Space</span>
+                            <span class="sheet-type type-required">Required</span>
+                        </div>
+                        <p class="sheet-description">Rooms and spaces within floors. Contains area, function, and occupancy data for each space.</p>
+                        <div class="sheet-columns">
+                            <h4>Key Columns</h4>
+                            <div class="column-list">
+                                <span class="column-tag required">Name</span>
+                                <span class="column-tag required">FloorName</span>
+                                <span class="column-tag">RoomTag</span>
+                                <span class="column-tag">UsableHeight</span>
+                                <span class="column-tag">GrossArea</span>
+                                <span class="column-tag">NetArea</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sheet-card">
+                        <div class="sheet-header">
+                            <span class="sheet-name">Type</span>
+                            <span class="sheet-type type-required">Required</span>
+                        </div>
+                        <p class="sheet-description">Asset types (product families). Contains manufacturer, model, warranty, and specification data.</p>
+                        <div class="sheet-columns">
+                            <h4>Key Columns</h4>
+                            <div class="column-list">
+                                <span class="column-tag required">Name</span>
+                                <span class="column-tag required">Category</span>
+                                <span class="column-tag">Manufacturer</span>
+                                <span class="column-tag">ModelNumber</span>
+                                <span class="column-tag">WarrantyDurationParts</span>
+                                <span class="column-tag">ExpectedLife</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sheet-card">
+                        <div class="sheet-header">
+                            <span class="sheet-name">Component</span>
+                            <span class="sheet-type type-required">Required</span>
+                        </div>
+                        <p class="sheet-description">Individual asset instances. Links to Type and Space, contains serial numbers and installation data.</p>
+                        <div class="sheet-columns">
+                            <h4>Key Columns</h4>
+                            <div class="column-list">
+                                <span class="column-tag required">Name</span>
+                                <span class="column-tag required">TypeName</span>
+                                <span class="column-tag required">Space</span>
+                                <span class="column-tag">SerialNumber</span>
+                                <span class="column-tag">InstallationDate</span>
+                                <span class="column-tag">BarCode</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sheet-card">
+                        <div class="sheet-header">
+                            <span class="sheet-name">Zone</span>
+                            <span class="sheet-type type-reference">Reference</span>
+                        </div>
+                        <p class="sheet-description">Groupings of spaces for systems or management purposes (HVAC zones, fire compartments, cleaning zones).</p>
+                        <div class="sheet-columns">
+                            <h4>Key Columns</h4>
+                            <div class="column-list">
+                                <span class="column-tag required">Name</span>
+                                <span class="column-tag required">Category</span>
+                                <span class="column-tag">SpaceNames</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Supporting Worksheets -->
+        <div class="section">
+            <div class="section-header">
+                <h2>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                    </svg>
+                    Supporting Worksheets
+                </h2>
+                <svg class="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+            <div class="section-content">
+                <p style="margin-bottom: 1.5rem; color: var(--color-gray-600);">Additional worksheets that provide context, documentation links, and operational data.</p>
+
+                <div class="sheet-grid">
+                    <div class="sheet-card">
+                        <div class="sheet-header">
+                            <span class="sheet-name">System</span>
+                            <span class="sheet-type type-reference">Reference</span>
+                        </div>
+                        <p class="sheet-description">Connected components forming functional systems (HVAC system, lighting circuit, fire alarm loop).</p>
+                        <div class="sheet-columns">
+                            <h4>Key Columns</h4>
+                            <div class="column-list">
+                                <span class="column-tag required">Name</span>
+                                <span class="column-tag required">Category</span>
+                                <span class="column-tag">ComponentNames</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sheet-card">
+                        <div class="sheet-header">
+                            <span class="sheet-name">Document</span>
+                            <span class="sheet-type type-reference">Reference</span>
+                        </div>
+                        <p class="sheet-description">Links to external documents (O&M manuals, warranties, certificates, drawings).</p>
+                        <div class="sheet-columns">
+                            <h4>Key Columns</h4>
+                            <div class="column-list">
+                                <span class="column-tag required">Name</span>
+                                <span class="column-tag">Directory</span>
+                                <span class="column-tag">File</span>
+                                <span class="column-tag">Reference</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sheet-card">
+                        <div class="sheet-header">
+                            <span class="sheet-name">Attribute</span>
+                            <span class="sheet-type type-reference">Reference</span>
+                        </div>
+                        <p class="sheet-description">Custom properties and attributes for any sheet. Extends standard columns with project-specific data.</p>
+                        <div class="sheet-columns">
+                            <h4>Key Columns</h4>
+                            <div class="column-list">
+                                <span class="column-tag required">Name</span>
+                                <span class="column-tag required">SheetName</span>
+                                <span class="column-tag required">RowName</span>
+                                <span class="column-tag">Value</span>
+                                <span class="column-tag">Unit</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sheet-card">
+                        <div class="sheet-header">
+                            <span class="sheet-name">Contact</span>
+                            <span class="sheet-type type-reference">Reference</span>
+                        </div>
+                        <p class="sheet-description">People and organizations involved (designers, contractors, manufacturers, maintainers).</p>
+                        <div class="sheet-columns">
+                            <h4>Key Columns</h4>
+                            <div class="column-list">
+                                <span class="column-tag required">Email</span>
+                                <span class="column-tag">Company</span>
+                                <span class="column-tag">Phone</span>
+                                <span class="column-tag">Category</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sheet-card">
+                        <div class="sheet-header">
+                            <span class="sheet-name">Spare</span>
+                            <span class="sheet-type type-reference">Reference</span>
+                        </div>
+                        <p class="sheet-description">Spare parts associated with types. Links parts to their sources and suppliers.</p>
+                        <div class="sheet-columns">
+                            <h4>Key Columns</h4>
+                            <div class="column-list">
+                                <span class="column-tag required">Name</span>
+                                <span class="column-tag required">TypeName</span>
+                                <span class="column-tag">Suppliers</span>
+                                <span class="column-tag">SetNumber</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sheet-card">
+                        <div class="sheet-header">
+                            <span class="sheet-name">Job</span>
+                            <span class="sheet-type type-reference">Reference</span>
+                        </div>
+                        <p class="sheet-description">Planned maintenance tasks and procedures linked to types. Defines required maintenance activities.</p>
+                        <div class="sheet-columns">
+                            <h4>Key Columns</h4>
+                            <div class="column-list">
+                                <span class="column-tag required">Name</span>
+                                <span class="column-tag required">TypeName</span>
+                                <span class="column-tag">TaskNumber</span>
+                                <span class="column-tag">Duration</span>
+                                <span class="column-tag">Frequency</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sheet-card">
+                        <div class="sheet-header">
+                            <span class="sheet-name">Resource</span>
+                            <span class="sheet-type type-reference">Reference</span>
+                        </div>
+                        <p class="sheet-description">Resources required for maintenance jobs (tools, materials, skills, certifications).</p>
+                        <div class="sheet-columns">
+                            <h4>Key Columns</h4>
+                            <div class="column-list">
+                                <span class="column-tag required">Name</span>
+                                <span class="column-tag required">JobName</span>
+                                <span class="column-tag">Category</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sheet-card">
+                        <div class="sheet-header">
+                            <span class="sheet-name">Assembly</span>
+                            <span class="sheet-type type-reference">Reference</span>
+                        </div>
+                        <p class="sheet-description">Parent-child relationships between components. Shows how components are assembled.</p>
+                        <div class="sheet-columns">
+                            <h4>Key Columns</h4>
+                            <div class="column-list">
+                                <span class="column-tag required">Name</span>
+                                <span class="column-tag required">ParentName</span>
+                                <span class="column-tag required">ChildNames</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Relationships -->
+        <div class="section">
+            <div class="section-header">
+                <h2>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                    Data Relationships
+                </h2>
+                <svg class="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+            <div class="section-content">
+                <p style="margin-bottom: 1.5rem; color: var(--color-gray-600);">COBie worksheets are interconnected through key relationships. Understanding these links is essential for data integrity.</p>
+
+                <table class="relationships-table">
+                    <thead>
+                        <tr>
+                            <th>From Sheet</th>
+                            <th>To Sheet</th>
+                            <th>Relationship</th>
+                            <th>Link Column</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>Floor</code></td>
+                            <td><code>Facility</code></td>
+                            <td>Floors belong to a Facility</td>
+                            <td>Implicit (single facility)</td>
+                        </tr>
+                        <tr>
+                            <td><code>Space</code></td>
+                            <td><code>Floor</code></td>
+                            <td>Spaces are located on Floors</td>
+                            <td><code>FloorName</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>Component</code></td>
+                            <td><code>Type</code></td>
+                            <td>Components are instances of Types</td>
+                            <td><code>TypeName</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>Component</code></td>
+                            <td><code>Space</code></td>
+                            <td>Components are located in Spaces</td>
+                            <td><code>Space</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>Zone</code></td>
+                            <td><code>Space</code></td>
+                            <td>Zones contain multiple Spaces</td>
+                            <td><code>SpaceNames</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>System</code></td>
+                            <td><code>Component</code></td>
+                            <td>Systems contain Components</td>
+                            <td><code>ComponentNames</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>Document</code></td>
+                            <td>Any</td>
+                            <td>Documents link to any row</td>
+                            <td><code>SheetName</code> + <code>RowName</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>Attribute</code></td>
+                            <td>Any</td>
+                            <td>Attributes extend any row</td>
+                            <td><code>SheetName</code> + <code>RowName</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>Job</code></td>
+                            <td><code>Type</code></td>
+                            <td>Jobs are defined for Types</td>
+                            <td><code>TypeName</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>Spare</code></td>
+                            <td><code>Type</code></td>
+                            <td>Spares are associated with Types</td>
+                            <td><code>TypeName</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="tip-box">
+                    <h4>
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                        </svg>
+                        Data Integrity
+                    </h4>
+                    <p>All links must reference existing rows by their exact Name value. Orphaned references (pointing to non-existent rows) will cause validation failures. Always verify relationships before final delivery.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Validation -->
+        <div class="section">
+            <div class="section-header">
+                <h2>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Validation Checklist
+                </h2>
+                <svg class="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+            <div class="section-content">
+                <p style="margin-bottom: 1.5rem; color: var(--color-gray-600);">Common validation rules and quality checks for COBie deliverables.</p>
+
+                <ul class="validation-list">
+                    <li>
+                        <span class="validation-icon error">✕</span>
+                        <div class="validation-text">
+                            <strong>Required Fields Empty</strong>
+                            <span>Name, CreatedBy, and key relationship columns must have values in every row</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="validation-icon error">✕</span>
+                        <div class="validation-text">
+                            <strong>Duplicate Names</strong>
+                            <span>Each Name within a worksheet must be unique to enable proper linking</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="validation-icon error">✕</span>
+                        <div class="validation-text">
+                            <strong>Orphaned References</strong>
+                            <span>TypeName, FloorName, SpaceNames must match existing rows exactly</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="validation-icon warning">!</span>
+                        <div class="validation-text">
+                            <strong>Missing Categories</strong>
+                            <span>Type and Component Category should use standard classifications (OmniClass, Uniclass)</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="validation-icon warning">!</span>
+                        <div class="validation-text">
+                            <strong>Placeholder Values</strong>
+                            <span>Values like "n/a", "TBD", or "unknown" should be replaced with actual data</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="validation-icon success">✓</span>
+                        <div class="validation-text">
+                            <strong>Valid Email Format</strong>
+                            <span>Contact.Email must be valid email addresses (used as unique identifiers)</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="validation-icon success">✓</span>
+                        <div class="validation-text">
+                            <strong>Consistent Units</strong>
+                            <span>AreaUnits and other unit definitions used consistently throughout</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="validation-icon success">✓</span>
+                        <div class="validation-text">
+                            <strong>Document Links Valid</strong>
+                            <span>Document file paths or URLs should be accessible and functional</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.section-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.classList.toggle('collapsed');
+                header.nextElementSibling.classList.toggle('collapsed');
+            });
+        });
+    </script>
+</body>
+</html>

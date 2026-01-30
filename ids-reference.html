@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDS Reference Guide - Takeoff & Estimating Resources</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .ids-hero {
+            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+            color: var(--color-white);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .ids-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-white);
+        }
+
+        .ids-hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .ids-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem 3rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-white);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        .back-link svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            margin-top: 1rem;
+        }
+
+        .intro-box {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border-left: 4px solid #dc2626;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .intro-box h2 {
+            font-size: 1.1rem;
+            color: #991b1b;
+            margin: 0 0 0.75rem 0;
+        }
+
+        .intro-box p {
+            color: var(--color-gray-700);
+            margin: 0;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .section {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: var(--color-gray-800);
+            color: var(--color-white);
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.2s;
+        }
+
+        .section-header:hover {
+            background: var(--color-gray-700);
+        }
+
+        .section-header h2 {
+            font-size: 1.2rem;
+            margin: 0;
+            color: var(--color-white);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-header .toggle-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .section-header.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 1.5rem;
+        }
+
+        .section-content.collapsed {
+            display: none;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .concept-card {
+            background: var(--color-gray-50);
+            border: 1px solid var(--color-gray-200);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            transition: all 0.2s;
+        }
+
+        .concept-card:hover {
+            border-color: #dc2626;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .concept-card h3 {
+            font-size: 1.1rem;
+            color: var(--color-gray-900);
+            margin: 0 0 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .concept-card h3 .icon {
+            width: 28px;
+            height: 28px;
+            background: #fee2e2;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #dc2626;
+        }
+
+        .concept-card p {
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+            margin: 0 0 1rem 0;
+            line-height: 1.5;
+        }
+
+        .concept-card code {
+            font-family: monospace;
+            font-size: 0.8rem;
+            background: var(--color-white);
+            border: 1px solid var(--color-gray-200);
+            padding: 0.15rem 0.35rem;
+            border-radius: var(--radius-sm);
+        }
+
+        .xml-example {
+            background: #1e293b;
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+
+        .xml-example pre {
+            margin: 0;
+            font-family: monospace;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        .xml-example .tag {
+            color: #f472b6;
+        }
+
+        .xml-example .attr {
+            color: #a5f3fc;
+        }
+
+        .xml-example .value {
+            color: #86efac;
+        }
+
+        .xml-example .comment {
+            color: #64748b;
+        }
+
+        .facet-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+            margin-top: 1rem;
+        }
+
+        .facet-table th {
+            background: var(--color-gray-100);
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--color-gray-200);
+        }
+
+        .facet-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--color-gray-100);
+            vertical-align: top;
+        }
+
+        .facet-table tbody tr:hover {
+            background: var(--color-gray-50);
+        }
+
+        .facet-table code {
+            font-family: monospace;
+            background: var(--color-gray-100);
+            padding: 0.15rem 0.35rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+        }
+
+        .requirement-badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .requirement-badge.required { background: #fee2e2; color: #dc2626; }
+        .requirement-badge.optional { background: #dbeafe; color: #1e40af; }
+        .requirement-badge.prohibited { background: #fef3c7; color: #92400e; }
+
+        .workflow-box {
+            background: var(--color-gray-50);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .workflow-box h3 {
+            font-size: 1rem;
+            color: var(--color-gray-800);
+            margin: 0 0 1rem 0;
+        }
+
+        .workflow-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .workflow-step {
+            flex: 1;
+            min-width: 200px;
+            background: var(--color-white);
+            border: 2px solid var(--color-gray-200);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .workflow-step .step-number {
+            width: 32px;
+            height: 32px;
+            background: #dc2626;
+            color: var(--color-white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin: 0 auto 0.75rem;
+        }
+
+        .workflow-step h4 {
+            font-size: 0.9rem;
+            color: var(--color-gray-900);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .workflow-step p {
+            font-size: 0.8rem;
+            color: var(--color-gray-600);
+            margin: 0;
+        }
+
+        .use-case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .use-case-card {
+            background: var(--color-gray-50);
+            border: 1px solid var(--color-gray-200);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+        }
+
+        .use-case-card h4 {
+            font-size: 0.95rem;
+            color: var(--color-gray-900);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .use-case-card p {
+            font-size: 0.85rem;
+            color: var(--color-gray-600);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 4px solid #f59e0b;
+            border-radius: var(--radius-md);
+            padding: 1rem 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .tip-box h4 {
+            font-size: 0.9rem;
+            color: #92400e;
+            margin: 0 0 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tip-box p {
+            font-size: 0.875rem;
+            color: #78350f;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        @media print {
+            .section-header {
+                background: var(--color-gray-200) !important;
+            }
+            .section-header h2 {
+                color: var(--color-gray-900) !important;
+            }
+            .section-content.collapsed {
+                display: block !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .ids-hero h1 {
+                font-size: 1.75rem;
+            }
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+            .workflow-steps {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ids-hero">
+        <a href="resources.html" class="back-link">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Back to Resources
+        </a>
+        <h1>Information Delivery Specification (IDS)</h1>
+        <p>Define, validate, and enforce BIM data requirements across your projects with machine-readable specifications</p>
+        <span class="version-badge">buildingSMART Standard</span>
+    </div>
+
+    <div class="ids-container">
+        <div class="intro-box">
+            <h2>What is IDS?</h2>
+            <p>Information Delivery Specification (IDS) is a buildingSMART standard that allows you to define information requirements for IFC models in a machine-readable format. It bridges the gap between human-readable requirements documents and automated validation tools. IDS files (XML format) specify what data elements, properties, and classifications must be present in a model, enabling automated quality checks during BIM workflows.</p>
+        </div>
+
+        <!-- How IDS Works -->
+        <div class="section">
+            <div class="section-header">
+                <h2>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                    How IDS Works
+                </h2>
+                <svg class="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+            <div class="section-content">
+                <div class="workflow-box">
+                    <h3>IDS Validation Workflow</h3>
+                    <div class="workflow-steps">
+                        <div class="workflow-step">
+                            <div class="step-number">1</div>
+                            <h4>Define Requirements</h4>
+                            <p>Create IDS file specifying what data is required</p>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">2</div>
+                            <h4>Share with Team</h4>
+                            <p>Distribute IDS to modellers and consultants</p>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">3</div>
+                            <h4>Author Model</h4>
+                            <p>Teams model elements with required data</p>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">4</div>
+                            <h4>Validate</h4>
+                            <p>IFC model checked against IDS automatically</p>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">5</div>
+                            <h4>Report</h4>
+                            <p>Pass/fail results with detailed issues list</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <h3>
+                            <span class="icon">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                                </svg>
+                            </span>
+                            Specification
+                        </h3>
+                        <p>The container for all requirements. An IDS file can contain multiple specifications for different purposes or project phases.</p>
+                        <p><code>&lt;specification&gt;</code></p>
+                    </div>
+
+                    <div class="concept-card">
+                        <h3>
+                            <span class="icon">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                                </svg>
+                            </span>
+                            Applicability
+                        </h3>
+                        <p>Defines which elements the requirements apply to. Filters by entity type, property values, classifications, or other facets.</p>
+                        <p><code>&lt;applicability&gt;</code></p>
+                    </div>
+
+                    <div class="concept-card">
+                        <h3>
+                            <span class="icon">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </span>
+                            Requirements
+                        </h3>
+                        <p>Defines what data must be present on applicable elements. Specifies required properties, materials, classifications, etc.</p>
+                        <p><code>&lt;requirements&gt;</code></p>
+                    </div>
+
+                    <div class="concept-card">
+                        <h3>
+                            <span class="icon">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+                                </svg>
+                            </span>
+                            Facets
+                        </h3>
+                        <p>Building blocks used in both applicability and requirements. Entity, Property, Classification, Attribute, Material, PartOf.</p>
+                        <p><code>&lt;entity&gt;</code> <code>&lt;property&gt;</code> <code>&lt;classification&gt;</code></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Facet Types -->
+        <div class="section">
+            <div class="section-header">
+                <h2>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    </svg>
+                    Facet Types
+                </h2>
+                <svg class="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+            <div class="section-content">
+                <p style="margin-bottom: 1rem; color: var(--color-gray-600);">Facets are the core building blocks of IDS. Each facet type checks different aspects of the IFC data.</p>
+
+                <table class="facet-table">
+                    <thead>
+                        <tr>
+                            <th>Facet</th>
+                            <th>Description</th>
+                            <th>Common Use</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>entity</code></td>
+                            <td>Checks the IFC entity type of an element</td>
+                            <td>Select all walls, doors, spaces, etc.</td>
+                            <td><code>name="IfcWall"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>attribute</code></td>
+                            <td>Checks IFC attribute values (built-in properties)</td>
+                            <td>Filter by Name, Description, ObjectType</td>
+                            <td><code>name="Name" value="EXT-*"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>property</code></td>
+                            <td>Checks property set values</td>
+                            <td>Require fire rating, load bearing status</td>
+                            <td><code>propertySet="Pset_WallCommon" baseName="IsExternal"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>classification</code></td>
+                            <td>Checks classification references</td>
+                            <td>Require Uniclass, OmniClass codes</td>
+                            <td><code>system="Uniclass 2015" value="Ss_25_*"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>material</code></td>
+                            <td>Checks material assignments</td>
+                            <td>Require material definition</td>
+                            <td><code>value="Concrete*"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>partOf</code></td>
+                            <td>Checks spatial/assembly containment</td>
+                            <td>Elements must be in spaces</td>
+                            <td><code>relation="IfcRelContainedInSpatialStructure"</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- XML Example -->
+        <div class="section">
+            <div class="section-header">
+                <h2>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                    </svg>
+                    IDS XML Structure
+                </h2>
+                <svg class="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+            <div class="section-content">
+                <p style="margin-bottom: 1rem; color: var(--color-gray-600);">IDS files use XML format. Here's an example requiring all IfcWall elements to have a fire rating property:</p>
+
+                <div class="xml-example">
+                    <pre><span class="comment">&lt;!-- Require fire rating on all walls --&gt;</span>
+<span class="tag">&lt;specification</span> <span class="attr">name</span>=<span class="value">"Wall Fire Rating"</span> <span class="attr">ifcVersion</span>=<span class="value">"IFC4"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;applicability</span> <span class="attr">minOccurs</span>=<span class="value">"1"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;entity&gt;</span>
+      <span class="tag">&lt;name&gt;</span>
+        <span class="tag">&lt;simpleValue&gt;</span>IfcWall<span class="tag">&lt;/simpleValue&gt;</span>
+      <span class="tag">&lt;/name&gt;</span>
+    <span class="tag">&lt;/entity&gt;</span>
+  <span class="tag">&lt;/applicability&gt;</span>
+
+  <span class="tag">&lt;requirements&gt;</span>
+    <span class="tag">&lt;property</span> <span class="attr">dataType</span>=<span class="value">"IfcLabel"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;propertySet&gt;</span>
+        <span class="tag">&lt;simpleValue&gt;</span>Pset_WallCommon<span class="tag">&lt;/simpleValue&gt;</span>
+      <span class="tag">&lt;/propertySet&gt;</span>
+      <span class="tag">&lt;baseName&gt;</span>
+        <span class="tag">&lt;simpleValue&gt;</span>FireRating<span class="tag">&lt;/simpleValue&gt;</span>
+      <span class="tag">&lt;/baseName&gt;</span>
+      <span class="tag">&lt;value&gt;</span>
+        <span class="tag">&lt;restriction</span> <span class="attr">base</span>=<span class="value">"xs:string"</span><span class="tag">&gt;</span>
+          <span class="tag">&lt;pattern</span> <span class="attr">value</span>=<span class="value">"[0-9]+/[0-9]+/[0-9]+"</span><span class="tag">/&gt;</span>
+        <span class="tag">&lt;/restriction&gt;</span>
+      <span class="tag">&lt;/value&gt;</span>
+    <span class="tag">&lt;/property&gt;</span>
+  <span class="tag">&lt;/requirements&gt;</span>
+<span class="tag">&lt;/specification&gt;</span></pre>
+                </div>
+
+                <div class="tip-box">
+                    <h4>
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                        </svg>
+                        Pattern Matching
+                    </h4>
+                    <p>IDS supports regex patterns for value matching. Use <code>simpleValue</code> for exact matches, <code>restriction</code> with <code>pattern</code> for regex, or <code>enumeration</code> for allowed value lists.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Requirement Levels -->
+        <div class="section">
+            <div class="section-header">
+                <h2>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Requirement Levels
+                </h2>
+                <svg class="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+            <div class="section-content">
+                <p style="margin-bottom: 1rem; color: var(--color-gray-600);">Each facet within requirements can specify different levels of necessity:</p>
+
+                <table class="facet-table">
+                    <thead>
+                        <tr>
+                            <th>Level</th>
+                            <th>Attribute</th>
+                            <th>Meaning</th>
+                            <th>Validation Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="requirement-badge required">Required</span></td>
+                            <td><code>minOccurs="1"</code></td>
+                            <td>Must be present with valid value</td>
+                            <td>FAIL if missing or invalid</td>
+                        </tr>
+                        <tr>
+                            <td><span class="requirement-badge optional">Optional</span></td>
+                            <td><code>minOccurs="0"</code></td>
+                            <td>Checked if present, ignored if absent</td>
+                            <td>PASS if missing, FAIL if invalid</td>
+                        </tr>
+                        <tr>
+                            <td><span class="requirement-badge prohibited">Prohibited</span></td>
+                            <td><code>maxOccurs="0"</code></td>
+                            <td>Must NOT be present</td>
+                            <td>FAIL if present</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Use Cases -->
+        <div class="section">
+            <div class="section-header">
+                <h2>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                    </svg>
+                    Common Use Cases
+                </h2>
+                <svg class="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+            <div class="section-content">
+                <div class="use-case-grid">
+                    <div class="use-case-card">
+                        <h4>Classification Compliance</h4>
+                        <p>Ensure all elements have required classification codes (Uniclass, OmniClass, MasterFormat) for cost estimation and specification writing.</p>
+                    </div>
+                    <div class="use-case-card">
+                        <h4>Fire Safety Data</h4>
+                        <p>Validate that all fire-rated elements have FireRating properties, fire compartments are defined, and evacuation routes are tagged.</p>
+                    </div>
+                    <div class="use-case-card">
+                        <h4>COBie Readiness</h4>
+                        <p>Check that assets have manufacturer, model, serial number, and warranty data before COBie export for FM handover.</p>
+                    </div>
+                    <div class="use-case-card">
+                        <h4>Spatial Data Quality</h4>
+                        <p>Ensure spaces have names, numbers, area calculations, department assignments, and are correctly contained in floors.</p>
+                    </div>
+                    <div class="use-case-card">
+                        <h4>MEP System Validation</h4>
+                        <p>Validate that equipment has load data, all ducts/pipes are sized, and systems have flow rates and capacities assigned.</p>
+                    </div>
+                    <div class="use-case-card">
+                        <h4>Quantity Takeoff Readiness</h4>
+                        <p>Confirm elements have materials assigned, dimensions are valid, and BaseQuantities property sets are populated for QTO.</p>
+                    </div>
+                    <div class="use-case-card">
+                        <h4>Accessibility Compliance</h4>
+                        <p>Check that accessible routes are defined, door widths meet requirements, and required accessibility features are tagged.</p>
+                    </div>
+                    <div class="use-case-card">
+                        <h4>Naming Conventions</h4>
+                        <p>Enforce project naming standards using patterns to ensure consistent element names, type names, and descriptions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tools -->
+        <div class="section">
+            <div class="section-header">
+                <h2>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    IDS Tools & Resources
+                </h2>
+                <svg class="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+            <div class="section-content">
+                <div class="use-case-grid">
+                    <div class="use-case-card">
+                        <h4>IDS Editor (buildingSMART)</h4>
+                        <p>Web-based tool for creating and editing IDS files without writing XML manually. Available at technical.buildingsmart.org.</p>
+                    </div>
+                    <div class="use-case-card">
+                        <h4>IfcOpenShell IDS</h4>
+                        <p>Python library for validating IFC files against IDS specifications. Open source and scriptable for automation.</p>
+                    </div>
+                    <div class="use-case-card">
+                        <h4>Solibri</h4>
+                        <p>Commercial BIM validation software with IDS import support for model checking against specifications.</p>
+                    </div>
+                    <div class="use-case-card">
+                        <h4>BIMcollab</h4>
+                        <p>Platform supporting IDS-based validation with cloud collaboration features for distributed teams.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.section-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.classList.toggle('collapsed');
+                header.nextElementSibling.classList.toggle('collapsed');
+            });
+        });
+    </script>
+</body>
+</html>

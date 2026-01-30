@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Construction Estimating Formulas - Essential calculations for area, volume, materials, concrete, roofing, earthworks and more. All metric units.">
+    <title>Estimator's Formulas | Takeoff and Estimating</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Formulas Page Specific Styles */
+        .formulas-hero {
+            background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+            padding: 8rem 0 4rem;
+            color: white;
+        }
+
+        .formulas-hero h1 {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .formulas-hero p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.25rem;
+            max-width: 700px;
+        }
+
+        .formulas-nav {
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-gray-200);
+            padding: 1rem 0;
+            position: sticky;
+            top: 70px;
+            z-index: 100;
+        }
+
+        .formulas-nav-inner {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .formula-nav-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--color-gray-300);
+            background: var(--color-white);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-gray-600);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .formula-nav-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .formula-nav-btn.active {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: white;
+        }
+
+        .formulas-content {
+            padding: 3rem 0;
+            background: var(--color-gray-50);
+        }
+
+        .formula-category {
+            margin-bottom: 3rem;
+            scroll-margin-top: 140px;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--color-primary);
+        }
+
+        .category-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--color-primary);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .category-header h2 {
+            font-size: 1.75rem;
+            margin: 0;
+        }
+
+        .formula-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .formula-card {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--color-gray-200);
+        }
+
+        .formula-card h3 {
+            font-size: 1.125rem;
+            margin-bottom: 0.75rem;
+            color: var(--color-gray-900);
+        }
+
+        .formula-card p {
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+            margin-bottom: 1rem;
+        }
+
+        .formula-box {
+            background: var(--color-gray-900);
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            overflow-x: auto;
+        }
+
+        .formula-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #10b981;
+            white-space: nowrap;
+        }
+
+        .formula-text .variable {
+            color: #60a5fa;
+        }
+
+        .formula-text .operator {
+            color: #f472b6;
+        }
+
+        .formula-text .number {
+            color: #fbbf24;
+        }
+
+        .formula-example {
+            background: var(--color-gray-100);
+            border-radius: var(--radius);
+            padding: 1rem;
+            font-size: 0.8125rem;
+        }
+
+        .formula-example strong {
+            color: var(--color-gray-900);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .formula-example code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--color-white);
+            padding: 0.125rem 0.375rem;
+            border-radius: 3px;
+            font-size: 0.75rem;
+        }
+
+        .formula-notes {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--color-gray-200);
+            font-size: 0.8125rem;
+            color: var(--color-gray-500);
+        }
+
+        .formula-notes ul {
+            margin: 0.5rem 0 0 1rem;
+            padding: 0;
+        }
+
+        .formula-notes li {
+            margin-bottom: 0.25rem;
+        }
+
+        .unit-badge {
+            display: inline-block;
+            background: var(--color-accent);
+            color: var(--color-gray-900);
+            padding: 0.125rem 0.5rem;
+            border-radius: var(--radius-2xl);
+            font-size: 0.6875rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .waste-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8125rem;
+            margin-top: 1rem;
+        }
+
+        .waste-table th,
+        .waste-table td {
+            padding: 0.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+
+        .waste-table th {
+            background: var(--color-gray-100);
+            font-weight: 600;
+        }
+
+        .waste-table tr:hover {
+            background: var(--color-gray-50);
+        }
+
+        @media (max-width: 768px) {
+            .formulas-hero h1 {
+                font-size: 2rem;
+            }
+
+            .formula-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .formulas-nav-inner {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                padding-bottom: 0.5rem;
+            }
+
+            .formula-nav-btn {
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="images/logo-colour.svg" alt="Takeoff and Estimating" height="40">
+            </a>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dbx-cloud.html">DBx Cloud</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="resources.html" class="active">Resources</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="dbx-cloud.html#login-section" class="btn btn-primary btn-nav">Login / Sign Up</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="formulas-hero">
+        <div class="container">
+            <div class="hero-badge">Free Tool</div>
+            <h1>Estimator's Formulas</h1>
+            <p>Essential construction estimating calculations. All formulas use metric units with [variable] placeholders for easy reference.</p>
+        </div>
+    </header>
+
+    <!-- Category Navigation -->
+    <nav class="formulas-nav">
+        <div class="container">
+            <div class="formulas-nav-inner">
+                <button class="formula-nav-btn active" data-target="area">Area & Perimeter</button>
+                <button class="formula-nav-btn" data-target="volume">Volume</button>
+                <button class="formula-nav-btn" data-target="concrete">Concrete</button>
+                <button class="formula-nav-btn" data-target="masonry">Masonry</button>
+                <button class="formula-nav-btn" data-target="roofing">Roofing</button>
+                <button class="formula-nav-btn" data-target="earthworks">Earthworks</button>
+                <button class="formula-nav-btn" data-target="steel">Steel & Rebar</button>
+                <button class="formula-nav-btn" data-target="finishes">Finishes</button>
+                <button class="formula-nav-btn" data-target="waste">Waste Factors</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Formulas Content -->
+    <section class="formulas-content">
+        <div class="container">
+
+            <!-- Area & Perimeter -->
+            <div class="formula-category" id="area">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        </svg>
+                    </div>
+                    <h2>Area & Perimeter</h2>
+                </div>
+
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <h3>Rectangle Area <span class="unit-badge">m²</span></h3>
+                        <p>Calculate the area of a rectangular space.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Area]</span> <span class="operator">=</span> <span class="variable">[Length]</span> <span class="operator">×</span> <span class="variable">[Width]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Room 5.4m × 3.6m = <code>19.44 m²</code>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Rectangle Perimeter <span class="unit-badge">m</span></h3>
+                        <p>Calculate the perimeter of a rectangular space.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Perimeter]</span> <span class="operator">=</span> <span class="number">2</span> <span class="operator">×</span> <span class="operator">(</span><span class="variable">[Length]</span> <span class="operator">+</span> <span class="variable">[Width]</span><span class="operator">)</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Room 5.4m × 3.6m = 2 × (5.4 + 3.6) = <code>18 m</code>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Triangle Area <span class="unit-badge">m²</span></h3>
+                        <p>Calculate the area of a triangle.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Area]</span> <span class="operator">=</span> <span class="variable">[Base]</span> <span class="operator">×</span> <span class="variable">[Height]</span> <span class="operator">÷</span> <span class="number">2</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Base 6m, Height 4m = 6 × 4 ÷ 2 = <code>12 m²</code>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Circle Area <span class="unit-badge">m²</span></h3>
+                        <p>Calculate the area of a circular space.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Area]</span> <span class="operator">=</span> <span class="number">π</span> <span class="operator">×</span> <span class="variable">[Radius]</span><span class="operator">²</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Radius 3m = 3.14159 × 3² = <code>28.27 m²</code>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Circle Circumference <span class="unit-badge">m</span></h3>
+                        <p>Calculate the circumference of a circle.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Circumference]</span> <span class="operator">=</span> <span class="number">2</span> <span class="operator">×</span> <span class="number">π</span> <span class="operator">×</span> <span class="variable">[Radius]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Radius 3m = 2 × 3.14159 × 3 = <code>18.85 m</code>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Trapezoid Area <span class="unit-badge">m²</span></h3>
+                        <p>Calculate the area of a trapezoid shape.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Area]</span> <span class="operator">=</span> <span class="operator">(</span><span class="variable">[Top]</span> <span class="operator">+</span> <span class="variable">[Bottom]</span><span class="operator">)</span> <span class="operator">×</span> <span class="variable">[Height]</span> <span class="operator">÷</span> <span class="number">2</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Top 4m, Bottom 6m, Height 3m = (4 + 6) × 3 ÷ 2 = <code>15 m²</code>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Wall Area (with openings) <span class="unit-badge">m²</span></h3>
+                        <p>Calculate net wall area after deducting openings.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Net Area]</span> <span class="operator">=</span> <span class="variable">[Gross Area]</span> <span class="operator">-</span> <span class="variable">[Openings]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Wall 12m² - Door 1.8m² - Window 1.2m² = <code>9 m²</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Volume -->
+            <div class="formula-category" id="volume">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                        </svg>
+                    </div>
+                    <h2>Volume</h2>
+                </div>
+
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <h3>Rectangular Volume <span class="unit-badge">m³</span></h3>
+                        <p>Calculate volume of a rectangular prism.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Volume]</span> <span class="operator">=</span> <span class="variable">[Length]</span> <span class="operator">×</span> <span class="variable">[Width]</span> <span class="operator">×</span> <span class="variable">[Depth]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Slab 10m × 8m × 0.15m = <code>12 m³</code>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Cylinder Volume <span class="unit-badge">m³</span></h3>
+                        <p>Calculate volume of a cylinder (columns, pipes).</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Volume]</span> <span class="operator">=</span> <span class="number">π</span> <span class="operator">×</span> <span class="variable">[Radius]</span><span class="operator">²</span> <span class="operator">×</span> <span class="variable">[Height]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Column r=0.25m, h=3m = 3.14159 × 0.25² × 3 = <code>0.59 m³</code>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Cone Volume <span class="unit-badge">m³</span></h3>
+                        <p>Calculate volume of a cone.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Volume]</span> <span class="operator">=</span> <span class="number">π</span> <span class="operator">×</span> <span class="variable">[Radius]</span><span class="operator">²</span> <span class="operator">×</span> <span class="variable">[Height]</span> <span class="operator">÷</span> <span class="number">3</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            r=2m, h=3m = 3.14159 × 2² × 3 ÷ 3 = <code>12.57 m³</code>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Sphere Volume <span class="unit-badge">m³</span></h3>
+                        <p>Calculate volume of a sphere.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Volume]</span> <span class="operator">=</span> <span class="number">4/3</span> <span class="operator">×</span> <span class="number">π</span> <span class="operator">×</span> <span class="variable">[Radius]</span><span class="operator">³</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            r=1.5m = 4/3 × 3.14159 × 1.5³ = <code>14.14 m³</code>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Trapezoidal Prism Volume <span class="unit-badge">m³</span></h3>
+                        <p>Calculate volume for trenches with battered sides.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Volume]</span> <span class="operator">=</span> <span class="operator">(</span><span class="variable">[Top Width]</span> <span class="operator">+</span> <span class="variable">[Bottom Width]</span><span class="operator">)</span> <span class="operator">÷</span> <span class="number">2</span> <span class="operator">×</span> <span class="variable">[Depth]</span> <span class="operator">×</span> <span class="variable">[Length]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Trench top 1.2m, bottom 0.6m, depth 1m, length 20m = <code>18 m³</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Concrete -->
+            <div class="formula-category" id="concrete">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="6" width="20" height="12" rx="2"/>
+                            <line x1="6" y1="10" x2="6" y2="14"/>
+                            <line x1="10" y1="10" x2="10" y2="14"/>
+                            <line x1="14" y1="10" x2="14" y2="14"/>
+                            <line x1="18" y1="10" x2="18" y2="14"/>
+                        </svg>
+                    </div>
+                    <h2>Concrete</h2>
+                </div>
+
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <h3>Concrete Slab <span class="unit-badge">m³</span></h3>
+                        <p>Calculate concrete volume for ground slabs.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Volume]</span> <span class="operator">=</span> <span class="variable">[Length]</span> <span class="operator">×</span> <span class="variable">[Width]</span> <span class="operator">×</span> <span class="variable">[Thickness]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Slab 15m × 12m × 0.1m = <code>18 m³</code>
+                        </div>
+                        <div class="formula-notes">
+                            <strong>Typical thicknesses:</strong>
+                            <ul>
+                                <li>Domestic slab: 85-100mm</li>
+                                <li>Industrial: 150-200mm</li>
+                                <li>Heavy duty: 200-300mm</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Strip Footing <span class="unit-badge">m³</span></h3>
+                        <p>Calculate concrete for continuous strip footings.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Volume]</span> <span class="operator">=</span> <span class="variable">[Width]</span> <span class="operator">×</span> <span class="variable">[Depth]</span> <span class="operator">×</span> <span class="variable">[Length]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Footing 0.45m × 0.3m × 40m = <code>5.4 m³</code>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Pad Footing <span class="unit-badge">m³</span></h3>
+                        <p>Calculate concrete for isolated pad footings.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Volume]</span> <span class="operator">=</span> <span class="variable">[Length]</span> <span class="operator">×</span> <span class="variable">[Width]</span> <span class="operator">×</span> <span class="variable">[Depth]</span> <span class="operator">×</span> <span class="variable">[Quantity]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            8 pads @ 1.2m × 1.2m × 0.4m = <code>4.61 m³</code>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Concrete Column <span class="unit-badge">m³</span></h3>
+                        <p>Calculate concrete for rectangular columns.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Volume]</span> <span class="operator">=</span> <span class="variable">[Width]</span> <span class="operator">×</span> <span class="variable">[Depth]</span> <span class="operator">×</span> <span class="variable">[Height]</span> <span class="operator">×</span> <span class="variable">[Quantity]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            6 columns @ 0.4m × 0.4m × 3.5m = <code>3.36 m³</code>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Concrete Beam <span class="unit-badge">m³</span></h3>
+                        <p>Calculate concrete for beams.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Volume]</span> <span class="operator">=</span> <span class="variable">[Width]</span> <span class="operator">×</span> <span class="variable">[Depth]</span> <span class="operator">×</span> <span class="variable">[Length]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Beam 0.3m × 0.6m × 8m = <code>1.44 m³</code>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Concrete Steps <span class="unit-badge">m³</span></h3>
+                        <p>Calculate concrete for stairs.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Volume]</span> <span class="operator">=</span> <span class="variable">[Avg Thickness]</span> <span class="operator">×</span> <span class="variable">[Width]</span> <span class="operator">×</span> <span class="variable">[Slope Length]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Stair 0.15m avg × 1.2m × 4m = <code>0.72 m³</code>
+                        </div>
+                        <div class="formula-notes">
+                            Average thickness = Waist + (Riser ÷ 2)
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Formwork Area <span class="unit-badge">m²</span></h3>
+                        <p>Calculate formwork for slab edges.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Area]</span> <span class="operator">=</span> <span class="variable">[Perimeter]</span> <span class="operator">×</span> <span class="variable">[Slab Depth]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Edge 54m × 0.1m depth = <code>5.4 m²</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Masonry -->
+            <div class="formula-category" id="masonry">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="4"/>
+                            <rect x="14" y="3" width="7" height="4"/>
+                            <rect x="3" y="10" width="7" height="4"/>
+                            <rect x="14" y="10" width="7" height="4"/>
+                            <rect x="3" y="17" width="7" height="4"/>
+                            <rect x="14" y="17" width="7" height="4"/>
+                        </svg>
+                    </div>
+                    <h2>Masonry</h2>
+                </div>
+
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <h3>Bricks per m² <span class="unit-badge">No.</span></h3>
+                        <p>Calculate number of standard bricks required.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Bricks]</span> <span class="operator">=</span> <span class="variable">[Wall Area]</span> <span class="operator">×</span> <span class="number">50</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Wall 25m² × 50 = <code>1,250 bricks</code>
+                        </div>
+                        <div class="formula-notes">
+                            Standard brick 230×76×110mm with 10mm joints = ~50/m²
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Blocks per m² <span class="unit-badge">No.</span></h3>
+                        <p>Calculate number of concrete blocks required.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Blocks]</span> <span class="operator">=</span> <span class="variable">[Wall Area]</span> <span class="operator">×</span> <span class="number">12.5</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Wall 40m² × 12.5 = <code>500 blocks</code>
+                        </div>
+                        <div class="formula-notes">
+                            Standard block 390×190×190mm with 10mm joints = ~12.5/m²
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Mortar for Brickwork <span class="unit-badge">m³</span></h3>
+                        <p>Calculate mortar volume for brick walls.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Mortar]</span> <span class="operator">=</span> <span class="variable">[Wall Area]</span> <span class="operator">×</span> <span class="number">0.03</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Wall 50m² × 0.03 = <code>1.5 m³</code>
+                        </div>
+                        <div class="formula-notes">
+                            Approximately 30 litres mortar per m² of single-leaf brickwork
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Mortar for Blockwork <span class="unit-badge">m³</span></h3>
+                        <p>Calculate mortar volume for block walls.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Mortar]</span> <span class="operator">=</span> <span class="variable">[Wall Area]</span> <span class="operator">×</span> <span class="number">0.012</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Wall 100m² × 0.012 = <code>1.2 m³</code>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Wall Ties <span class="unit-badge">No.</span></h3>
+                        <p>Calculate wall ties for cavity walls.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Ties]</span> <span class="operator">=</span> <span class="variable">[Wall Area]</span> <span class="operator">×</span> <span class="number">2.5</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Wall 80m² × 2.5 = <code>200 ties</code>
+                        </div>
+                        <div class="formula-notes">
+                            Minimum 2.5 ties/m² at 450mm vertical × 900mm horizontal centres
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Roofing -->
+            <div class="formula-category" id="roofing">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        </svg>
+                    </div>
+                    <h2>Roofing</h2>
+                </div>
+
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <h3>Roof Pitch (Degrees) <span class="unit-badge">°</span></h3>
+                        <p>Calculate roof pitch angle from rise and run.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Pitch]</span> <span class="operator">=</span> arctan<span class="operator">(</span><span class="variable">[Rise]</span> <span class="operator">÷</span> <span class="variable">[Run]</span><span class="operator">)</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Rise 2m, Run 4m = arctan(0.5) = <code>26.6°</code>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Rafter Length <span class="unit-badge">m</span></h3>
+                        <p>Calculate rafter length from rise and run.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Rafter]</span> <span class="operator">=</span> √<span class="operator">(</span><span class="variable">[Rise]</span><span class="operator">²</span> <span class="operator">+</span> <span class="variable">[Run]</span><span class="operator">²</span><span class="operator">)</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Rise 2m, Run 4m = √(4 + 16) = <code>4.47 m</code>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Roof Area (Simple) <span class="unit-badge">m²</span></h3>
+                        <p>Calculate roof area from plan area and pitch factor.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Roof Area]</span> <span class="operator">=</span> <span class="variable">[Plan Area]</span> <span class="operator">÷</span> cos<span class="operator">(</span><span class="variable">[Pitch]</span><span class="operator">)</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Plan 100m², 25° pitch = 100 ÷ 0.906 = <code>110.4 m²</code>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Roof Sheets <span class="unit-badge">No.</span></h3>
+                        <p>Calculate number of roofing sheets required.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Sheets]</span> <span class="operator">=</span> <span class="variable">[Roof Length]</span> <span class="operator">÷</span> <span class="variable">[Cover Width]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Length 12m ÷ 0.762m cover = <code>16 sheets</code>
+                        </div>
+                        <div class="formula-notes">
+                            Common cover widths: Trimdek 762mm, Klip-Lok 700mm, Custom Orb 762mm
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Roof Tiles <span class="unit-badge">No.</span></h3>
+                        <p>Calculate number of roof tiles required.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Tiles]</span> <span class="operator">=</span> <span class="variable">[Roof Area]</span> <span class="operator">×</span> <span class="variable">[Tiles/m²]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Area 150m² × 10.5 tiles/m² = <code>1,575 tiles</code>
+                        </div>
+                        <div class="formula-notes">
+                            Concrete tiles: ~10.5/m², Terracotta: ~12-15/m²
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Ridge Capping <span class="unit-badge">m</span></h3>
+                        <p>Calculate ridge and hip capping requirements.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Capping]</span> <span class="operator">=</span> <span class="variable">[Ridge Length]</span> <span class="operator">+</span> <span class="variable">[Hip Lengths]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Ridge 8m + 4 hips @ 5m = <code>28 m</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earthworks -->
+            <div class="formula-category" id="earthworks">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M2 22h20"/>
+                            <path d="M6 18l-4 4"/>
+                            <path d="M18 18l4 4"/>
+                            <path d="M4 18h16v-6L12 4 4 12v6z"/>
+                        </svg>
+                    </div>
+                    <h2>Earthworks</h2>
+                </div>
+
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <h3>Excavation Volume <span class="unit-badge">m³</span></h3>
+                        <p>Calculate excavation for rectangular pit.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Volume]</span> <span class="operator">=</span> <span class="variable">[Length]</span> <span class="operator">×</span> <span class="variable">[Width]</span> <span class="operator">×</span> <span class="variable">[Depth]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Pit 15m × 12m × 0.5m = <code>90 m³</code>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Bank to Bulk (Swell) <span class="unit-badge">m³</span></h3>
+                        <p>Calculate bulked volume after excavation.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Bulk Vol]</span> <span class="operator">=</span> <span class="variable">[Bank Vol]</span> <span class="operator">×</span> <span class="operator">(</span><span class="number">1</span> <span class="operator">+</span> <span class="variable">[Swell %]</span><span class="operator">)</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            90m³ bank × 1.25 (25% swell) = <code>112.5 m³ bulk</code>
+                        </div>
+                        <div class="formula-notes">
+                            <strong>Typical swell factors:</strong>
+                            <ul>
+                                <li>Sand: 10-15%</li>
+                                <li>Clay: 20-40%</li>
+                                <li>Rock: 40-80%</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Compaction Factor <span class="unit-badge">m³</span></h3>
+                        <p>Calculate compacted volume from loose fill.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Compacted]</span> <span class="operator">=</span> <span class="variable">[Loose Vol]</span> <span class="operator">×</span> <span class="variable">[Compaction Factor]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            100m³ loose × 0.85 = <code>85 m³ compacted</code>
+                        </div>
+                        <div class="formula-notes">
+                            Typical compaction: 0.80-0.90 (80-90% of loose volume)
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Trench Volume <span class="unit-badge">m³</span></h3>
+                        <p>Calculate trench excavation volume.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Volume]</span> <span class="operator">=</span> <span class="variable">[Width]</span> <span class="operator">×</span> <span class="variable">[Depth]</span> <span class="operator">×</span> <span class="variable">[Length]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Trench 0.6m × 1.2m × 50m = <code>36 m³</code>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Cut & Fill Balance <span class="unit-badge">m³</span></h3>
+                        <p>Calculate net earthworks balance.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Balance]</span> <span class="operator">=</span> <span class="variable">[Cut Vol]</span> <span class="operator">-</span> <span class="variable">[Fill Vol]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Cut 500m³ - Fill 350m³ = <code>150 m³ export</code>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Truck Loads <span class="unit-badge">No.</span></h3>
+                        <p>Calculate number of truck loads for spoil removal.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Loads]</span> <span class="operator">=</span> <span class="variable">[Bulk Volume]</span> <span class="operator">÷</span> <span class="variable">[Truck Capacity]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            112.5m³ ÷ 10m³ truck = <code>12 loads</code>
+                        </div>
+                        <div class="formula-notes">
+                            Common truck sizes: 6-wheeler 6m³, 8-wheeler 10m³, Semi 14m³
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Steel & Rebar -->
+            <div class="formula-category" id="steel">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="4" y1="4" x2="20" y2="20"/>
+                            <line x1="4" y1="8" x2="16" y2="20"/>
+                            <line x1="8" y1="4" x2="20" y2="16"/>
+                            <line x1="4" y1="12" x2="12" y2="20"/>
+                            <line x1="12" y1="4" x2="20" y2="12"/>
+                        </svg>
+                    </div>
+                    <h2>Steel & Rebar</h2>
+                </div>
+
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <h3>Rebar Weight <span class="unit-badge">kg</span></h3>
+                        <p>Calculate weight of reinforcement bars.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Weight]</span> <span class="operator">=</span> <span class="variable">[Length]</span> <span class="operator">×</span> <span class="variable">[kg/m]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            N12 bar 6m × 0.888 kg/m = <code>5.33 kg</code>
+                        </div>
+                        <div class="formula-notes">
+                            <strong>Rebar weights (kg/m):</strong>
+                            <ul>
+                                <li>N10: 0.617</li>
+                                <li>N12: 0.888</li>
+                                <li>N16: 1.58</li>
+                                <li>N20: 2.47</li>
+                                <li>N24: 3.55</li>
+                                <li>N28: 4.83</li>
+                                <li>N32: 6.31</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Mesh Weight <span class="unit-badge">kg</span></h3>
+                        <p>Calculate weight of reinforcement mesh.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Weight]</span> <span class="operator">=</span> <span class="variable">[Area]</span> <span class="operator">×</span> <span class="variable">[kg/m²]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            SL82 mesh 50m² × 3.64 kg/m² = <code>182 kg</code>
+                        </div>
+                        <div class="formula-notes">
+                            <strong>Common mesh weights:</strong>
+                            <ul>
+                                <li>SL62: 2.19 kg/m²</li>
+                                <li>SL72: 2.96 kg/m²</li>
+                                <li>SL82: 3.64 kg/m²</li>
+                                <li>SL92: 4.53 kg/m²</li>
+                                <li>SL102: 5.56 kg/m²</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Rebar Lap Length <span class="unit-badge">mm</span></h3>
+                        <p>Calculate minimum lap length for reinforcement.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Lap]</span> <span class="operator">=</span> <span class="variable">[Bar Dia]</span> <span class="operator">×</span> <span class="variable">[Factor]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            N16 bar × 40 (typical) = <code>640 mm</code>
+                        </div>
+                        <div class="formula-notes">
+                            Typical factors: 25-50 × bar diameter depending on concrete grade and position
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Steel Section Weight <span class="unit-badge">kg</span></h3>
+                        <p>Calculate weight of structural steel sections.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Weight]</span> <span class="operator">=</span> <span class="variable">[Length]</span> <span class="operator">×</span> <span class="variable">[kg/m]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            200UB25.4 beam × 8m = 25.4 × 8 = <code>203.2 kg</code>
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Bar Cutting Waste <span class="unit-badge">%</span></h3>
+                        <p>Calculate cutting waste allowance for rebar.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Total]</span> <span class="operator">=</span> <span class="variable">[Net Weight]</span> <span class="operator">×</span> <span class="operator">(</span><span class="number">1</span> <span class="operator">+</span> <span class="variable">[Waste %]</span><span class="operator">)</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            1000kg × 1.05 (5% waste) = <code>1,050 kg</code>
+                        </div>
+                        <div class="formula-notes">
+                            Typical waste: 3-5% for standard bars, 8-12% for complex shapes
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Finishes -->
+            <div class="formula-category" id="finishes">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="3" y1="9" x2="21" y2="9"/>
+                            <line x1="9" y1="21" x2="9" y2="9"/>
+                        </svg>
+                    </div>
+                    <h2>Finishes</h2>
+                </div>
+
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <h3>Paint Coverage <span class="unit-badge">L</span></h3>
+                        <p>Calculate paint required for walls/ceilings.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Litres]</span> <span class="operator">=</span> <span class="variable">[Area]</span> <span class="operator">÷</span> <span class="variable">[Coverage Rate]</span> <span class="operator">×</span> <span class="variable">[Coats]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            200m² ÷ 12m²/L × 2 coats = <code>33.3 L</code>
+                        </div>
+                        <div class="formula-notes">
+                            Typical coverage: 10-14 m²/L depending on surface and paint type
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Floor Tiles <span class="unit-badge">No.</span></h3>
+                        <p>Calculate number of floor tiles required.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Tiles]</span> <span class="operator">=</span> <span class="variable">[Floor Area]</span> <span class="operator">÷</span> <span class="variable">[Tile Area]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            50m² ÷ (0.6 × 0.6) = <code>139 tiles</code>
+                        </div>
+                        <div class="formula-notes">
+                            Add 10% for cutting waste on straight layouts, 15% for diagonal
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Tile Adhesive <span class="unit-badge">kg</span></h3>
+                        <p>Calculate adhesive for floor/wall tiles.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Adhesive]</span> <span class="operator">=</span> <span class="variable">[Area]</span> <span class="operator">×</span> <span class="variable">[kg/m²]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            50m² × 4 kg/m² = <code>200 kg</code>
+                        </div>
+                        <div class="formula-notes">
+                            Typical: 3-5 kg/m² depending on tile size and trowel notch
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Grout <span class="unit-badge">kg</span></h3>
+                        <p>Calculate grout for floor/wall tiles.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Grout]</span> <span class="operator">=</span> <span class="variable">[Area]</span> <span class="operator">×</span> <span class="variable">[kg/m²]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            50m² × 0.5 kg/m² = <code>25 kg</code>
+                        </div>
+                        <div class="formula-notes">
+                            Varies with tile size and joint width: 0.3-1.0 kg/m²
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Plasterboard Sheets <span class="unit-badge">No.</span></h3>
+                        <p>Calculate plasterboard sheets required.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Sheets]</span> <span class="operator">=</span> <span class="variable">[Wall Area]</span> <span class="operator">÷</span> <span class="variable">[Sheet Area]</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            85m² ÷ (2.4 × 1.2) = <code>30 sheets</code>
+                        </div>
+                        <div class="formula-notes">
+                            Standard sheets: 2400×1200mm, 2700×1200mm, 3000×1200mm
+                        </div>
+                    </div>
+
+                    <div class="formula-card">
+                        <h3>Carpet <span class="unit-badge">m²</span></h3>
+                        <p>Calculate carpet with waste allowance.</p>
+                        <div class="formula-box">
+                            <span class="formula-text"><span class="variable">[Carpet]</span> <span class="operator">=</span> <span class="variable">[Floor Area]</span> <span class="operator">×</span> <span class="number">1.10</span></span>
+                        </div>
+                        <div class="formula-example">
+                            <strong>Example:</strong>
+                            Room 24m² × 1.10 = <code>26.4 m²</code>
+                        </div>
+                        <div class="formula-notes">
+                            10% waste for simple rooms, 15% for irregular shapes
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Waste Factors -->
+            <div class="formula-category" id="waste">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"/>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                    </div>
+                    <h2>Waste Factors</h2>
+                </div>
+
+                <div class="formula-grid">
+                    <div class="formula-card" style="grid-column: 1 / -1;">
+                        <h3>Standard Waste Allowances</h3>
+                        <p>Typical waste factors to add to net quantities for ordering materials.</p>
+
+                        <table class="waste-table">
+                            <thead>
+                                <tr>
+                                    <th>Material</th>
+                                    <th>Waste %</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Concrete (ready-mix)</td>
+                                    <td>2-5%</td>
+                                    <td>Higher for complex pours</td>
+                                </tr>
+                                <tr>
+                                    <td>Reinforcement (bars)</td>
+                                    <td>3-5%</td>
+                                    <td>8-12% for complex bending</td>
+                                </tr>
+                                <tr>
+                                    <td>Reinforcement (mesh)</td>
+                                    <td>5-10%</td>
+                                    <td>Cutting waste</td>
+                                </tr>
+                                <tr>
+                                    <td>Bricks</td>
+                                    <td>5%</td>
+                                    <td>Breakage and cutting</td>
+                                </tr>
+                                <tr>
+                                    <td>Blocks</td>
+                                    <td>5%</td>
+                                    <td>Breakage and cutting</td>
+                                </tr>
+                                <tr>
+                                    <td>Timber (framing)</td>
+                                    <td>10-15%</td>
+                                    <td>Cutting waste</td>
+                                </tr>
+                                <tr>
+                                    <td>Plasterboard</td>
+                                    <td>10%</td>
+                                    <td>Cutting and damage</td>
+                                </tr>
+                                <tr>
+                                    <td>Floor tiles (straight)</td>
+                                    <td>10%</td>
+                                    <td>Cutting waste</td>
+                                </tr>
+                                <tr>
+                                    <td>Floor tiles (diagonal)</td>
+                                    <td>15%</td>
+                                    <td>Higher cutting waste</td>
+                                </tr>
+                                <tr>
+                                    <td>Carpet</td>
+                                    <td>10-15%</td>
+                                    <td>Seaming and fitting</td>
+                                </tr>
+                                <tr>
+                                    <td>Roofing sheets</td>
+                                    <td>5-10%</td>
+                                    <td>Laps and cutting</td>
+                                </tr>
+                                <tr>
+                                    <td>Roof tiles</td>
+                                    <td>5%</td>
+                                    <td>Breakage and cutting</td>
+                                </tr>
+                                <tr>
+                                    <td>Insulation batts</td>
+                                    <td>5%</td>
+                                    <td>Compression and fitting</td>
+                                </tr>
+                                <tr>
+                                    <td>Paint</td>
+                                    <td>5-10%</td>
+                                    <td>Touch-ups and coverage variation</td>
+                                </tr>
+                                <tr>
+                                    <td>Waterproofing membrane</td>
+                                    <td>10-15%</td>
+                                    <td>Overlaps and turns</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="formula-notes" style="margin-top: 1.5rem;">
+                            <strong>Applying waste factor:</strong>
+                            <div class="formula-box" style="margin-top: 0.5rem;">
+                                <span class="formula-text"><span class="variable">[Order Qty]</span> <span class="operator">=</span> <span class="variable">[Net Qty]</span> <span class="operator">×</span> <span class="operator">(</span><span class="number">1</span> <span class="operator">+</span> <span class="variable">[Waste %]</span><span class="operator">)</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Need Help With Estimating?</h2>
+                <p>Our team offers professional consulting and training for construction estimating software.</p>
+                <div class="cta-buttons">
+                    <a href="contact.html" class="btn btn-white btn-lg">Contact Us</a>
+                    <a href="resources.html" class="btn btn-outline-white btn-lg">More Resources</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="images/logo-reversed.svg" alt="Takeoff and Estimating" height="40" class="footer-logo">
+                    <p>Australia's trusted partner for construction estimating software solutions.</p>
+                    <div class="footer-contact">
+                        <p><strong>Phone:</strong> 1300 818 620</p>
+                        <p><strong>Email:</strong> info@takeoffandestimating.com.au</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Products</h4>
+                    <ul>
+                        <li><a href="dbx-cloud.html">DBx Cloud</a></li>
+                        <li><a href="#">Databuild</a></li>
+                        <li><a href="#">PlanSwift</a></li>
+                        <li><a href="#">Sigma Estimates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="https://takeoff-and-estimating-pty-ltd.github.io/masterformat/" target="_blank" rel="noopener">MasterFormat</a></li>
+                        <li><a href="https://takeoff-and-estimating-pty-ltd.github.io/natspec/" target="_blank" rel="noopener">NatSpec</a></li>
+                        <li><a href="resources.html">All Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Takeoff and Estimating Pty Ltd. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Category navigation
+        document.querySelectorAll('.formula-nav-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active state
+                document.querySelectorAll('.formula-nav-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Scroll to category
+                const target = document.getElementById(btn.dataset.target);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Update active nav on scroll
+        const categories = document.querySelectorAll('.formula-category');
+        const navButtons = document.querySelectorAll('.formula-nav-btn');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            categories.forEach(category => {
+                const rect = category.getBoundingClientRect();
+                if (rect.top <= 200) {
+                    current = category.id;
+                }
+            });
+
+            navButtons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.target === current) {
+                    btn.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

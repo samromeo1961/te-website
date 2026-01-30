@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construction Abbreviations Dictionary - Takeoff & Estimating Resources</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .abbrev-hero {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            color: var(--color-white);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .abbrev-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-white);
+        }
+
+        .abbrev-hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .abbrev-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem 3rem;
+        }
+
+        .search-filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 2px solid var(--color-gray-200);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        .search-box svg {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1.25rem;
+            height: 1.25rem;
+            color: var(--color-gray-400);
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--color-gray-200);
+            background: var(--color-white);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .alpha-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            margin-bottom: 1.5rem;
+            justify-content: center;
+        }
+
+        .alpha-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--color-gray-300);
+            background: var(--color-white);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .alpha-btn:hover {
+            background: var(--color-gray-100);
+        }
+
+        .alpha-btn.active {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .alpha-btn.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .abbrev-count {
+            font-size: 0.875rem;
+            color: var(--color-gray-500);
+            margin-bottom: 1rem;
+        }
+
+        .abbrev-table-container {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+
+        .abbrev-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .abbrev-table thead {
+            background: var(--color-gray-800);
+            color: var(--color-white);
+        }
+
+        .abbrev-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .abbrev-table td {
+            padding: 0.875rem 1rem;
+            border-bottom: 1px solid var(--color-gray-100);
+            font-size: 0.9rem;
+        }
+
+        .abbrev-table tbody tr:hover {
+            background: var(--color-gray-50);
+        }
+
+        .abbrev-table tbody tr.hidden {
+            display: none;
+        }
+
+        .abbrev-code {
+            font-family: monospace;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--color-primary-dark);
+            background: var(--color-gray-100);
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+        }
+
+        .abbrev-meaning {
+            color: var(--color-gray-900);
+        }
+
+        .abbrev-category {
+            display: inline-block;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .category-general { background: #e5e7eb; color: #374151; }
+        .category-architectural { background: #dbeafe; color: #1e40af; }
+        .category-structural { background: #fee2e2; color: #dc2626; }
+        .category-mechanical { background: #d1fae5; color: #065f46; }
+        .category-electrical { background: #fef3c7; color: #92400e; }
+        .category-plumbing { background: #ede9fe; color: #5b21b6; }
+        .category-civil { background: #fce7f3; color: #be185d; }
+        .category-units { background: #cffafe; color: #0e7490; }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--color-gray-500);
+            font-size: 1.1rem;
+        }
+
+        .no-results.hidden {
+            display: none;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-white);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        .back-link svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        @media print {
+            .search-filter-bar, .alpha-nav {
+                display: none;
+            }
+            .abbrev-table thead {
+                background: var(--color-gray-200) !important;
+                color: var(--color-gray-900) !important;
+                -webkit-print-color-adjust: exact;
+            }
+            .abbrev-table tbody tr.hidden {
+                display: table-row !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .abbrev-hero h1 {
+                font-size: 1.75rem;
+            }
+            .search-filter-bar {
+                flex-direction: column;
+            }
+            .filter-buttons {
+                justify-content: center;
+            }
+            .abbrev-table th:nth-child(3),
+            .abbrev-table td:nth-child(3) {
+                display: none;
+            }
+            .alpha-btn {
+                width: 28px;
+                height: 28px;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="abbrev-hero">
+        <a href="resources.html" class="back-link">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Back to Resources
+        </a>
+        <h1>Construction Abbreviations Dictionary</h1>
+        <p>Comprehensive reference of abbreviations commonly used in construction drawings, specifications, and documentation</p>
+    </div>
+
+    <div class="abbrev-container">
+        <div class="search-filter-bar">
+            <div class="search-box">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <input type="text" id="searchInput" placeholder="Search abbreviations or meanings...">
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="general">General</button>
+                <button class="filter-btn" data-filter="architectural">Arch</button>
+                <button class="filter-btn" data-filter="structural">Struct</button>
+                <button class="filter-btn" data-filter="mechanical">Mech</button>
+                <button class="filter-btn" data-filter="electrical">Elec</button>
+                <button class="filter-btn" data-filter="plumbing">Plumb</button>
+                <button class="filter-btn" data-filter="civil">Civil</button>
+                <button class="filter-btn" data-filter="units">Units</button>
+            </div>
+        </div>
+
+        <div class="alpha-nav" id="alphaNav">
+            <!-- Generated by JS -->
+        </div>
+
+        <p class="abbrev-count"><span id="visibleCount">0</span> abbreviations shown</p>
+
+        <div class="abbrev-table-container">
+            <table class="abbrev-table">
+                <thead>
+                    <tr>
+                        <th style="width: 120px;">Abbreviation</th>
+                        <th>Meaning</th>
+                        <th style="width: 120px;">Category</th>
+                    </tr>
+                </thead>
+                <tbody id="abbrevBody">
+                    <!-- General -->
+                    <tr data-category="general"><td><span class="abbrev-code">ABV</span></td><td class="abbrev-meaning">Above</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">ACC</span></td><td class="abbrev-meaning">Access / Accessible</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">ACT</span></td><td class="abbrev-meaning">Actual</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">ADD</span></td><td class="abbrev-meaning">Addendum / Addition</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">ADJ</span></td><td class="abbrev-meaning">Adjacent / Adjustable</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">AFL</span></td><td class="abbrev-meaning">Above Floor Level</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">AGL</span></td><td class="abbrev-meaning">Above Ground Level</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">ALIGN</span></td><td class="abbrev-meaning">Alignment</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">ALT</span></td><td class="abbrev-meaning">Alternate / Alteration</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">APPROX</span></td><td class="abbrev-meaning">Approximate</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">AS</span></td><td class="abbrev-meaning">Australian Standard</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">ASAP</span></td><td class="abbrev-meaning">As Soon As Possible</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">BGL</span></td><td class="abbrev-meaning">Below Ground Level</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">BM</span></td><td class="abbrev-meaning">Benchmark</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">BOQ</span></td><td class="abbrev-meaning">Bill of Quantities</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">BS</span></td><td class="abbrev-meaning">British Standard</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">C/C</span></td><td class="abbrev-meaning">Centre to Centre</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">CL</span></td><td class="abbrev-meaning">Centre Line</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">CLG</span></td><td class="abbrev-meaning">Ceiling</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">CLR</span></td><td class="abbrev-meaning">Clear / Clearance</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">CONST</span></td><td class="abbrev-meaning">Construction</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">CONT</span></td><td class="abbrev-meaning">Continuous / Continue</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">CTR</span></td><td class="abbrev-meaning">Centre</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">DET</span></td><td class="abbrev-meaning">Detail</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">DIA</span></td><td class="abbrev-meaning">Diameter</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">DIM</span></td><td class="abbrev-meaning">Dimension</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">DN</span></td><td class="abbrev-meaning">Down / Nominal Diameter</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">DWG</span></td><td class="abbrev-meaning">Drawing</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">EA</span></td><td class="abbrev-meaning">Each</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">EQ</span></td><td class="abbrev-meaning">Equal</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">EXIST</span></td><td class="abbrev-meaning">Existing</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">EXT</span></td><td class="abbrev-meaning">External / Extension</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">FFL</span></td><td class="abbrev-meaning">Finished Floor Level</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">FIN</span></td><td class="abbrev-meaning">Finish / Finished</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">FL</span></td><td class="abbrev-meaning">Floor / Floor Level</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">GA</span></td><td class="abbrev-meaning">General Arrangement</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">GL</span></td><td class="abbrev-meaning">Ground Level / Grid Line</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">GND</span></td><td class="abbrev-meaning">Ground</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">HGT</span></td><td class="abbrev-meaning">Height</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">HORIZ</span></td><td class="abbrev-meaning">Horizontal</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">ID</span></td><td class="abbrev-meaning">Internal Diameter / Inside Diameter</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">IFC</span></td><td class="abbrev-meaning">Issued For Construction</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">INT</span></td><td class="abbrev-meaning">Internal / Interior</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">LEN</span></td><td class="abbrev-meaning">Length</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">LVL</span></td><td class="abbrev-meaning">Level</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">MAX</span></td><td class="abbrev-meaning">Maximum</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">MIN</span></td><td class="abbrev-meaning">Minimum</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">NGL</span></td><td class="abbrev-meaning">Natural Ground Level</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">NO</span></td><td class="abbrev-meaning">Number</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">NOM</span></td><td class="abbrev-meaning">Nominal</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">NTS</span></td><td class="abbrev-meaning">Not To Scale</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">O/A</span></td><td class="abbrev-meaning">Overall</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">OD</span></td><td class="abbrev-meaning">Outside Diameter</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">PC</span></td><td class="abbrev-meaning">Practical Completion / Prime Cost</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">PROV</span></td><td class="abbrev-meaning">Provisional</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">PS</span></td><td class="abbrev-meaning">Provisional Sum</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">QTY</span></td><td class="abbrev-meaning">Quantity</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">RAD</span></td><td class="abbrev-meaning">Radius</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">REF</span></td><td class="abbrev-meaning">Reference</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">REQ</span></td><td class="abbrev-meaning">Required</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">REV</span></td><td class="abbrev-meaning">Revision</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">RL</span></td><td class="abbrev-meaning">Reduced Level</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">RO</span></td><td class="abbrev-meaning">Rough Opening</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">SECT</span></td><td class="abbrev-meaning">Section</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">SIM</span></td><td class="abbrev-meaning">Similar</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">SPEC</span></td><td class="abbrev-meaning">Specification</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">SSL</span></td><td class="abbrev-meaning">Structural Slab Level</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">STD</span></td><td class="abbrev-meaning">Standard</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">TBC</span></td><td class="abbrev-meaning">To Be Confirmed</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">THK</span></td><td class="abbrev-meaning">Thick / Thickness</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">TYP</span></td><td class="abbrev-meaning">Typical</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">UNO</span></td><td class="abbrev-meaning">Unless Noted Otherwise</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">UP</span></td><td class="abbrev-meaning">Up</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">VERT</span></td><td class="abbrev-meaning">Vertical</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">VIF</span></td><td class="abbrev-meaning">Verify In Field</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">W/</span></td><td class="abbrev-meaning">With</td><td><span class="abbrev-category category-general">General</span></td></tr>
+                    <tr data-category="general"><td><span class="abbrev-code">WD</span></td><td class="abbrev-meaning">Width / Wide</td><td><span class="abbrev-category category-general">General</span></td></tr>
+
+                    <!-- Architectural -->
+                    <tr data-category="architectural"><td><span class="abbrev-code">AC</span></td><td class="abbrev-meaning">Acoustic Ceiling / Air Conditioning</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">ACT</span></td><td class="abbrev-meaning">Acoustic Ceiling Tile</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">AWN</span></td><td class="abbrev-meaning">Awning</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">BAL</span></td><td class="abbrev-meaning">Balcony / Balustrade</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">BLKG</span></td><td class="abbrev-meaning">Blocking</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">CAB</span></td><td class="abbrev-meaning">Cabinet</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">CER</span></td><td class="abbrev-meaning">Ceramic</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">CLK</span></td><td class="abbrev-meaning">Caulking</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">CPT</span></td><td class="abbrev-meaning">Carpet</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">CT</span></td><td class="abbrev-meaning">Ceramic Tile</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">CW</span></td><td class="abbrev-meaning">Curtain Wall</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">DG</span></td><td class="abbrev-meaning">Double Glazed</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">DR</span></td><td class="abbrev-meaning">Door</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">DS</span></td><td class="abbrev-meaning">Downpipe / Downspout</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">DW</span></td><td class="abbrev-meaning">Dishwasher</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">ELEV</span></td><td class="abbrev-meaning">Elevation</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">ENS</span></td><td class="abbrev-meaning">Ensuite</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">EXH</span></td><td class="abbrev-meaning">Exhaust</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">FLASH</span></td><td class="abbrev-meaning">Flashing</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">FLR</span></td><td class="abbrev-meaning">Floor</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">FR</span></td><td class="abbrev-meaning">Fire Rated</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">FRL</span></td><td class="abbrev-meaning">Fire Resistance Level</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">GALV</span></td><td class="abbrev-meaning">Galvanised</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">GL</span></td><td class="abbrev-meaning">Glazing / Glass</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">GYP</span></td><td class="abbrev-meaning">Gypsum</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">HDR</span></td><td class="abbrev-meaning">Header</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">HM</span></td><td class="abbrev-meaning">Hollow Metal</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">INSUL</span></td><td class="abbrev-meaning">Insulation</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">JNT</span></td><td class="abbrev-meaning">Joint</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">LOU</span></td><td class="abbrev-meaning">Louvre</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">MDF</span></td><td class="abbrev-meaning">Medium Density Fibreboard</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">MH</span></td><td class="abbrev-meaning">Manhole</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">MTL</span></td><td class="abbrev-meaning">Metal</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">OBS</span></td><td class="abbrev-meaning">Obscure (glass)</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">PB</span></td><td class="abbrev-meaning">Plasterboard</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">PLY</span></td><td class="abbrev-meaning">Plywood</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">PVMT</span></td><td class="abbrev-meaning">Pavement</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">RD</span></td><td class="abbrev-meaning">Roof Drain</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">RF</span></td><td class="abbrev-meaning">Roof</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">RM</span></td><td class="abbrev-meaning">Room</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">SC</span></td><td class="abbrev-meaning">Solid Core</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">SD</span></td><td class="abbrev-meaning">Sliding Door</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">SG</span></td><td class="abbrev-meaning">Safety Glass / Single Glazed</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">SHT</span></td><td class="abbrev-meaning">Sheet</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">SK</span></td><td class="abbrev-meaning">Skirting</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">SL</span></td><td class="abbrev-meaning">Sill</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">SS</span></td><td class="abbrev-meaning">Stainless Steel</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">STR</span></td><td class="abbrev-meaning">Stair / Storage</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">SUSP</span></td><td class="abbrev-meaning">Suspended</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">TBR</span></td><td class="abbrev-meaning">Timber</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">TEMP</span></td><td class="abbrev-meaning">Tempered</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">VNR</span></td><td class="abbrev-meaning">Veneer</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">WC</span></td><td class="abbrev-meaning">Water Closet (Toilet)</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">WDW</span></td><td class="abbrev-meaning">Window</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">WP</span></td><td class="abbrev-meaning">Waterproof / Weatherproof</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+                    <tr data-category="architectural"><td><span class="abbrev-code">WR</span></td><td class="abbrev-meaning">Water Resistant</td><td><span class="abbrev-category category-architectural">Architectural</span></td></tr>
+
+                    <!-- Structural -->
+                    <tr data-category="structural"><td><span class="abbrev-code">BF</span></td><td class="abbrev-meaning">Bottom Flange</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">BLK</span></td><td class="abbrev-meaning">Block</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">BM</span></td><td class="abbrev-meaning">Beam</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">BOB</span></td><td class="abbrev-meaning">Bottom of Beam</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">BOS</span></td><td class="abbrev-meaning">Bottom of Steel</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">BRG</span></td><td class="abbrev-meaning">Bearing</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">CHS</span></td><td class="abbrev-meaning">Circular Hollow Section</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">COL</span></td><td class="abbrev-meaning">Column</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">CONC</span></td><td class="abbrev-meaning">Concrete</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">CVR</span></td><td class="abbrev-meaning">Cover</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">DPC</span></td><td class="abbrev-meaning">Damp Proof Course</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">DPM</span></td><td class="abbrev-meaning">Damp Proof Membrane</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">EF</span></td><td class="abbrev-meaning">Each Face</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">EJ</span></td><td class="abbrev-meaning">Expansion Joint</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">EW</span></td><td class="abbrev-meaning">Each Way</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">FC</span></td><td class="abbrev-meaning">Fibre Cement</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">FDN</span></td><td class="abbrev-meaning">Foundation</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">FTG</span></td><td class="abbrev-meaning">Footing</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">GF</span></td><td class="abbrev-meaning">Ground Floor</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">GRD</span></td><td class="abbrev-meaning">Grade</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">HDPE</span></td><td class="abbrev-meaning">High Density Polyethylene</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">HS</span></td><td class="abbrev-meaning">High Strength</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">LB</span></td><td class="abbrev-meaning">Lintel Beam</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">LIG</span></td><td class="abbrev-meaning">Ligature</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">LW</span></td><td class="abbrev-meaning">Lightweight</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">MJ</span></td><td class="abbrev-meaning">Movement Joint</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">NF</span></td><td class="abbrev-meaning">Near Face</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">PC</span></td><td class="abbrev-meaning">Precast Concrete</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">PFC</span></td><td class="abbrev-meaning">Parallel Flange Channel</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">PLT</span></td><td class="abbrev-meaning">Plate</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">PT</span></td><td class="abbrev-meaning">Post-Tensioned</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">RB</span></td><td class="abbrev-meaning">Reinforcement Bar</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">RC</span></td><td class="abbrev-meaning">Reinforced Concrete</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">REBAR</span></td><td class="abbrev-meaning">Reinforcing Bar</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">RHS</span></td><td class="abbrev-meaning">Rectangular Hollow Section</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">SF</span></td><td class="abbrev-meaning">Soffit / Far Face</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">SHS</span></td><td class="abbrev-meaning">Square Hollow Section</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">SL</span></td><td class="abbrev-meaning">Slab</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">SOG</span></td><td class="abbrev-meaning">Slab on Ground / Slab on Grade</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">STL</span></td><td class="abbrev-meaning">Steel</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">TF</span></td><td class="abbrev-meaning">Top Flange / Top Face</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">TOB</span></td><td class="abbrev-meaning">Top of Beam</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">TOC</span></td><td class="abbrev-meaning">Top of Concrete</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">TOS</span></td><td class="abbrev-meaning">Top of Steel / Top of Slab</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">UB</span></td><td class="abbrev-meaning">Universal Beam</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">UC</span></td><td class="abbrev-meaning">Universal Column</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">UDL</span></td><td class="abbrev-meaning">Uniformly Distributed Load</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">WF</span></td><td class="abbrev-meaning">Wide Flange</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+                    <tr data-category="structural"><td><span class="abbrev-code">WM</span></td><td class="abbrev-meaning">Welded Mesh</td><td><span class="abbrev-category category-structural">Structural</span></td></tr>
+
+                    <!-- Mechanical -->
+                    <tr data-category="mechanical"><td><span class="abbrev-code">AC</span></td><td class="abbrev-meaning">Air Conditioning</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">AHU</span></td><td class="abbrev-meaning">Air Handling Unit</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">BMS</span></td><td class="abbrev-meaning">Building Management System</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">CAV</span></td><td class="abbrev-meaning">Constant Air Volume</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">CFM</span></td><td class="abbrev-meaning">Cubic Feet per Minute</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">CHW</span></td><td class="abbrev-meaning">Chilled Water</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">COND</span></td><td class="abbrev-meaning">Condensate / Condenser</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">CU</span></td><td class="abbrev-meaning">Condensing Unit</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">DMP</span></td><td class="abbrev-meaning">Damper</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">DX</span></td><td class="abbrev-meaning">Direct Expansion</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">EA</span></td><td class="abbrev-meaning">Exhaust Air</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">EF</span></td><td class="abbrev-meaning">Exhaust Fan</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">ERV</span></td><td class="abbrev-meaning">Energy Recovery Ventilator</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">FCU</span></td><td class="abbrev-meaning">Fan Coil Unit</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">FD</span></td><td class="abbrev-meaning">Fire Damper</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">FSP</span></td><td class="abbrev-meaning">Fire Sprinkler</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">HEPA</span></td><td class="abbrev-meaning">High Efficiency Particulate Air</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">HRV</span></td><td class="abbrev-meaning">Heat Recovery Ventilator</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">HVAC</span></td><td class="abbrev-meaning">Heating, Ventilation & Air Conditioning</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">HW</span></td><td class="abbrev-meaning">Hot Water</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">HWS</span></td><td class="abbrev-meaning">Hot Water Supply</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">kW</span></td><td class="abbrev-meaning">Kilowatt</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">L/s</span></td><td class="abbrev-meaning">Litres per Second</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">MAU</span></td><td class="abbrev-meaning">Makeup Air Unit</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">OA</span></td><td class="abbrev-meaning">Outside Air</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">PRV</span></td><td class="abbrev-meaning">Pressure Reducing Valve</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">RA</span></td><td class="abbrev-meaning">Return Air</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">RAG</span></td><td class="abbrev-meaning">Return Air Grille</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">REF</span></td><td class="abbrev-meaning">Refrigerant</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">RTU</span></td><td class="abbrev-meaning">Roof Top Unit</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">SA</span></td><td class="abbrev-meaning">Supply Air</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">SAD</span></td><td class="abbrev-meaning">Supply Air Diffuser</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">SD</span></td><td class="abbrev-meaning">Smoke Damper</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">SF</span></td><td class="abbrev-meaning">Supply Fan</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">VAV</span></td><td class="abbrev-meaning">Variable Air Volume</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">VCD</span></td><td class="abbrev-meaning">Volume Control Damper</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">VRF</span></td><td class="abbrev-meaning">Variable Refrigerant Flow</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+                    <tr data-category="mechanical"><td><span class="abbrev-code">VRV</span></td><td class="abbrev-meaning">Variable Refrigerant Volume</td><td><span class="abbrev-category category-mechanical">Mechanical</span></td></tr>
+
+                    <!-- Electrical -->
+                    <tr data-category="electrical"><td><span class="abbrev-code">A</span></td><td class="abbrev-meaning">Ampere</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">ACC</span></td><td class="abbrev-meaning">Access Control</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">CB</span></td><td class="abbrev-meaning">Circuit Breaker</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">CCTV</span></td><td class="abbrev-meaning">Closed Circuit Television</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">CKT</span></td><td class="abbrev-meaning">Circuit</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">DB</span></td><td class="abbrev-meaning">Distribution Board</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">DL</span></td><td class="abbrev-meaning">Downlight</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">DP</span></td><td class="abbrev-meaning">Double Pole</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">E</span></td><td class="abbrev-meaning">Earth</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">EL</span></td><td class="abbrev-meaning">Emergency Light</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">ELCB</span></td><td class="abbrev-meaning">Earth Leakage Circuit Breaker</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">EMR</span></td><td class="abbrev-meaning">Emergency</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">EPS</span></td><td class="abbrev-meaning">Essential Power Supply</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">FDAS</span></td><td class="abbrev-meaning">Fire Detection & Alarm System</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">GPO</span></td><td class="abbrev-meaning">General Purpose Outlet</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">HV</span></td><td class="abbrev-meaning">High Voltage</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">ISO</span></td><td class="abbrev-meaning">Isolator</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">kVA</span></td><td class="abbrev-meaning">Kilovolt-Ampere</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">LED</span></td><td class="abbrev-meaning">Light Emitting Diode</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">LV</span></td><td class="abbrev-meaning">Low Voltage</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">MCB</span></td><td class="abbrev-meaning">Miniature Circuit Breaker</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">MCC</span></td><td class="abbrev-meaning">Motor Control Centre</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">MCCB</span></td><td class="abbrev-meaning">Moulded Case Circuit Breaker</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">MDF</span></td><td class="abbrev-meaning">Main Distribution Frame</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">MSB</span></td><td class="abbrev-meaning">Main Switchboard</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">N</span></td><td class="abbrev-meaning">Neutral</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">PA</span></td><td class="abbrev-meaning">Public Address</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">PIR</span></td><td class="abbrev-meaning">Passive Infrared (sensor)</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">RCD</span></td><td class="abbrev-meaning">Residual Current Device</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">SP</span></td><td class="abbrev-meaning">Single Pole</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">SPD</span></td><td class="abbrev-meaning">Surge Protection Device</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">SWB</span></td><td class="abbrev-meaning">Switchboard</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">TP</span></td><td class="abbrev-meaning">Triple Pole</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">TX</span></td><td class="abbrev-meaning">Transformer</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">UPS</span></td><td class="abbrev-meaning">Uninterruptible Power Supply</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">V</span></td><td class="abbrev-meaning">Volt</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">VFD</span></td><td class="abbrev-meaning">Variable Frequency Drive</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+                    <tr data-category="electrical"><td><span class="abbrev-code">W</span></td><td class="abbrev-meaning">Watt</td><td><span class="abbrev-category category-electrical">Electrical</span></td></tr>
+
+                    <!-- Plumbing -->
+                    <tr data-category="plumbing"><td><span class="abbrev-code">BFV</span></td><td class="abbrev-meaning">Butterfly Valve</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">BV</span></td><td class="abbrev-meaning">Ball Valve</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">CB</span></td><td class="abbrev-meaning">Catch Basin</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">CO</span></td><td class="abbrev-meaning">Cleanout</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">CV</span></td><td class="abbrev-meaning">Check Valve</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">CW</span></td><td class="abbrev-meaning">Cold Water</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">CWS</span></td><td class="abbrev-meaning">Cold Water Supply</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">DWV</span></td><td class="abbrev-meaning">Drain Waste Vent</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">FD</span></td><td class="abbrev-meaning">Floor Drain</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">FW</span></td><td class="abbrev-meaning">Floor Waste</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">GI</span></td><td class="abbrev-meaning">Galvanised Iron</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">GP</span></td><td class="abbrev-meaning">Gas Point</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">GT</span></td><td class="abbrev-meaning">Grease Trap</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">GV</span></td><td class="abbrev-meaning">Gate Valve</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">HB</span></td><td class="abbrev-meaning">Hose Bib</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">HR</span></td><td class="abbrev-meaning">Hose Reel</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">HWU</span></td><td class="abbrev-meaning">Hot Water Unit</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">IL</span></td><td class="abbrev-meaning">Invert Level</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">IO</span></td><td class="abbrev-meaning">Inspection Opening</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">MH</span></td><td class="abbrev-meaning">Manhole</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">NG</span></td><td class="abbrev-meaning">Natural Gas</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">OG</span></td><td class="abbrev-meaning">Oil & Grease</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">ORB</span></td><td class="abbrev-meaning">Overflow Relief Basin</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">ORG</span></td><td class="abbrev-meaning">Overflow Relief Gully</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">PVC</span></td><td class="abbrev-meaning">Polyvinyl Chloride</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">RWP</span></td><td class="abbrev-meaning">Rainwater Pipe</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">SHR</span></td><td class="abbrev-meaning">Shower</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">SV</span></td><td class="abbrev-meaning">Stack Vent / Stop Valve</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">SW</span></td><td class="abbrev-meaning">Stormwater</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">TMV</span></td><td class="abbrev-meaning">Thermostatic Mixing Valve</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">UR</span></td><td class="abbrev-meaning">Urinal</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">WB</span></td><td class="abbrev-meaning">Wash Basin</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+                    <tr data-category="plumbing"><td><span class="abbrev-code">WM</span></td><td class="abbrev-meaning">Water Meter / Washing Machine</td><td><span class="abbrev-category category-plumbing">Plumbing</span></td></tr>
+
+                    <!-- Civil -->
+                    <tr data-category="civil"><td><span class="abbrev-code">AC</span></td><td class="abbrev-meaning">Asphalt Concrete</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">AHD</span></td><td class="abbrev-meaning">Australian Height Datum</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">BC</span></td><td class="abbrev-meaning">Back of Curb</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">BH</span></td><td class="abbrev-meaning">Borehole</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">CB</span></td><td class="abbrev-meaning">Catch Basin</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">CG</span></td><td class="abbrev-meaning">Crushed Gravel</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">CL</span></td><td class="abbrev-meaning">Chainlink</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">EGL</span></td><td class="abbrev-meaning">Existing Ground Level</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">EX</span></td><td class="abbrev-meaning">Existing</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">FGL</span></td><td class="abbrev-meaning">Finished Ground Level</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">FL</span></td><td class="abbrev-meaning">Flow Line</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">FSL</span></td><td class="abbrev-meaning">Finished Surface Level</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">GPS</span></td><td class="abbrev-meaning">Global Positioning System</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">INV</span></td><td class="abbrev-meaning">Invert</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">K&C</span></td><td class="abbrev-meaning">Kerb & Channel</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">LS</span></td><td class="abbrev-meaning">Level Surface</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">MGA</span></td><td class="abbrev-meaning">Map Grid of Australia</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">NGL</span></td><td class="abbrev-meaning">Natural Ground Level</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">OSD</span></td><td class="abbrev-meaning">On-Site Detention</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">PM</span></td><td class="abbrev-meaning">Permanent Mark</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">RCP</span></td><td class="abbrev-meaning">Reinforced Concrete Pipe</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">RL</span></td><td class="abbrev-meaning">Reduced Level</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">ROW</span></td><td class="abbrev-meaning">Right of Way</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">SED</span></td><td class="abbrev-meaning">Sediment</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">SPS</span></td><td class="abbrev-meaning">Sewer Pump Station</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">SSM</span></td><td class="abbrev-meaning">State Survey Mark</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">SW</span></td><td class="abbrev-meaning">Stormwater / Sewer</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">TBM</span></td><td class="abbrev-meaning">Temporary Bench Mark</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">TL</span></td><td class="abbrev-meaning">Top Level</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">TP</span></td><td class="abbrev-meaning">Test Pit</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">VCP</span></td><td class="abbrev-meaning">Vitrified Clay Pipe</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+                    <tr data-category="civil"><td><span class="abbrev-code">WSUD</span></td><td class="abbrev-meaning">Water Sensitive Urban Design</td><td><span class="abbrev-category category-civil">Civil</span></td></tr>
+
+                    <!-- Units -->
+                    <tr data-category="units"><td><span class="abbrev-code">cu.m</span></td><td class="abbrev-meaning">Cubic Metre</td><td><span class="abbrev-category category-units">Units</span></td></tr>
+                    <tr data-category="units"><td><span class="abbrev-code">kg</span></td><td class="abbrev-meaning">Kilogram</td><td><span class="abbrev-category category-units">Units</span></td></tr>
+                    <tr data-category="units"><td><span class="abbrev-code">kN</span></td><td class="abbrev-meaning">Kilonewton</td><td><span class="abbrev-category category-units">Units</span></td></tr>
+                    <tr data-category="units"><td><span class="abbrev-code">kPa</span></td><td class="abbrev-meaning">Kilopascal</td><td><span class="abbrev-category category-units">Units</span></td></tr>
+                    <tr data-category="units"><td><span class="abbrev-code">lin.m</span></td><td class="abbrev-meaning">Linear Metre</td><td><span class="abbrev-category category-units">Units</span></td></tr>
+                    <tr data-category="units"><td><span class="abbrev-code">m</span></td><td class="abbrev-meaning">Metre</td><td><span class="abbrev-category category-units">Units</span></td></tr>
+                    <tr data-category="units"><td><span class="abbrev-code">mm</span></td><td class="abbrev-meaning">Millimetre</td><td><span class="abbrev-category category-units">Units</span></td></tr>
+                    <tr data-category="units"><td><span class="abbrev-code">MPa</span></td><td class="abbrev-meaning">Megapascal</td><td><span class="abbrev-category category-units">Units</span></td></tr>
+                    <tr data-category="units"><td><span class="abbrev-code">No.</span></td><td class="abbrev-meaning">Number (quantity)</td><td><span class="abbrev-category category-units">Units</span></td></tr>
+                    <tr data-category="units"><td><span class="abbrev-code">sq.m</span></td><td class="abbrev-meaning">Square Metre</td><td><span class="abbrev-category category-units">Units</span></td></tr>
+                    <tr data-category="units"><td><span class="abbrev-code">t</span></td><td class="abbrev-meaning">Tonne</td><td><span class="abbrev-category category-units">Units</span></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="no-results hidden" id="noResults">
+            No abbreviations found matching your search.
+        </div>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const abbrevBody = document.getElementById('abbrevBody');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const alphaNav = document.getElementById('alphaNav');
+        const noResults = document.getElementById('noResults');
+        const visibleCount = document.getElementById('visibleCount');
+
+        let activeFilter = 'all';
+        let activeLetter = 'all';
+
+        // Generate alphabet navigation
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+        const rows = abbrevBody.querySelectorAll('tr');
+
+        // Find which letters have entries
+        const lettersWithEntries = new Set();
+        rows.forEach(row => {
+            const abbrev = row.querySelector('.abbrev-code').textContent.toUpperCase();
+            if (abbrev.length > 0) {
+                lettersWithEntries.add(abbrev[0]);
+            }
+        });
+
+        // Create alpha buttons
+        const allBtn = document.createElement('button');
+        allBtn.className = 'alpha-btn active';
+        allBtn.dataset.letter = 'all';
+        allBtn.textContent = 'All';
+        alphaNav.appendChild(allBtn);
+
+        alphabet.forEach(letter => {
+            const btn = document.createElement('button');
+            btn.className = 'alpha-btn';
+            if (!lettersWithEntries.has(letter)) {
+                btn.classList.add('disabled');
+            }
+            btn.dataset.letter = letter;
+            btn.textContent = letter;
+            alphaNav.appendChild(btn);
+        });
+
+        function updateVisibleCount() {
+            const visible = abbrevBody.querySelectorAll('tr:not(.hidden)').length;
+            visibleCount.textContent = visible;
+            noResults.classList.toggle('hidden', visible > 0);
+        }
+
+        function applyFilters() {
+            const searchTerm = searchInput.value.toLowerCase();
+
+            rows.forEach(row => {
+                const abbrev = row.querySelector('.abbrev-code').textContent.toLowerCase();
+                const meaning = row.querySelector('.abbrev-meaning').textContent.toLowerCase();
+                const category = row.dataset.category;
+
+                const matchesFilter = activeFilter === 'all' || category === activeFilter;
+                const matchesLetter = activeLetter === 'all' || abbrev.toUpperCase().startsWith(activeLetter);
+                const matchesSearch = !searchTerm ||
+                    abbrev.includes(searchTerm) ||
+                    meaning.includes(searchTerm);
+
+                if (matchesFilter && matchesLetter && matchesSearch) {
+                    row.classList.remove('hidden');
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+
+            updateVisibleCount();
+        }
+
+        // Filter buttons
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeFilter = btn.dataset.filter;
+                applyFilters();
+            });
+        });
+
+        // Alphabet navigation
+        alphaNav.addEventListener('click', (e) => {
+            if (e.target.classList.contains('alpha-btn') && !e.target.classList.contains('disabled')) {
+                alphaNav.querySelectorAll('.alpha-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                activeLetter = e.target.dataset.letter;
+                applyFilters();
+            }
+        });
+
+        // Search
+        searchInput.addEventListener('input', () => {
+            // Reset letter filter on search
+            if (searchInput.value) {
+                alphaNav.querySelectorAll('.alpha-btn').forEach(b => b.classList.remove('active'));
+                alphaNav.querySelector('[data-letter="all"]').classList.add('active');
+                activeLetter = 'all';
+            }
+            applyFilters();
+        });
+
+        // Initial count
+        updateVisibleCount();
+    </script>
+</body>
+</html>

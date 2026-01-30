@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOD Specification Guide - Takeoff & Estimating Resources</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .lod-hero {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: var(--color-white);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .lod-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-white);
+        }
+
+        .lod-hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .lod-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem 3rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-white);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        .back-link svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .intro-box {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border-left: 4px solid #059669;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .intro-box h2 {
+            font-size: 1.1rem;
+            color: #065f46;
+            margin: 0 0 0.75rem 0;
+        }
+
+        .intro-box p {
+            color: var(--color-gray-700);
+            margin: 0;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .terminology-note {
+            background: #fef3c7;
+            border: 1px solid #fcd34d;
+            border-radius: var(--radius-md);
+            padding: 1rem 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .terminology-note h3 {
+            font-size: 0.9rem;
+            color: #92400e;
+            margin: 0 0 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .terminology-note p {
+            font-size: 0.875rem;
+            color: #78350f;
+            margin: 0;
+        }
+
+        .lod-timeline {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            justify-content: center;
+        }
+
+        .lod-tab {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--color-gray-200);
+            background: var(--color-white);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .lod-tab:hover {
+            border-color: #059669;
+            color: #059669;
+        }
+
+        .lod-tab.active {
+            background: #059669;
+            border-color: #059669;
+            color: var(--color-white);
+        }
+
+        .lod-tab .lod-number {
+            font-size: 1.25rem;
+            display: block;
+        }
+
+        .lod-tab .lod-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+        }
+
+        .lod-content {
+            display: none;
+        }
+
+        .lod-content.active {
+            display: block;
+        }
+
+        .lod-card {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .lod-header {
+            padding: 1.5rem;
+            color: var(--color-white);
+        }
+
+        .lod-header.lod-100 { background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%); }
+        .lod-header.lod-200 { background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%); }
+        .lod-header.lod-300 { background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%); }
+        .lod-header.lod-350 { background: linear-gradient(135deg, #f97316 0%, #fb923c 100%); }
+        .lod-header.lod-400 { background: linear-gradient(135deg, #ef4444 0%, #f87171 100%); }
+        .lod-header.lod-500 { background: linear-gradient(135deg, #059669 0%, #10b981 100%); }
+
+        .lod-header h2 {
+            font-size: 1.75rem;
+            margin: 0 0 0.25rem 0;
+            color: var(--color-white);
+        }
+
+        .lod-header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .lod-body {
+            padding: 1.5rem;
+        }
+
+        .lod-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .lod-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .lod-section h3 {
+            font-size: 1rem;
+            color: var(--color-gray-800);
+            margin: 0 0 0.75rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--color-gray-200);
+        }
+
+        .lod-section ul {
+            margin: 0;
+            padding-left: 1.25rem;
+        }
+
+        .lod-section li {
+            margin-bottom: 0.5rem;
+            color: var(--color-gray-700);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .element-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .element-card {
+            background: var(--color-gray-50);
+            border: 1px solid var(--color-gray-200);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+        }
+
+        .element-card h4 {
+            font-size: 0.9rem;
+            color: var(--color-gray-900);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .element-card p {
+            font-size: 0.8rem;
+            color: var(--color-gray-600);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .comparison-table th {
+            background: var(--color-gray-100);
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--color-gray-200);
+        }
+
+        .comparison-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--color-gray-100);
+            vertical-align: top;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: var(--color-gray-50);
+        }
+
+        .lod-badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .lod-badge.lod-100 { background: #e5e7eb; color: #374151; }
+        .lod-badge.lod-200 { background: #dbeafe; color: #1e40af; }
+        .lod-badge.lod-300 { background: #fef3c7; color: #92400e; }
+        .lod-badge.lod-350 { background: #ffedd5; color: #c2410c; }
+        .lod-badge.lod-400 { background: #fee2e2; color: #dc2626; }
+        .lod-badge.lod-500 { background: #d1fae5; color: #065f46; }
+
+        .stages-comparison {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .stages-header {
+            background: var(--color-gray-800);
+            color: var(--color-white);
+            padding: 1rem 1.5rem;
+        }
+
+        .stages-header h2 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--color-white);
+        }
+
+        .stages-body {
+            padding: 1.5rem;
+            overflow-x: auto;
+        }
+
+        @media print {
+            .lod-timeline {
+                display: none;
+            }
+            .lod-content {
+                display: block !important;
+                page-break-inside: avoid;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .lod-hero h1 {
+                font-size: 1.75rem;
+            }
+            .lod-timeline {
+                flex-direction: column;
+            }
+            .lod-tab {
+                width: 100%;
+                text-align: center;
+            }
+            .element-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="lod-hero">
+        <a href="resources.html" class="back-link">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Back to Resources
+        </a>
+        <h1>Level of Development (LOD) Specification</h1>
+        <p>Understanding model element development requirements at each project stage for BIM coordination and delivery</p>
+    </div>
+
+    <div class="lod-container">
+        <div class="intro-box">
+            <h2>What is Level of Development?</h2>
+            <p>Level of Development (LOD) defines the degree to which the geometry and associated information of a BIM element has been developed. It establishes a common language between project stakeholders about what level of detail and reliability can be expected from model elements at different project phases. LOD is not just about geometry - it includes the associated data, specifications, and documentation.</p>
+        </div>
+
+        <div class="terminology-note">
+            <h3>
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                </svg>
+                LOD vs LOD - Terminology Note
+            </h3>
+            <p><strong>Level of Development (LOD)</strong> refers to the overall maturity of a model element. <strong>Level of Detail (also LOD)</strong> refers only to graphic appearance. <strong>Level of Information (LOI)</strong> refers to non-graphic data. Some frameworks use LOD to encompass both detail and information, while others separate them. This guide follows the BIMForum LOD Specification approach.</p>
+        </div>
+
+        <div class="lod-timeline">
+            <button class="lod-tab active" data-lod="100">
+                <span class="lod-number">LOD 100</span>
+                <span class="lod-label">Conceptual</span>
+            </button>
+            <button class="lod-tab" data-lod="200">
+                <span class="lod-number">LOD 200</span>
+                <span class="lod-label">Schematic</span>
+            </button>
+            <button class="lod-tab" data-lod="300">
+                <span class="lod-number">LOD 300</span>
+                <span class="lod-label">Detailed</span>
+            </button>
+            <button class="lod-tab" data-lod="350">
+                <span class="lod-number">LOD 350</span>
+                <span class="lod-label">Construction</span>
+            </button>
+            <button class="lod-tab" data-lod="400">
+                <span class="lod-number">LOD 400</span>
+                <span class="lod-label">Fabrication</span>
+            </button>
+            <button class="lod-tab" data-lod="500">
+                <span class="lod-number">LOD 500</span>
+                <span class="lod-label">As-Built</span>
+            </button>
+        </div>
+
+        <!-- LOD 100 -->
+        <div class="lod-content active" id="lod-100">
+            <div class="lod-card">
+                <div class="lod-header lod-100">
+                    <h2>LOD 100 - Conceptual</h2>
+                    <p>Overall building massing, indicative area, height, volume, location, and orientation</p>
+                </div>
+                <div class="lod-body">
+                    <div class="lod-section">
+                        <h3>Definition</h3>
+                        <ul>
+                            <li>Elements are represented graphically with a symbol or generic representation</li>
+                            <li>Information derived from other elements (not the element itself)</li>
+                            <li>Approximate quantities, size, shape, location, and orientation may be derived</li>
+                            <li>Non-geometric data or line work, such as cost-per-square-metre estimates</li>
+                        </ul>
+                    </div>
+
+                    <div class="lod-section">
+                        <h3>Typical Project Stage</h3>
+                        <ul>
+                            <li><strong>AU:</strong> Schematic Design / Concept Design</li>
+                            <li><strong>UK:</strong> RIBA Stage 1-2 (Preparation & Briefing, Concept Design)</li>
+                            <li><strong>US:</strong> Pre-Design / Programming</li>
+                        </ul>
+                    </div>
+
+                    <div class="lod-section">
+                        <h3>Example Elements</h3>
+                        <div class="element-grid">
+                            <div class="element-card">
+                                <h4>Walls</h4>
+                                <p>Shown as single lines or simple planes. No material layers defined. Approximate locations based on space planning.</p>
+                            </div>
+                            <div class="element-card">
+                                <h4>Doors & Windows</h4>
+                                <p>May be indicated by symbols only, or as simple voids. No specific sizes, types, or schedules.</p>
+                            </div>
+                            <div class="element-card">
+                                <h4>Structure</h4>
+                                <p>Building footprint and approximate height. Structural system type may be noted but not modeled.</p>
+                            </div>
+                            <div class="element-card">
+                                <h4>MEP Systems</h4>
+                                <p>Major plant spaces identified. No equipment or distribution modeled. Allowances for risers and plantrooms.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lod-section">
+                        <h3>Authorised Uses</h3>
+                        <ul>
+                            <li>Conceptual visualisation and massing studies</li>
+                            <li>Preliminary area and volume calculations</li>
+                            <li>Early-stage cost estimates (order of magnitude)</li>
+                            <li>Site analysis and orientation studies</li>
+                            <li>Not suitable for coordination or quantity takeoff</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LOD 200 -->
+        <div class="lod-content" id="lod-200">
+            <div class="lod-card">
+                <div class="lod-header lod-200">
+                    <h2>LOD 200 - Schematic</h2>
+                    <p>Elements modeled as generic systems or assemblies with approximate quantities, size, shape, location</p>
+                </div>
+                <div class="lod-body">
+                    <div class="lod-section">
+                        <h3>Definition</h3>
+                        <ul>
+                            <li>Elements are graphically represented as a generic system, object, or assembly</li>
+                            <li>Approximate quantities, size, shape, location, and orientation are modeled</li>
+                            <li>Non-graphic information may be attached to the element</li>
+                            <li>Geometry is approximate but recognisable as the intended element type</li>
+                        </ul>
+                    </div>
+
+                    <div class="lod-section">
+                        <h3>Typical Project Stage</h3>
+                        <ul>
+                            <li><strong>AU:</strong> Design Development</li>
+                            <li><strong>UK:</strong> RIBA Stage 2-3 (Concept Design, Spatial Coordination)</li>
+                            <li><strong>US:</strong> Schematic Design</li>
+                        </ul>
+                    </div>
+
+                    <div class="lod-section">
+                        <h3>Example Elements</h3>
+                        <div class="element-grid">
+                            <div class="element-card">
+                                <h4>Walls</h4>
+                                <p>Generic wall types with approximate thickness. Exterior vs interior differentiated. No specific material layers or components.</p>
+                            </div>
+                            <div class="element-card">
+                                <h4>Doors & Windows</h4>
+                                <p>Generic types placed with approximate sizes (e.g., "single door 900mm"). No hardware, frame details, or specific product selections.</p>
+                            </div>
+                            <div class="element-card">
+                                <h4>Structure</h4>
+                                <p>Structural grid established. Column and beam locations approximate. Slab zones indicated. Member sizes not finalised.</p>
+                            </div>
+                            <div class="element-card">
+                                <h4>MEP Systems</h4>
+                                <p>Major equipment sized and located approximately. Main distribution routes indicated. Placeholder spaces for coordination.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lod-section">
+                        <h3>Authorised Uses</h3>
+                        <ul>
+                            <li>Analysis of design options</li>
+                            <li>Spatial coordination between disciplines</li>
+                            <li>Preliminary cost estimates</li>
+                            <li>Early clash detection (major clashes)</li>
+                            <li>Building performance analysis (preliminary)</li>
+                            <li>Not suitable for detailed quantity takeoff or fabrication</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LOD 300 -->
+        <div class="lod-content" id="lod-300">
+            <div class="lod-card">
+                <div class="lod-header lod-300">
+                    <h2>LOD 300 - Detailed Design</h2>
+                    <p>Elements modeled as specific systems with accurate quantity, size, shape, location, and orientation</p>
+                </div>
+                <div class="lod-body">
+                    <div class="lod-section">
+                        <h3>Definition</h3>
+                        <ul>
+                            <li>Elements are graphically represented as a specific system, object, or assembly</li>
+                            <li>Accurate quantity, size, shape, location, and orientation are modeled</li>
+                            <li>Element can be measured directly from the model without reference to non-modeled information</li>
+                            <li>Information can be used for construction documentation</li>
+                        </ul>
+                    </div>
+
+                    <div class="lod-section">
+                        <h3>Typical Project Stage</h3>
+                        <ul>
+                            <li><strong>AU:</strong> Detailed Design / Documentation</li>
+                            <li><strong>UK:</strong> RIBA Stage 3-4 (Spatial Coordination, Technical Design)</li>
+                            <li><strong>US:</strong> Design Development / Construction Documents</li>
+                        </ul>
+                    </div>
+
+                    <div class="lod-section">
+                        <h3>Example Elements</h3>
+                        <div class="element-grid">
+                            <div class="element-card">
+                                <h4>Walls</h4>
+                                <p>Specific wall types with defined layers and materials. Accurate dimensions. Fire ratings assigned. Quantities extractable for takeoff.</p>
+                            </div>
+                            <div class="element-card">
+                                <h4>Doors & Windows</h4>
+                                <p>Specific types, sizes, and configurations selected. Schedule data complete. Frame types defined. Hardware groups assigned.</p>
+                            </div>
+                            <div class="element-card">
+                                <h4>Structure</h4>
+                                <p>Designed member sizes and materials. Connection types indicated. Reinforcement schedules for concrete. Steel connections shown conceptually.</p>
+                            </div>
+                            <div class="element-card">
+                                <h4>MEP Systems</h4>
+                                <p>Equipment make and model identified. Duct and pipe sizes determined. Routing complete. Loads and capacities assigned.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lod-section">
+                        <h3>Authorised Uses</h3>
+                        <ul>
+                            <li>Construction documentation</li>
+                            <li>Accurate quantity takeoff for estimating</li>
+                            <li>Detailed clash detection and coordination</li>
+                            <li>Permit submissions</li>
+                            <li>Procurement specifications</li>
+                            <li>Not suitable for direct fabrication (additional detailing required)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LOD 350 -->
+        <div class="lod-content" id="lod-350">
+            <div class="lod-card">
+                <div class="lod-header lod-350">
+                    <h2>LOD 350 - Construction Documentation</h2>
+                    <p>Elements modeled with detail for coordination between disciplines and trades</p>
+                </div>
+                <div class="lod-body">
+                    <div class="lod-section">
+                        <h3>Definition</h3>
+                        <ul>
+                            <li>All LOD 300 requirements plus coordination information</li>
+                            <li>Parts necessary for coordination with adjacent elements are modeled</li>
+                            <li>Supports and connections to other building systems shown</li>
+                            <li>Interface elements between disciplines included</li>
+                        </ul>
+                    </div>
+
+                    <div class="lod-section">
+                        <h3>Typical Project Stage</h3>
+                        <ul>
+                            <li><strong>AU:</strong> Construction Documentation / Tender</li>
+                            <li><strong>UK:</strong> RIBA Stage 4 (Technical Design)</li>
+                            <li><strong>US:</strong> Construction Documents</li>
+                        </ul>
+                    </div>
+
+                    <div class="lod-section">
+                        <h3>Example Elements</h3>
+                        <div class="element-grid">
+                            <div class="element-card">
+                                <h4>Walls</h4>
+                                <p>All LOD 300 plus: cavity closers, lintels at openings, movement joints, penetration sleeves, fire stopping locations.</p>
+                            </div>
+                            <div class="element-card">
+                                <h4>Doors & Windows</h4>
+                                <p>All LOD 300 plus: frame profiles, threshold details, weather seals, structural supports for openings.</p>
+                            </div>
+                            <div class="element-card">
+                                <h4>Structure</h4>
+                                <p>All LOD 300 plus: cast-in items, embed plates, penetrations, interface with cladding supports, edge conditions.</p>
+                            </div>
+                            <div class="element-card">
+                                <h4>MEP Systems</h4>
+                                <p>All LOD 300 plus: hangers and supports, access panels, coordination sleeves, insulation, clearance zones.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lod-section">
+                        <h3>Authorised Uses</h3>
+                        <ul>
+                            <li>Trade coordination and 4D planning</li>
+                            <li>Detailed clash detection across all disciplines</li>
+                            <li>Generation of construction drawings</li>
+                            <li>Tender documentation</li>
+                            <li>Work packaging and sequencing</li>
+                            <li>Basis for shop drawing development</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LOD 400 -->
+        <div class="lod-content" id="lod-400">
+            <div class="lod-card">
+                <div class="lod-header lod-400">
+                    <h2>LOD 400 - Fabrication</h2>
+                    <p>Elements modeled with sufficient detail and accuracy for fabrication and assembly</p>
+                </div>
+                <div class="lod-body">
+                    <div class="lod-section">
+                        <h3>Definition</h3>
+                        <ul>
+                            <li>Elements are modeled at sufficient detail for fabrication</li>
+                            <li>Detailing, fabrication, assembly, and installation information included</li>
+                            <li>Specific manufacturer product models with exact geometry</li>
+                            <li>Model can drive CNC machines or robotic fabrication directly</li>
+                        </ul>
+                    </div>
+
+                    <div class="lod-section">
+                        <h3>Typical Project Stage</h3>
+                        <ul>
+                            <li><strong>AU:</strong> Construction / Shop Drawings</li>
+                            <li><strong>UK:</strong> RIBA Stage 5 (Manufacturing & Construction)</li>
+                            <li><strong>US:</strong> Construction Administration</li>
+                        </ul>
+                    </div>
+
+                    <div class="lod-section">
+                        <h3>Example Elements</h3>
+                        <div class="element-grid">
+                            <div class="element-card">
+                                <h4>Structural Steel</h4>
+                                <p>Exact member profiles, connection plates, bolt holes, welds, camber, coatings. Model ready for CNC fabrication.</p>
+                            </div>
+                            <div class="element-card">
+                                <h4>Precast Concrete</h4>
+                                <p>Panel geometry, edge profiles, reveals, embedded items, lifting inserts, reinforcement, mix specifications.</p>
+                            </div>
+                            <div class="element-card">
+                                <h4>MEP Equipment</h4>
+                                <p>Manufacturer-specific models with exact dimensions, connection points, service clearances, weight, electrical requirements.</p>
+                            </div>
+                            <div class="element-card">
+                                <h4>Curtain Wall</h4>
+                                <p>Exact mullion profiles, glass types by panel, bracket locations, thermal breaks, gaskets, panel fabrication details.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lod-section">
+                        <h3>Authorised Uses</h3>
+                        <ul>
+                            <li>Direct-to-fabrication (CNC, 3D printing)</li>
+                            <li>Shop drawing generation</li>
+                            <li>Assembly instructions</li>
+                            <li>Material ordering and cutting lists</li>
+                            <li>Quality control and verification</li>
+                            <li>Typically developed by fabricators/subcontractors</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LOD 500 -->
+        <div class="lod-content" id="lod-500">
+            <div class="lod-card">
+                <div class="lod-header lod-500">
+                    <h2>LOD 500 - As-Built / Operations</h2>
+                    <p>Elements verified as constructed and ready for facilities management</p>
+                </div>
+                <div class="lod-body">
+                    <div class="lod-section">
+                        <h3>Definition</h3>
+                        <ul>
+                            <li>Elements are field-verified representations of as-built conditions</li>
+                            <li>Accurate to the constructed state (not just design intent)</li>
+                            <li>Includes operations and maintenance data</li>
+                            <li>Suitable for handover to facility management</li>
+                        </ul>
+                    </div>
+
+                    <div class="lod-section">
+                        <h3>Typical Project Stage</h3>
+                        <ul>
+                            <li><strong>AU:</strong> Practical Completion / Handover</li>
+                            <li><strong>UK:</strong> RIBA Stage 6 (Handover)</li>
+                            <li><strong>US:</strong> Construction Closeout</li>
+                        </ul>
+                    </div>
+
+                    <div class="lod-section">
+                        <h3>Key Data Requirements</h3>
+                        <div class="element-grid">
+                            <div class="element-card">
+                                <h4>Spatial Verification</h4>
+                                <p>Field-verified locations matched to as-built survey. Deviations from design documented. Point cloud comparisons.</p>
+                            </div>
+                            <div class="element-card">
+                                <h4>Product Data</h4>
+                                <p>Installed product details: manufacturer, model, serial numbers, warranty information, installation dates.</p>
+                            </div>
+                            <div class="element-card">
+                                <h4>O&M Information</h4>
+                                <p>Maintenance schedules, spare parts lists, supplier contacts, operating manuals linked or embedded.</p>
+                            </div>
+                            <div class="element-card">
+                                <h4>Commissioning Data</h4>
+                                <p>Test results, commissioning certificates, performance verification, balancing reports for MEP systems.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lod-section">
+                        <h3>Authorised Uses</h3>
+                        <ul>
+                            <li>Facility management and operations</li>
+                            <li>Maintenance planning and scheduling</li>
+                            <li>Space management</li>
+                            <li>Asset management systems (CMMS/CAFM)</li>
+                            <li>Future renovation and refurbishment planning</li>
+                            <li>Digital twin foundation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stage Comparison -->
+        <div class="stages-comparison">
+            <div class="stages-header">
+                <h2>LOD Comparison by Element Type</h2>
+            </div>
+            <div class="stages-body">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>LOD 100</th>
+                            <th>LOD 200</th>
+                            <th>LOD 300</th>
+                            <th>LOD 350</th>
+                            <th>LOD 400</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Wall</strong></td>
+                            <td>Single line</td>
+                            <td>Generic thickness</td>
+                            <td>Specific type & layers</td>
+                            <td>+ openings, supports</td>
+                            <td>Shop-ready panels</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Door</strong></td>
+                            <td>Symbol only</td>
+                            <td>Generic size</td>
+                            <td>Type, hardware group</td>
+                            <td>+ frame, threshold</td>
+                            <td>Manufacturer model</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Column</strong></td>
+                            <td>Grid intersection</td>
+                            <td>Generic shape</td>
+                            <td>Sized member</td>
+                            <td>+ connections, embeds</td>
+                            <td>Fabrication model</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Duct</strong></td>
+                            <td>Zone allocation</td>
+                            <td>Approximate route</td>
+                            <td>Sized and routed</td>
+                            <td>+ supports, access</td>
+                            <td>Fabrication spools</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Light Fixture</strong></td>
+                            <td>Lighting zones</td>
+                            <td>Generic symbol</td>
+                            <td>Specified type</td>
+                            <td>+ mounting, power</td>
+                            <td>Exact product model</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const tabs = document.querySelectorAll('.lod-tab');
+        const contents = document.querySelectorAll('.lod-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const lod = tab.dataset.lod;
+
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                contents.forEach(c => c.classList.remove('active'));
+                document.getElementById(`lod-${lod}`).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

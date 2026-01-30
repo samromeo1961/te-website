@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Trade-by-trade estimating checklists for construction professionals. Ensure you don't miss scope items when pricing projects.">
+    <title>Estimating Checklists | Takeoff and Estimating</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Estimating Checklists Page Styles */
+        .checklists-hero {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: var(--color-white);
+            padding: 6rem 0 3rem;
+            text-align: center;
+        }
+
+        .checklists-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .checklists-hero p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .checklists-content {
+            padding: 3rem 0 5rem;
+            background: var(--color-gray-50);
+        }
+
+        /* Controls */
+        .checklists-controls {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: 1.5rem 2rem;
+            margin: -2rem auto 2rem;
+            max-width: 900px;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.75rem;
+            border: 2px solid var(--color-gray-200);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        .search-box svg {
+            position: absolute;
+            left: 0.875rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-gray-400);
+        }
+
+        .controls-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-control {
+            padding: 0.625rem 1rem;
+            border: 2px solid var(--color-gray-200);
+            background: var(--color-white);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-gray-600);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-control:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .btn-control.active {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        /* Progress Bar */
+        .progress-section {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .progress-label {
+            font-weight: 600;
+            color: var(--color-gray-700);
+        }
+
+        .progress-count {
+            font-size: 0.875rem;
+            color: var(--color-gray-500);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--color-gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #059669, #10b981);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        /* Trade Categories Navigation */
+        .trade-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .trade-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--color-gray-200);
+            background: var(--color-white);
+            border-radius: var(--radius-2xl);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--color-gray-600);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .trade-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .trade-btn.active {
+            background: #059669;
+            border-color: #059669;
+            color: var(--color-white);
+        }
+
+        .trade-btn .count {
+            background: rgba(0,0,0,0.1);
+            padding: 0.125rem 0.5rem;
+            border-radius: var(--radius-2xl);
+            font-size: 0.75rem;
+        }
+
+        .trade-btn.active .count {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Checklist Cards */
+        .checklist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .checklist-card {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .checklist-header {
+            background: var(--color-gray-800);
+            color: var(--color-white);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .checklist-header h3 {
+            font-size: 1rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--color-white);
+        }
+
+        .checklist-header .icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.1);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .checklist-progress {
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+
+        .checklist-items {
+            padding: 1rem 1.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--color-gray-100);
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            accent-color: #059669;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .checklist-item label {
+            flex: 1;
+            cursor: pointer;
+            color: var(--color-gray-700);
+            font-size: 0.9375rem;
+            line-height: 1.5;
+        }
+
+        .checklist-item.checked label {
+            color: var(--color-gray-400);
+            text-decoration: line-through;
+        }
+
+        .checklist-item .note {
+            font-size: 0.8125rem;
+            color: var(--color-gray-500);
+            margin-top: 0.25rem;
+            font-style: italic;
+        }
+
+        /* Subcategory */
+        .checklist-subcategory {
+            font-weight: 600;
+            color: var(--color-gray-800);
+            font-size: 0.8125rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 1rem 0 0.5rem;
+            border-bottom: 2px solid var(--color-gray-200);
+            margin-top: 0.5rem;
+        }
+
+        .checklist-subcategory:first-child {
+            margin-top: 0;
+            padding-top: 0;
+        }
+
+        /* Expand/Collapse */
+        .checklist-toggle {
+            width: 100%;
+            padding: 0.75rem 1.5rem;
+            background: var(--color-gray-50);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-gray-600);
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: background 0.2s ease;
+        }
+
+        .checklist-toggle:hover {
+            background: var(--color-gray-100);
+        }
+
+        /* Print Styles */
+        .print-btn {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .print-btn:hover {
+            background: var(--color-primary-dark);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .checklist-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .checklists-controls {
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .controls-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .trade-nav {
+                justify-content: flex-start;
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                padding-bottom: 0.5rem;
+            }
+
+            .trade-btn {
+                flex-shrink: 0;
+            }
+        }
+
+        /* Print */
+        @media print {
+            .checklists-hero, .checklists-controls, .trade-nav, .navbar, .footer, .cta, .checklist-toggle {
+                display: none;
+            }
+
+            .checklists-content {
+                padding: 0;
+                background: white;
+            }
+
+            .checklist-grid {
+                display: block;
+            }
+
+            .checklist-card {
+                break-inside: avoid;
+                margin-bottom: 1rem;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+
+            .checklist-items {
+                max-height: none;
+            }
+
+            .checklist-header {
+                background: #f3f4f6;
+                color: #1f2937;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="images/logo-colour.svg" alt="Takeoff and Estimating" height="40">
+            </a>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dbx-cloud.html">DBx Cloud</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="resources.html" class="active">Resources</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="dbx-cloud.html#login-section" class="btn btn-primary btn-nav">Login / Sign Up</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="checklists-hero">
+        <div class="container">
+            <h1>Estimating Checklists</h1>
+            <p>Trade-by-trade checklists to ensure you capture all scope items when pricing construction projects. Never miss an item again.</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <section class="checklists-content">
+        <div class="container">
+            <!-- Controls -->
+            <div class="checklists-controls">
+                <div class="search-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="M21 21l-4.35-4.35"></path>
+                    </svg>
+                    <input type="text" id="searchInput" placeholder="Search checklist items...">
+                </div>
+                <div class="controls-actions">
+                    <button class="btn-control" id="resetBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                            <path d="M3 3v5h5"></path>
+                        </svg>
+                        Reset All
+                    </button>
+                    <button class="btn-control print-btn" onclick="window.print()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                            <rect x="6" y="14" width="12" height="8"></rect>
+                        </svg>
+                        Print
+                    </button>
+                </div>
+            </div>
+
+            <!-- Progress -->
+            <div class="progress-section">
+                <div class="progress-header">
+                    <span class="progress-label">Overall Progress</span>
+                    <span class="progress-count" id="progressCount">0 / 0 items checked</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Trade Navigation -->
+            <div class="trade-nav" id="tradeNav">
+                <button class="trade-btn active" data-trade="all">All Trades</button>
+                <button class="trade-btn" data-trade="preliminaries">Preliminaries</button>
+                <button class="trade-btn" data-trade="siteworks">Siteworks</button>
+                <button class="trade-btn" data-trade="concrete">Concrete</button>
+                <button class="trade-btn" data-trade="structural">Structural Steel</button>
+                <button class="trade-btn" data-trade="masonry">Masonry</button>
+                <button class="trade-btn" data-trade="carpentry">Carpentry</button>
+                <button class="trade-btn" data-trade="roofing">Roofing</button>
+                <button class="trade-btn" data-trade="windows">Windows & Doors</button>
+                <button class="trade-btn" data-trade="finishes">Finishes</button>
+                <button class="trade-btn" data-trade="mechanical">Mechanical</button>
+                <button class="trade-btn" data-trade="electrical">Electrical</button>
+                <button class="trade-btn" data-trade="plumbing">Plumbing</button>
+            </div>
+
+            <!-- Checklist Grid -->
+            <div class="checklist-grid" id="checklistGrid">
+
+                <!-- Preliminaries -->
+                <div class="checklist-card" data-trade="preliminaries">
+                    <div class="checklist-header">
+                        <h3>
+                            <span class="icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                </svg>
+                            </span>
+                            Preliminaries & General
+                        </h3>
+                        <span class="checklist-progress">0/20</span>
+                    </div>
+                    <div class="checklist-items">
+                        <div class="checklist-subcategory">Site Establishment</div>
+                        <div class="checklist-item"><input type="checkbox" id="p1"><label for="p1">Site office / shed setup</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="p2"><label for="p2">Amenities (toilets, lunch room)</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="p3"><label for="p3">Temporary fencing & hoarding</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="p4"><label for="p4">Site signage (safety, project)</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="p5"><label for="p5">Temporary power connection</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="p6"><label for="p6">Temporary water connection</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="p7"><label for="p7">Site security (guards, cameras)</label></div>
+
+                        <div class="checklist-subcategory">Project Management</div>
+                        <div class="checklist-item"><input type="checkbox" id="p8"><label for="p8">Project management staff</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="p9"><label for="p9">Site supervision</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="p10"><label for="p10">Safety officer / WHS</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="p11"><label for="p11">Quality assurance</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="p12"><label for="p12">Insurance (contract works, liability)</label></div>
+
+                        <div class="checklist-subcategory">Plant & Equipment</div>
+                        <div class="checklist-item"><input type="checkbox" id="p13"><label for="p13">Crane hire (tower/mobile)</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="p14"><label for="p14">Scaffolding</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="p15"><label for="p15">Hoists & lifts</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="p16"><label for="p16">EWP / cherry pickers</label></div>
+
+                        <div class="checklist-subcategory">Other</div>
+                        <div class="checklist-item"><input type="checkbox" id="p17"><label for="p17">Surveys & setout</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="p18"><label for="p18">As-built documentation</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="p19"><label for="p19">Cleaning (progress & final)</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="p20"><label for="p20">Waste removal & skip bins</label></div>
+                    </div>
+                </div>
+
+                <!-- Siteworks -->
+                <div class="checklist-card" data-trade="siteworks">
+                    <div class="checklist-header">
+                        <h3>
+                            <span class="icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 21h18"></path>
+                                    <path d="M9 8h1"></path>
+                                    <path d="M9 12h1"></path>
+                                    <path d="M9 16h1"></path>
+                                    <path d="M14 8h1"></path>
+                                    <path d="M14 12h1"></path>
+                                    <path d="M14 16h1"></path>
+                                    <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path>
+                                </svg>
+                            </span>
+                            Siteworks & Earthworks
+                        </h3>
+                        <span class="checklist-progress">0/18</span>
+                    </div>
+                    <div class="checklist-items">
+                        <div class="checklist-subcategory">Site Preparation</div>
+                        <div class="checklist-item"><input type="checkbox" id="s1"><label for="s1">Site clearing & demolition</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="s2"><label for="s2">Tree removal & protection</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="s3"><label for="s3">Strip topsoil & stockpile</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="s4"><label for="s4">Erosion & sediment control</label></div>
+
+                        <div class="checklist-subcategory">Excavation</div>
+                        <div class="checklist-item"><input type="checkbox" id="s5"><label for="s5">Bulk excavation</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="s6"><label for="s6">Detailed excavation</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="s7"><label for="s7">Rock excavation / breaking</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="s8"><label for="s8">Shoring & retention</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="s9"><label for="s9">Dewatering</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="s10"><label for="s10">Spoil removal & disposal</label></div>
+
+                        <div class="checklist-subcategory">Services</div>
+                        <div class="checklist-item"><input type="checkbox" id="s11"><label for="s11">Stormwater drainage</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="s12"><label for="s12">Sewer connection</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="s13"><label for="s13">Water main connection</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="s14"><label for="s14">Gas connection</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="s15"><label for="s15">Electrical conduits</label></div>
+
+                        <div class="checklist-subcategory">External Works</div>
+                        <div class="checklist-item"><input type="checkbox" id="s16"><label for="s16">Retaining walls</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="s17"><label for="s17">Driveways & paving</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="s18"><label for="s18">Landscaping & turf</label></div>
+                    </div>
+                </div>
+
+                <!-- Concrete -->
+                <div class="checklist-card" data-trade="concrete">
+                    <div class="checklist-header">
+                        <h3>
+                            <span class="icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                                    <line x1="9" y1="21" x2="9" y2="9"></line>
+                                </svg>
+                            </span>
+                            Concrete Works
+                        </h3>
+                        <span class="checklist-progress">0/22</span>
+                    </div>
+                    <div class="checklist-items">
+                        <div class="checklist-subcategory">Footings & Foundations</div>
+                        <div class="checklist-item"><input type="checkbox" id="c1"><label for="c1">Strip footings</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="c2"><label for="c2">Pad footings</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="c3"><label for="c3">Raft slab / waffle pod</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="c4"><label for="c4">Piles & pile caps</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="c5"><label for="c5">Ground beams</label></div>
+
+                        <div class="checklist-subcategory">Structural Elements</div>
+                        <div class="checklist-item"><input type="checkbox" id="c6"><label for="c6">Columns</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="c7"><label for="c7">Beams</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="c8"><label for="c8">Suspended slabs</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="c9"><label for="c9">Core walls / lift shafts</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="c10"><label for="c10">Stairs</label></div>
+
+                        <div class="checklist-subcategory">Reinforcement</div>
+                        <div class="checklist-item"><input type="checkbox" id="c11"><label for="c11">Reinforcement bars (reo)</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="c12"><label for="c12">Mesh reinforcement</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="c13"><label for="c13">Post-tensioning</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="c14"><label for="c14">Fibres / additives</label></div>
+
+                        <div class="checklist-subcategory">Formwork & Finishes</div>
+                        <div class="checklist-item"><input type="checkbox" id="c15"><label for="c15">Formwork (standard)</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="c16"><label for="c16">Formwork (feature / off-form)</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="c17"><label for="c17">Concrete pumping</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="c18"><label for="c18">Curing compounds</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="c19"><label for="c19">Joint sealants</label></div>
+
+                        <div class="checklist-subcategory">Accessories</div>
+                        <div class="checklist-item"><input type="checkbox" id="c20"><label for="c20">Cast-in items (ferrules, plates)</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="c21"><label for="c21">Vapour barrier / membrane</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="c22"><label for="c22">Expansion joints</label></div>
+                    </div>
+                </div>
+
+                <!-- Structural Steel -->
+                <div class="checklist-card" data-trade="structural">
+                    <div class="checklist-header">
+                        <h3>
+                            <span class="icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                                </svg>
+                            </span>
+                            Structural Steel
+                        </h3>
+                        <span class="checklist-progress">0/14</span>
+                    </div>
+                    <div class="checklist-items">
+                        <div class="checklist-subcategory">Primary Structure</div>
+                        <div class="checklist-item"><input type="checkbox" id="st1"><label for="st1">Steel columns</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="st2"><label for="st2">Steel beams (UB, PFC)</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="st3"><label for="st3">Roof trusses</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="st4"><label for="st4">Portal frames</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="st5"><label for="st5">Bracing</label></div>
+
+                        <div class="checklist-subcategory">Secondary Steel</div>
+                        <div class="checklist-item"><input type="checkbox" id="st6"><label for="st6">Purlins & girts</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="st7"><label for="st7">Mezzanine framing</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="st8"><label for="st8">Steel stairs</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="st9"><label for="st9">Handrails & balustrades</label></div>
+
+                        <div class="checklist-subcategory">Connections & Finishes</div>
+                        <div class="checklist-item"><input type="checkbox" id="st10"><label for="st10">Base plates & anchor bolts</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="st11"><label for="st11">Connection plates & cleats</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="st12"><label for="st12">High-strength bolts</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="st13"><label for="st13">Protective coatings / galvanizing</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="st14"><label for="st14">Fire protection (intumescent)</label></div>
+                    </div>
+                </div>
+
+                <!-- Masonry -->
+                <div class="checklist-card" data-trade="masonry">
+                    <div class="checklist-header">
+                        <h3>
+                            <span class="icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="7" height="7"></rect>
+                                    <rect x="14" y="3" width="7" height="7"></rect>
+                                    <rect x="14" y="14" width="7" height="7"></rect>
+                                    <rect x="3" y="14" width="7" height="7"></rect>
+                                </svg>
+                            </span>
+                            Masonry & Brickwork
+                        </h3>
+                        <span class="checklist-progress">0/14</span>
+                    </div>
+                    <div class="checklist-items">
+                        <div class="checklist-subcategory">Blockwork</div>
+                        <div class="checklist-item"><input type="checkbox" id="m1"><label for="m1">Concrete block walls</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="m2"><label for="m2">Core filling & grouting</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="m3"><label for="m3">Block lintels</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="m4"><label for="m4">Bond beams</label></div>
+
+                        <div class="checklist-subcategory">Brickwork</div>
+                        <div class="checklist-item"><input type="checkbox" id="m5"><label for="m5">Face brickwork</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="m6"><label for="m6">Common brickwork</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="m7"><label for="m7">Feature / special bricks</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="m8"><label for="m8">Brick lintels / arches</label></div>
+
+                        <div class="checklist-subcategory">Accessories</div>
+                        <div class="checklist-item"><input type="checkbox" id="m9"><label for="m9">DPC / DPM (damp proof)</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="m10"><label for="m10">Wall ties & reinforcement</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="m11"><label for="m11">Cavity flashing</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="m12"><label for="m12">Weep holes</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="m13"><label for="m13">Control joints</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="m14"><label for="m14">Stone / veneer cladding</label></div>
+                    </div>
+                </div>
+
+                <!-- Carpentry -->
+                <div class="checklist-card" data-trade="carpentry">
+                    <div class="checklist-header">
+                        <h3>
+                            <span class="icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                                </svg>
+                            </span>
+                            Carpentry & Framing
+                        </h3>
+                        <span class="checklist-progress">0/16</span>
+                    </div>
+                    <div class="checklist-items">
+                        <div class="checklist-subcategory">Wall Framing</div>
+                        <div class="checklist-item"><input type="checkbox" id="ca1"><label for="ca1">Timber wall frames</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="ca2"><label for="ca2">Steel wall frames</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="ca3"><label for="ca3">Noggins & blocking</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="ca4"><label for="ca4">Lintels</label></div>
+
+                        <div class="checklist-subcategory">Roof Framing</div>
+                        <div class="checklist-item"><input type="checkbox" id="ca5"><label for="ca5">Roof trusses (timber)</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="ca6"><label for="ca6">Rafters & ceiling joists</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="ca7"><label for="ca7">Ridge beams</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="ca8"><label for="ca8">Fascia & barge boards</label></div>
+
+                        <div class="checklist-subcategory">Floor Framing</div>
+                        <div class="checklist-item"><input type="checkbox" id="ca9"><label for="ca9">Floor joists / bearers</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="ca10"><label for="ca10">Subfloor framing</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="ca11"><label for="ca11">Particleboard flooring</label></div>
+
+                        <div class="checklist-subcategory">Second Fix</div>
+                        <div class="checklist-item"><input type="checkbox" id="ca12"><label for="ca12">Skirting & architraves</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="ca13"><label for="ca13">Door frames & hanging</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="ca14"><label for="ca14">Window reveals</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="ca15"><label for="ca15">Built-in joinery</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="ca16"><label for="ca16">Decking</label></div>
+                    </div>
+                </div>
+
+                <!-- Roofing -->
+                <div class="checklist-card" data-trade="roofing">
+                    <div class="checklist-header">
+                        <h3>
+                            <span class="icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                </svg>
+                            </span>
+                            Roofing & Cladding
+                        </h3>
+                        <span class="checklist-progress">0/16</span>
+                    </div>
+                    <div class="checklist-items">
+                        <div class="checklist-subcategory">Roof Covering</div>
+                        <div class="checklist-item"><input type="checkbox" id="r1"><label for="r1">Metal roofing (Colorbond)</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="r2"><label for="r2">Roof tiles (concrete/terracotta)</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="r3"><label for="r3">Membrane roofing</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="r4"><label for="r4">Insulated roof panels</label></div>
+
+                        <div class="checklist-subcategory">Roof Accessories</div>
+                        <div class="checklist-item"><input type="checkbox" id="r5"><label for="r5">Sarking / underlay</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="r6"><label for="r6">Gutters</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="r7"><label for="r7">Downpipes</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="r8"><label for="r8">Flashings</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="r9"><label for="r9">Ridge capping</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="r10"><label for="r10">Roof vents / whirlybirds</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="r11"><label for="r11">Skylights</label></div>
+
+                        <div class="checklist-subcategory">Wall Cladding</div>
+                        <div class="checklist-item"><input type="checkbox" id="r12"><label for="r12">Metal wall cladding</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="r13"><label for="r13">Fibre cement sheets</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="r14"><label for="r14">Weatherboards</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="r15"><label for="r15">Composite panels</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="r16"><label for="r16">External insulation</label></div>
+                    </div>
+                </div>
+
+                <!-- Windows & Doors -->
+                <div class="checklist-card" data-trade="windows">
+                    <div class="checklist-header">
+                        <h3>
+                            <span class="icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="12" y1="3" x2="12" y2="21"></line>
+                                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                                </svg>
+                            </span>
+                            Windows & Doors
+                        </h3>
+                        <span class="checklist-progress">0/14</span>
+                    </div>
+                    <div class="checklist-items">
+                        <div class="checklist-subcategory">Windows</div>
+                        <div class="checklist-item"><input type="checkbox" id="w1"><label for="w1">Aluminium windows</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="w2"><label for="w2">Timber windows</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="w3"><label for="w3">uPVC windows</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="w4"><label for="w4">Double glazing</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="w5"><label for="w5">Window hardware</label></div>
+
+                        <div class="checklist-subcategory">External Doors</div>
+                        <div class="checklist-item"><input type="checkbox" id="w6"><label for="w6">Entry doors</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="w7"><label for="w7">Sliding doors</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="w8"><label for="w8">Bi-fold doors</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="w9"><label for="w9">Roller doors / shutters</label></div>
+
+                        <div class="checklist-subcategory">Internal Doors</div>
+                        <div class="checklist-item"><input type="checkbox" id="w10"><label for="w10">Hinged doors</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="w11"><label for="w11">Sliding / cavity doors</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="w12"><label for="w12">Fire doors</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="w13"><label for="w13">Acoustic doors</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="w14"><label for="w14">Door hardware (handles, locks)</label></div>
+                    </div>
+                </div>
+
+                <!-- Finishes -->
+                <div class="checklist-card" data-trade="finishes">
+                    <div class="checklist-header">
+                        <h3>
+                            <span class="icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                                    <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                                    <path d="M2 2l7.586 7.586"></path>
+                                </svg>
+                            </span>
+                            Internal Finishes
+                        </h3>
+                        <span class="checklist-progress">0/20</span>
+                    </div>
+                    <div class="checklist-items">
+                        <div class="checklist-subcategory">Walls & Ceilings</div>
+                        <div class="checklist-item"><input type="checkbox" id="f1"><label for="f1">Plasterboard walls</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="f2"><label for="f2">Plasterboard ceilings</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="f3"><label for="f3">Suspended ceilings (tiles)</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="f4"><label for="f4">Bulkheads</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="f5"><label for="f5">Cornices</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="f6"><label for="f6">Acoustic treatment</label></div>
+
+                        <div class="checklist-subcategory">Floor Finishes</div>
+                        <div class="checklist-item"><input type="checkbox" id="f7"><label for="f7">Carpet</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="f8"><label for="f8">Vinyl / LVT</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="f9"><label for="f9">Ceramic / porcelain tiles</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="f10"><label for="f10">Timber flooring</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="f11"><label for="f11">Epoxy / resin flooring</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="f12"><label for="f12">Floor preparation / screeds</label></div>
+
+                        <div class="checklist-subcategory">Wall Finishes</div>
+                        <div class="checklist-item"><input type="checkbox" id="f13"><label for="f13">Wall tiles</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="f14"><label for="f14">Painting (internal)</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="f15"><label for="f15">Wallpaper / wall coverings</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="f16"><label for="f16">Render / texture coating</label></div>
+
+                        <div class="checklist-subcategory">Wet Areas</div>
+                        <div class="checklist-item"><input type="checkbox" id="f17"><label for="f17">Waterproofing</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="f18"><label for="f18">Shower screens</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="f19"><label for="f19">Mirrors</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="f20"><label for="f20">Bathroom accessories</label></div>
+                    </div>
+                </div>
+
+                <!-- Mechanical -->
+                <div class="checklist-card" data-trade="mechanical">
+                    <div class="checklist-header">
+                        <h3>
+                            <span class="icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
+                                </svg>
+                            </span>
+                            Mechanical / HVAC
+                        </h3>
+                        <span class="checklist-progress">0/14</span>
+                    </div>
+                    <div class="checklist-items">
+                        <div class="checklist-subcategory">Air Conditioning</div>
+                        <div class="checklist-item"><input type="checkbox" id="me1"><label for="me1">Split system A/C</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="me2"><label for="me2">Ducted A/C system</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="me3"><label for="me3">VRV / VRF systems</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="me4"><label for="me4">Chiller plant</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="me5"><label for="me5">Cooling towers</label></div>
+
+                        <div class="checklist-subcategory">Ventilation</div>
+                        <div class="checklist-item"><input type="checkbox" id="me6"><label for="me6">Exhaust fans</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="me7"><label for="me7">Supply / return air grilles</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="me8"><label for="me8">Ductwork</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="me9"><label for="me9">Car park ventilation</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="me10"><label for="me10">Kitchen exhaust</label></div>
+
+                        <div class="checklist-subcategory">Other Systems</div>
+                        <div class="checklist-item"><input type="checkbox" id="me11"><label for="me11">Building Management System (BMS)</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="me12"><label for="me12">Fire dampers</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="me13"><label for="me13">Insulation (ductwork)</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="me14"><label for="me14">Commissioning</label></div>
+                    </div>
+                </div>
+
+                <!-- Electrical -->
+                <div class="checklist-card" data-trade="electrical">
+                    <div class="checklist-header">
+                        <h3>
+                            <span class="icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                                </svg>
+                            </span>
+                            Electrical
+                        </h3>
+                        <span class="checklist-progress">0/18</span>
+                    </div>
+                    <div class="checklist-items">
+                        <div class="checklist-subcategory">Power Distribution</div>
+                        <div class="checklist-item"><input type="checkbox" id="e1"><label for="e1">Main switchboard</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="e2"><label for="e2">Distribution boards</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="e3"><label for="e3">Sub-mains cabling</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="e4"><label for="e4">Transformer / substation</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="e5"><label for="e5">Generator / backup power</label></div>
+
+                        <div class="checklist-subcategory">General Power</div>
+                        <div class="checklist-item"><input type="checkbox" id="e6"><label for="e6">GPOs (power points)</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="e7"><label for="e7">Dedicated circuits</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="e8"><label for="e8">Floor boxes</label></div>
+
+                        <div class="checklist-subcategory">Lighting</div>
+                        <div class="checklist-item"><input type="checkbox" id="e9"><label for="e9">General lighting</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="e10"><label for="e10">Emergency lighting</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="e11"><label for="e11">Exit signs</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="e12"><label for="e12">External lighting</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="e13"><label for="e13">Lighting control systems</label></div>
+
+                        <div class="checklist-subcategory">Low Voltage</div>
+                        <div class="checklist-item"><input type="checkbox" id="e14"><label for="e14">Data / communications cabling</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="e15"><label for="e15">CCTV</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="e16"><label for="e16">Access control</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="e17"><label for="e17">Intercom systems</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="e18"><label for="e18">Fire detection & alarm</label></div>
+                    </div>
+                </div>
+
+                <!-- Plumbing -->
+                <div class="checklist-card" data-trade="plumbing">
+                    <div class="checklist-header">
+                        <h3>
+                            <span class="icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M6 6h12"></path>
+                                    <path d="M6 6v12c0 1 1 2 2 2h8c1 0 2-1 2-2V6"></path>
+                                    <path d="M6 12h12"></path>
+                                </svg>
+                            </span>
+                            Plumbing & Hydraulics
+                        </h3>
+                        <span class="checklist-progress">0/18</span>
+                    </div>
+                    <div class="checklist-items">
+                        <div class="checklist-subcategory">Water Supply</div>
+                        <div class="checklist-item"><input type="checkbox" id="pl1"><label for="pl1">Cold water reticulation</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="pl2"><label for="pl2">Hot water system</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="pl3"><label for="pl3">Backflow prevention</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="pl4"><label for="pl4">Water meters</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="pl5"><label for="pl5">Booster pumps</label></div>
+
+                        <div class="checklist-subcategory">Drainage</div>
+                        <div class="checklist-item"><input type="checkbox" id="pl6"><label for="pl6">Sewer drainage</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="pl7"><label for="pl7">Stormwater drainage</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="pl8"><label for="pl8">Floor wastes</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="pl9"><label for="pl9">Grease traps</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="pl10"><label for="pl10">Pump stations</label></div>
+
+                        <div class="checklist-subcategory">Fixtures</div>
+                        <div class="checklist-item"><input type="checkbox" id="pl11"><label for="pl11">Toilets / WCs</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="pl12"><label for="pl12">Basins / vanities</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="pl13"><label for="pl13">Showers</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="pl14"><label for="pl14">Baths</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="pl15"><label for="pl15">Kitchen sinks</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="pl16"><label for="pl16">Tapware</label></div>
+
+                        <div class="checklist-subcategory">Fire Services</div>
+                        <div class="checklist-item"><input type="checkbox" id="pl17"><label for="pl17">Fire hydrants</label></div>
+                        <div class="checklist-item"><input type="checkbox" id="pl18"><label for="pl18">Sprinkler system</label></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Resources -->
+    <section class="cta" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%);">
+        <div class="container">
+            <div class="cta-content">
+                <h2>More Estimating Resources</h2>
+                <p>Explore our library of free tools including formulas, unit converters, and purchasing guides.</p>
+                <div class="cta-buttons">
+                    <a href="resources.html" class="btn btn-white btn-lg">View All Resources</a>
+                    <a href="estimator-formulas.html" class="btn btn-outline-white btn-lg">Estimator's Formulas</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="images/logo-reversed.svg" alt="Takeoff and Estimating" height="40" class="footer-logo">
+                    <p>Australia's trusted partner for construction estimating software solutions.</p>
+                    <div class="footer-contact">
+                        <p><strong>Phone:</strong> 1300 818 620</p>
+                        <p><strong>Email:</strong> info@takeoffandestimating.com.au</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Products</h4>
+                    <ul>
+                        <li><a href="dbx-cloud.html">DBx Cloud</a></li>
+                        <li><a href="#">Databuild</a></li>
+                        <li><a href="#">PlanSwift</a></li>
+                        <li><a href="#">Sigma Estimates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="estimator-formulas.html">Estimator's Formulas</a></li>
+                        <li><a href="unit-converter.html">Unit Converter</a></li>
+                        <li><a href="estimating-checklists.html">Estimating Checklists</a></li>
+                        <li><a href="resources.html">All Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Takeoff and Estimating Pty Ltd. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Estimating Checklists Functionality
+        (function() {
+            const searchInput = document.getElementById('searchInput');
+            const resetBtn = document.getElementById('resetBtn');
+            const tradeNav = document.getElementById('tradeNav');
+            const tradeBtns = tradeNav.querySelectorAll('.trade-btn');
+            const checklistGrid = document.getElementById('checklistGrid');
+            const checklistCards = checklistGrid.querySelectorAll('.checklist-card');
+            const progressCount = document.getElementById('progressCount');
+            const progressFill = document.getElementById('progressFill');
+
+            let currentTrade = 'all';
+
+            // Load saved state from localStorage
+            function loadState() {
+                const saved = localStorage.getItem('estimatingChecklists');
+                if (saved) {
+                    const state = JSON.parse(saved);
+                    Object.keys(state).forEach(id => {
+                        const checkbox = document.getElementById(id);
+                        if (checkbox) {
+                            checkbox.checked = state[id];
+                            updateItemStyle(checkbox);
+                        }
+                    });
+                }
+                updateProgress();
+                updateCardProgress();
+            }
+
+            // Save state to localStorage
+            function saveState() {
+                const state = {};
+                document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(cb => {
+                    state[cb.id] = cb.checked;
+                });
+                localStorage.setItem('estimatingChecklists', JSON.stringify(state));
+            }
+
+            // Update item visual style
+            function updateItemStyle(checkbox) {
+                const item = checkbox.closest('.checklist-item');
+                item.classList.toggle('checked', checkbox.checked);
+            }
+
+            // Update overall progress
+            function updateProgress() {
+                const allCheckboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+                const visibleCheckboxes = Array.from(allCheckboxes).filter(cb => {
+                    const card = cb.closest('.checklist-card');
+                    return card.style.display !== 'none';
+                });
+                const checked = visibleCheckboxes.filter(cb => cb.checked).length;
+                const total = visibleCheckboxes.length;
+                const percent = total > 0 ? (checked / total) * 100 : 0;
+
+                progressCount.textContent = `${checked} / ${total} items checked`;
+                progressFill.style.width = `${percent}%`;
+            }
+
+            // Update individual card progress
+            function updateCardProgress() {
+                checklistCards.forEach(card => {
+                    const checkboxes = card.querySelectorAll('.checklist-item input[type="checkbox"]');
+                    const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+                    const total = checkboxes.length;
+                    const progressEl = card.querySelector('.checklist-progress');
+                    if (progressEl) {
+                        progressEl.textContent = `${checked}/${total}`;
+                    }
+                });
+            }
+
+            // Filter by trade
+            function filterByTrade(trade) {
+                currentTrade = trade;
+                tradeBtns.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.trade === trade);
+                });
+
+                checklistCards.forEach(card => {
+                    if (trade === 'all' || card.dataset.trade === trade) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                updateProgress();
+            }
+
+            // Search functionality
+            function searchItems(query) {
+                const lowerQuery = query.toLowerCase();
+
+                checklistCards.forEach(card => {
+                    if (currentTrade !== 'all' && card.dataset.trade !== currentTrade) {
+                        card.style.display = 'none';
+                        return;
+                    }
+
+                    const items = card.querySelectorAll('.checklist-item');
+                    let hasMatch = false;
+
+                    items.forEach(item => {
+                        const label = item.querySelector('label');
+                        const text = label.textContent.toLowerCase();
+                        if (query === '' || text.includes(lowerQuery)) {
+                            item.style.display = '';
+                            hasMatch = true;
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+
+                    card.style.display = hasMatch ? '' : 'none';
+                });
+
+                updateProgress();
+            }
+
+            // Reset all checkboxes
+            function resetAll() {
+                if (confirm('Are you sure you want to reset all checklists? This will uncheck all items.')) {
+                    document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(cb => {
+                        cb.checked = false;
+                        updateItemStyle(cb);
+                    });
+                    saveState();
+                    updateProgress();
+                    updateCardProgress();
+                }
+            }
+
+            // Event listeners
+            document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(cb => {
+                cb.addEventListener('change', () => {
+                    updateItemStyle(cb);
+                    saveState();
+                    updateProgress();
+                    updateCardProgress();
+                });
+            });
+
+            tradeBtns.forEach(btn => {
+                btn.addEventListener('click', () => filterByTrade(btn.dataset.trade));
+            });
+
+            searchInput.addEventListener('input', (e) => searchItems(e.target.value));
+            resetBtn.addEventListener('click', resetAll);
+
+            // Initialize
+            loadState();
+        })();
+    </script>
+</body>
+</html>

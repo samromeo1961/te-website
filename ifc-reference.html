@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IFC Entity Reference - Takeoff & Estimating Resources</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .ifc-hero {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: var(--color-white);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .ifc-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-white);
+        }
+
+        .ifc-hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .ifc-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem 3rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-white);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        .back-link svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            margin-top: 1rem;
+        }
+
+        .search-filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 2px solid var(--color-gray-200);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        .search-box svg {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1.25rem;
+            height: 1.25rem;
+            color: var(--color-gray-400);
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--color-gray-200);
+            background: var(--color-white);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .entity-count {
+            font-size: 0.875rem;
+            color: var(--color-gray-500);
+            margin-bottom: 1rem;
+        }
+
+        .intro-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-left: 4px solid #3b82f6;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .intro-box h2 {
+            font-size: 1.25rem;
+            color: #1e40af;
+            margin: 0 0 1rem 0;
+        }
+
+        .category-descriptions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .category-desc {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .category-label {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-label.category-core {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .category-label.category-shared {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .category-label.category-domain {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .category-label.category-resource {
+            background: #f3e8ff;
+            color: #6b21a8;
+        }
+
+        .category-desc p {
+            color: var(--color-gray-600);
+            margin: 0;
+            line-height: 1.5;
+            font-size: 0.875rem;
+        }
+
+        .entity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1rem;
+        }
+
+        .entity-card {
+            background: var(--color-white);
+            border: 1px solid var(--color-gray-200);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            transition: all 0.2s;
+        }
+
+        .entity-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .entity-card.hidden {
+            display: none;
+        }
+
+        .entity-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .entity-name {
+            font-family: monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e40af;
+            background: #eff6ff;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+        }
+
+        .entity-category {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .category-core { background: #dbeafe; color: #1e40af; }
+        .category-shared { background: #d1fae5; color: #065f46; }
+        .category-domain { background: #fef3c7; color: #92400e; }
+        .category-resource { background: #ede9fe; color: #5b21b6; }
+
+        .entity-description {
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .entity-properties {
+            border-top: 1px solid var(--color-gray-100);
+            padding-top: 0.75rem;
+        }
+
+        .entity-properties h4 {
+            font-size: 0.75rem;
+            color: var(--color-gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .property-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.375rem;
+        }
+
+        .property-tag {
+            font-family: monospace;
+            font-size: 0.75rem;
+            background: var(--color-gray-100);
+            color: var(--color-gray-700);
+            padding: 0.2rem 0.4rem;
+            border-radius: var(--radius-sm);
+        }
+
+        .entity-usage {
+            margin-top: 0.75rem;
+            font-size: 0.8rem;
+            color: var(--color-gray-500);
+        }
+
+        .entity-usage strong {
+            color: var(--color-gray-700);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--color-gray-500);
+            font-size: 1.1rem;
+        }
+
+        .no-results.hidden {
+            display: none;
+        }
+
+        @media print {
+            .search-filter-bar {
+                display: none;
+            }
+            .entity-card {
+                break-inside: avoid;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .ifc-hero h1 {
+                font-size: 1.75rem;
+            }
+            .search-filter-bar {
+                flex-direction: column;
+            }
+            .filter-buttons {
+                justify-content: center;
+            }
+            .entity-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ifc-hero">
+        <a href="resources.html" class="back-link">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Back to Resources
+        </a>
+        <h1>IFC Entity Reference</h1>
+        <p>Searchable guide to Industry Foundation Classes (IFC) entities, properties, and relationships for BIM workflows</p>
+        <span class="version-badge">IFC 4.0 / IFC 4.3</span>
+    </div>
+
+    <div class="ifc-container">
+        <div class="intro-box">
+            <h2>IFC Entity Categories</h2>
+            <div class="category-descriptions">
+                <div class="category-desc">
+                    <span class="category-label category-core">Core</span>
+                    <p>Spatial structure entities that define the project hierarchy. Includes IfcProject, IfcSite, IfcBuilding, IfcBuildingStorey, and IfcSpace. These form the backbone of every IFC model.</p>
+                </div>
+                <div class="category-desc">
+                    <span class="category-label category-shared">Shared</span>
+                    <p>Common building elements used across disciplines. Walls, doors, windows, slabs, roofs, stairs, and other physical components that appear in most building projects.</p>
+                </div>
+                <div class="category-desc">
+                    <span class="category-label category-domain">Domain</span>
+                    <p>Discipline-specific entities for MEP, structural, and other specialist domains. Includes HVAC equipment, plumbing fixtures, electrical systems, and structural members.</p>
+                </div>
+                <div class="category-desc">
+                    <span class="category-label category-resource">Resource</span>
+                    <p>Supporting definitions for materials, properties, geometry, and relationships. These entities provide data to other elements rather than representing physical objects.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="search-filter-bar">
+            <div class="search-box">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <input type="text" id="searchInput" placeholder="Search entities (e.g., IfcWall, IfcSpace, door)...">
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="core">Core</button>
+                <button class="filter-btn" data-filter="shared">Shared</button>
+                <button class="filter-btn" data-filter="domain">Domain</button>
+                <button class="filter-btn" data-filter="resource">Resource</button>
+            </div>
+        </div>
+
+        <p class="entity-count"><span id="visibleCount">0</span> entities shown</p>
+
+        <div class="entity-grid" id="entityGrid">
+            <!-- Core Entities - Spatial Structure -->
+            <div class="entity-card" data-category="core" data-keywords="project root container">
+                <div class="entity-header">
+                    <span class="entity-name">IfcProject</span>
+                    <span class="entity-category category-core">Core</span>
+                </div>
+                <p class="entity-description">The root entity of the IFC model. Contains all project information and serves as the container for the spatial structure.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">GlobalId</span>
+                        <span class="property-tag">Name</span>
+                        <span class="property-tag">LongName</span>
+                        <span class="property-tag">Phase</span>
+                        <span class="property-tag">UnitsInContext</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Usage:</strong> One per model, mandatory</p>
+            </div>
+
+            <div class="entity-card" data-category="core" data-keywords="site location terrain ground">
+                <div class="entity-header">
+                    <span class="entity-name">IfcSite</span>
+                    <span class="entity-category category-core">Core</span>
+                </div>
+                <p class="entity-description">Represents the site or terrain on which the project is located. Contains geographic coordinates and site address.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">RefLatitude</span>
+                        <span class="property-tag">RefLongitude</span>
+                        <span class="property-tag">RefElevation</span>
+                        <span class="property-tag">SiteAddress</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Usage:</strong> Spatial container for buildings</p>
+            </div>
+
+            <div class="entity-card" data-category="core" data-keywords="building structure facility">
+                <div class="entity-header">
+                    <span class="entity-name">IfcBuilding</span>
+                    <span class="entity-category category-core">Core</span>
+                </div>
+                <p class="entity-description">Represents a building or facility. Contains building-level properties like address, elevation, and construction type.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">ElevationOfRefHeight</span>
+                        <span class="property-tag">ElevationOfTerrain</span>
+                        <span class="property-tag">BuildingAddress</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Usage:</strong> Container for building storeys</p>
+            </div>
+
+            <div class="entity-card" data-category="core" data-keywords="storey floor level">
+                <div class="entity-header">
+                    <span class="entity-name">IfcBuildingStorey</span>
+                    <span class="entity-category category-core">Core</span>
+                </div>
+                <p class="entity-description">Represents a single storey or level within a building. Primary container for building elements on that level.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">Elevation</span>
+                        <span class="property-tag">Name</span>
+                        <span class="property-tag">LongName</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Usage:</strong> Container for spaces and elements</p>
+            </div>
+
+            <div class="entity-card" data-category="core" data-keywords="space room area zone">
+                <div class="entity-header">
+                    <span class="entity-name">IfcSpace</span>
+                    <span class="entity-category category-core">Core</span>
+                </div>
+                <p class="entity-description">Represents a defined space or room within a building. Contains area, volume, and occupancy information.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">PredefinedType</span>
+                        <span class="property-tag">LongName</span>
+                        <span class="property-tag">ElevationWithFlooring</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Usage:</strong> Room scheduling, area calculations</p>
+            </div>
+
+            <!-- Shared Building Elements -->
+            <div class="entity-card" data-category="shared" data-keywords="wall partition vertical enclosure">
+                <div class="entity-header">
+                    <span class="entity-name">IfcWall</span>
+                    <span class="entity-category category-shared">Shared</span>
+                </div>
+                <p class="entity-description">Vertical building element used to bound or subdivide spaces. Can be load-bearing or non-load-bearing.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">PredefinedType</span>
+                        <span class="property-tag">Tag</span>
+                        <span class="property-tag">ObjectType</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> STANDARD, PARTITIONING, SHEAR, SOLIDWALL</p>
+            </div>
+
+            <div class="entity-card" data-category="shared" data-keywords="wall standard rectangular">
+                <div class="entity-header">
+                    <span class="entity-name">IfcWallStandardCase</span>
+                    <span class="entity-category category-shared">Shared</span>
+                </div>
+                <p class="entity-description">A wall with a rectangular cross-section that is extruded vertically. The most common wall type in models.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">PredefinedType</span>
+                        <span class="property-tag">Tag</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Usage:</strong> Simple extruded walls</p>
+            </div>
+
+            <div class="entity-card" data-category="shared" data-keywords="door opening entrance entry">
+                <div class="entity-header">
+                    <span class="entity-name">IfcDoor</span>
+                    <span class="entity-category category-shared">Shared</span>
+                </div>
+                <p class="entity-description">A building element providing controlled access between spaces. Includes door panel, frame, and hardware.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">OverallHeight</span>
+                        <span class="property-tag">OverallWidth</span>
+                        <span class="property-tag">PredefinedType</span>
+                        <span class="property-tag">OperationType</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> DOOR, GATE, TRAPDOOR</p>
+            </div>
+
+            <div class="entity-card" data-category="shared" data-keywords="window glazing opening daylight">
+                <div class="entity-header">
+                    <span class="entity-name">IfcWindow</span>
+                    <span class="entity-category category-shared">Shared</span>
+                </div>
+                <p class="entity-description">An opening element with glazing for light and ventilation. Can be fixed or operable.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">OverallHeight</span>
+                        <span class="property-tag">OverallWidth</span>
+                        <span class="property-tag">PredefinedType</span>
+                        <span class="property-tag">PartitioningType</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> WINDOW, SKYLIGHT, LIGHTDOME</p>
+            </div>
+
+            <div class="entity-card" data-category="shared" data-keywords="slab floor deck horizontal">
+                <div class="entity-header">
+                    <span class="entity-name">IfcSlab</span>
+                    <span class="entity-category category-shared">Shared</span>
+                </div>
+                <p class="entity-description">A horizontal planar element that may serve as a floor, roof, or landing. Carries loads and defines boundaries.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">PredefinedType</span>
+                        <span class="property-tag">Tag</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> FLOOR, ROOF, LANDING, BASESLAB</p>
+            </div>
+
+            <div class="entity-card" data-category="shared" data-keywords="roof covering top">
+                <div class="entity-header">
+                    <span class="entity-name">IfcRoof</span>
+                    <span class="entity-category category-shared">Shared</span>
+                </div>
+                <p class="entity-description">The top covering of a building, providing shelter from weather. Contains roof slabs and covering elements.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">ShapeType</span>
+                        <span class="property-tag">PredefinedType</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> FLAT, SHED, GABLE, HIP, DOME</p>
+            </div>
+
+            <div class="entity-card" data-category="shared" data-keywords="column vertical support structural">
+                <div class="entity-header">
+                    <span class="entity-name">IfcColumn</span>
+                    <span class="entity-category category-shared">Shared</span>
+                </div>
+                <p class="entity-description">A vertical structural member that transmits loads from beams and slabs to foundations.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">PredefinedType</span>
+                        <span class="property-tag">Tag</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> COLUMN, PILASTER</p>
+            </div>
+
+            <div class="entity-card" data-category="shared" data-keywords="beam horizontal span structural">
+                <div class="entity-header">
+                    <span class="entity-name">IfcBeam</span>
+                    <span class="entity-category category-shared">Shared</span>
+                </div>
+                <p class="entity-description">A horizontal or inclined structural member spanning between supports, carrying loads to columns or walls.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">PredefinedType</span>
+                        <span class="property-tag">Tag</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> BEAM, JOIST, LINTEL, SPANDREL</p>
+            </div>
+
+            <div class="entity-card" data-category="shared" data-keywords="stair stairs vertical circulation">
+                <div class="entity-header">
+                    <span class="entity-name">IfcStair</span>
+                    <span class="entity-category category-shared">Shared</span>
+                </div>
+                <p class="entity-description">Vertical circulation element consisting of flights and landings for moving between floor levels.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">ShapeType</span>
+                        <span class="property-tag">PredefinedType</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> STRAIGHT, CURVED, SPIRAL, WINDER</p>
+            </div>
+
+            <div class="entity-card" data-category="shared" data-keywords="ramp slope accessible circulation">
+                <div class="entity-header">
+                    <span class="entity-name">IfcRamp</span>
+                    <span class="entity-category category-shared">Shared</span>
+                </div>
+                <p class="entity-description">An inclined surface providing accessible circulation between floor levels without steps.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">ShapeType</span>
+                        <span class="property-tag">PredefinedType</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> STRAIGHT, SPIRAL</p>
+            </div>
+
+            <div class="entity-card" data-category="shared" data-keywords="railing guard handrail balustrade">
+                <div class="entity-header">
+                    <span class="entity-name">IfcRailing</span>
+                    <span class="entity-category category-shared">Shared</span>
+                </div>
+                <p class="entity-description">A framing structure providing a barrier or support along edges of stairs, ramps, or elevated areas.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">PredefinedType</span>
+                        <span class="property-tag">Height</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> HANDRAIL, GUARDRAIL, BALUSTRADE</p>
+            </div>
+
+            <div class="entity-card" data-category="shared" data-keywords="curtain wall facade glazing">
+                <div class="entity-header">
+                    <span class="entity-name">IfcCurtainWall</span>
+                    <span class="entity-category category-shared">Shared</span>
+                </div>
+                <p class="entity-description">An exterior wall system consisting of a frame structure with infill panels, typically glazed.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">PredefinedType</span>
+                        <span class="property-tag">Tag</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Usage:</strong> Glass facades, building envelopes</p>
+            </div>
+
+            <div class="entity-card" data-category="shared" data-keywords="covering finish surface material">
+                <div class="entity-header">
+                    <span class="entity-name">IfcCovering</span>
+                    <span class="entity-category category-shared">Shared</span>
+                </div>
+                <p class="entity-description">A finish material applied to building elements such as flooring, ceiling, or wall coverings.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">PredefinedType</span>
+                        <span class="property-tag">Tag</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> CEILING, FLOORING, CLADDING, ROOFING</p>
+            </div>
+
+            <div class="entity-card" data-category="shared" data-keywords="footing foundation pad base">
+                <div class="entity-header">
+                    <span class="entity-name">IfcFooting</span>
+                    <span class="entity-category category-shared">Shared</span>
+                </div>
+                <p class="entity-description">A foundation element that transfers building loads to the soil. Typically at the base of columns or walls.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">PredefinedType</span>
+                        <span class="property-tag">Tag</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> PAD, STRIP, CAISSON, PILE_CAP</p>
+            </div>
+
+            <div class="entity-card" data-category="shared" data-keywords="pile foundation deep">
+                <div class="entity-header">
+                    <span class="entity-name">IfcPile</span>
+                    <span class="entity-category category-shared">Shared</span>
+                </div>
+                <p class="entity-description">A slender structural element driven or cast in place to transfer loads to deeper soil or rock.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">PredefinedType</span>
+                        <span class="property-tag">ConstructionType</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> BORED, DRIVEN, JETGROUTING</p>
+            </div>
+
+            <!-- Domain - HVAC -->
+            <div class="entity-card" data-category="domain" data-keywords="duct hvac ventilation air">
+                <div class="entity-header">
+                    <span class="entity-name">IfcDuctSegment</span>
+                    <span class="entity-category category-domain">Domain</span>
+                </div>
+                <p class="entity-description">A segment of ductwork used to convey air in HVAC systems. Part of the distribution system.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">PredefinedType</span>
+                        <span class="property-tag">Tag</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> RIGIDSEGMENT, FLEXIBLESEGMENT</p>
+            </div>
+
+            <div class="entity-card" data-category="domain" data-keywords="duct fitting hvac elbow tee">
+                <div class="entity-header">
+                    <span class="entity-name">IfcDuctFitting</span>
+                    <span class="entity-category category-domain">Domain</span>
+                </div>
+                <p class="entity-description">A connecting element in ductwork such as elbows, tees, or transitions. Changes direction or connects segments.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">PredefinedType</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> BEND, CONNECTOR, TRANSITION, TEE</p>
+            </div>
+
+            <div class="entity-card" data-category="domain" data-keywords="pipe segment plumbing water">
+                <div class="entity-header">
+                    <span class="entity-name">IfcPipeSegment</span>
+                    <span class="entity-category category-domain">Domain</span>
+                </div>
+                <p class="entity-description">A segment of piping for conveying fluids such as water, gas, or drainage.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">PredefinedType</span>
+                        <span class="property-tag">Tag</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> RIGIDSEGMENT, FLEXIBLESEGMENT, GUTTER</p>
+            </div>
+
+            <div class="entity-card" data-category="domain" data-keywords="pipe fitting plumbing elbow valve">
+                <div class="entity-header">
+                    <span class="entity-name">IfcPipeFitting</span>
+                    <span class="entity-category category-domain">Domain</span>
+                </div>
+                <p class="entity-description">A connecting element in piping systems including elbows, tees, reducers, and connectors.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">PredefinedType</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> BEND, CONNECTOR, JUNCTION, TRANSITION</p>
+            </div>
+
+            <div class="entity-card" data-category="domain" data-keywords="cable tray electrical routing">
+                <div class="entity-header">
+                    <span class="entity-name">IfcCableCarrierSegment</span>
+                    <span class="entity-category category-domain">Domain</span>
+                </div>
+                <p class="entity-description">A segment for routing electrical cables such as cable trays, ladders, or conduits.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">PredefinedType</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> CABLELADDERSEGMENT, CABLETRAYSEGMENT, CONDUITSEGMENT</p>
+            </div>
+
+            <div class="entity-card" data-category="domain" data-keywords="air terminal diffuser grille hvac">
+                <div class="entity-header">
+                    <span class="entity-name">IfcAirTerminal</span>
+                    <span class="entity-category category-domain">Domain</span>
+                </div>
+                <p class="entity-description">A device for delivering or extracting air from a space. Includes diffusers, grilles, and registers.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">PredefinedType</span>
+                        <span class="property-tag">FlowPattern</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> DIFFUSER, GRILLE, REGISTER</p>
+            </div>
+
+            <div class="entity-card" data-category="domain" data-keywords="sanitary fixture toilet sink">
+                <div class="entity-header">
+                    <span class="entity-name">IfcSanitaryTerminal</span>
+                    <span class="entity-category category-domain">Domain</span>
+                </div>
+                <p class="entity-description">A plumbing fixture connected to water supply and drainage systems. Includes toilets, sinks, and baths.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">PredefinedType</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> BATH, SINK, TOILET, URINAL, SHOWER</p>
+            </div>
+
+            <div class="entity-card" data-category="domain" data-keywords="light fixture luminaire electrical">
+                <div class="entity-header">
+                    <span class="entity-name">IfcLightFixture</span>
+                    <span class="entity-category category-domain">Domain</span>
+                </div>
+                <p class="entity-description">An electrical device that provides artificial light. Includes all types of luminaires.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">PredefinedType</span>
+                        <span class="property-tag">LightFixtureType</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> POINTSOURCE, DIRECTIONSOURCE, SECURITYLIGHTING</p>
+            </div>
+
+            <div class="entity-card" data-category="domain" data-keywords="outlet socket electrical power">
+                <div class="entity-header">
+                    <span class="entity-name">IfcOutlet</span>
+                    <span class="entity-category category-domain">Domain</span>
+                </div>
+                <p class="entity-description">An electrical connection point for plug-in devices. Provides power or data connections.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">PredefinedType</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> POWEROUTLET, DATAOUTLET, COMMUNICATIONSOUTLET</p>
+            </div>
+
+            <div class="entity-card" data-category="domain" data-keywords="switch electrical control">
+                <div class="entity-header">
+                    <span class="entity-name">IfcSwitchingDevice</span>
+                    <span class="entity-category category-domain">Domain</span>
+                </div>
+                <p class="entity-description">A device for making, breaking, or changing electrical connections. Controls power flow.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">PredefinedType</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> TOGGLESWITCH, DIMMERSWITCH, SELECTORSWITCH</p>
+            </div>
+
+            <div class="entity-card" data-category="domain" data-keywords="fire sprinkler suppression">
+                <div class="entity-header">
+                    <span class="entity-name">IfcFireSuppressionTerminal</span>
+                    <span class="entity-category category-domain">Domain</span>
+                </div>
+                <p class="entity-description">A terminal device in fire suppression systems. Includes sprinklers, hydrants, and hose reels.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">PredefinedType</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Types:</strong> SPRINKLER, FIREHYDRANT, HOSEREEL</p>
+            </div>
+
+            <!-- Resource Entities -->
+            <div class="entity-card" data-category="resource" data-keywords="material layer component">
+                <div class="entity-header">
+                    <span class="entity-name">IfcMaterial</span>
+                    <span class="entity-category category-resource">Resource</span>
+                </div>
+                <p class="entity-description">Defines a material with specific properties. Can be assigned to elements or used in material layers.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">Name</span>
+                        <span class="property-tag">Description</span>
+                        <span class="property-tag">Category</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Usage:</strong> Material assignments, BOQ extraction</p>
+            </div>
+
+            <div class="entity-card" data-category="resource" data-keywords="material layer set wall">
+                <div class="entity-header">
+                    <span class="entity-name">IfcMaterialLayerSet</span>
+                    <span class="entity-category category-resource">Resource</span>
+                </div>
+                <p class="entity-description">A set of material layers with defined thicknesses. Used for walls, slabs, and other layered elements.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">MaterialLayers</span>
+                        <span class="property-tag">LayerSetName</span>
+                        <span class="property-tag">TotalThickness</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Usage:</strong> Multi-layer constructions</p>
+            </div>
+
+            <div class="entity-card" data-category="resource" data-keywords="property set pset attributes">
+                <div class="entity-header">
+                    <span class="entity-name">IfcPropertySet</span>
+                    <span class="entity-category category-resource">Resource</span>
+                </div>
+                <p class="entity-description">A container for a set of properties assigned to objects. Enables custom property definitions.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">Name</span>
+                        <span class="property-tag">HasProperties</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Usage:</strong> Custom properties, Pset_* definitions</p>
+            </div>
+
+            <div class="entity-card" data-category="resource" data-keywords="quantity set qto takeoff">
+                <div class="entity-header">
+                    <span class="entity-name">IfcElementQuantity</span>
+                    <span class="entity-category category-resource">Resource</span>
+                </div>
+                <p class="entity-description">Contains quantity information for an element. Used for quantity takeoff and cost estimation.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">Name</span>
+                        <span class="property-tag">MethodOfMeasurement</span>
+                        <span class="property-tag">Quantities</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Usage:</strong> QTO, Qto_* sets, estimating</p>
+            </div>
+
+            <div class="entity-card" data-category="resource" data-keywords="classification reference code">
+                <div class="entity-header">
+                    <span class="entity-name">IfcClassificationReference</span>
+                    <span class="entity-category category-resource">Resource</span>
+                </div>
+                <p class="entity-description">A reference to an external classification system. Links elements to Uniclass, OmniClass, MasterFormat, etc.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">Location</span>
+                        <span class="property-tag">Identification</span>
+                        <span class="property-tag">Name</span>
+                        <span class="property-tag">ReferencedSource</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Usage:</strong> External classification systems</p>
+            </div>
+
+            <div class="entity-card" data-category="resource" data-keywords="type element family template">
+                <div class="entity-header">
+                    <span class="entity-name">IfcTypeObject</span>
+                    <span class="entity-category category-resource">Resource</span>
+                </div>
+                <p class="entity-description">Defines a type or template that can be instantiated by multiple occurrences. Base for all type definitions.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">ApplicableOccurrence</span>
+                        <span class="property-tag">HasPropertySets</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Usage:</strong> Type definitions, families</p>
+            </div>
+
+            <div class="entity-card" data-category="resource" data-keywords="relationship aggregation containment">
+                <div class="entity-header">
+                    <span class="entity-name">IfcRelAggregates</span>
+                    <span class="entity-category category-resource">Resource</span>
+                </div>
+                <p class="entity-description">Defines a whole-part relationship where a whole object contains related parts. Used for spatial hierarchy.</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">RelatingObject</span>
+                        <span class="property-tag">RelatedObjects</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Usage:</strong> Spatial structure, assemblies</p>
+            </div>
+
+            <div class="entity-card" data-category="resource" data-keywords="relationship containment spatial">
+                <div class="entity-header">
+                    <span class="entity-name">IfcRelContainedInSpatialStructure</span>
+                    <span class="entity-category category-resource">Resource</span>
+                </div>
+                <p class="entity-description">Places building elements within a spatial container (site, building, storey, or space).</p>
+                <div class="entity-properties">
+                    <h4>Key Attributes</h4>
+                    <div class="property-list">
+                        <span class="property-tag">RelatedElements</span>
+                        <span class="property-tag">RelatingStructure</span>
+                    </div>
+                </div>
+                <p class="entity-usage"><strong>Usage:</strong> Element placement in structure</p>
+            </div>
+        </div>
+
+        <div class="no-results hidden" id="noResults">
+            No entities found matching your search. Try different keywords.
+        </div>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const entityGrid = document.getElementById('entityGrid');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const noResults = document.getElementById('noResults');
+        const visibleCount = document.getElementById('visibleCount');
+
+        let activeFilter = 'all';
+
+        function updateVisibleCount() {
+            const visible = entityGrid.querySelectorAll('.entity-card:not(.hidden)').length;
+            visibleCount.textContent = visible;
+            noResults.classList.toggle('hidden', visible > 0);
+        }
+
+        function applyFilters() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const cards = entityGrid.querySelectorAll('.entity-card');
+
+            cards.forEach(card => {
+                const category = card.dataset.category;
+                const keywords = card.dataset.keywords || '';
+                const name = card.querySelector('.entity-name').textContent.toLowerCase();
+                const description = card.querySelector('.entity-description').textContent.toLowerCase();
+                const searchContent = `${name} ${description} ${keywords}`;
+
+                const matchesFilter = activeFilter === 'all' || category === activeFilter;
+                const matchesSearch = !searchTerm || searchContent.includes(searchTerm);
+
+                if (matchesFilter && matchesSearch) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            updateVisibleCount();
+        }
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeFilter = btn.dataset.filter;
+                applyFilters();
+            });
+        });
+
+        searchInput.addEventListener('input', applyFilters);
+
+        // Initial count
+        updateVisibleCount();
+    </script>
+</body>
+</html>

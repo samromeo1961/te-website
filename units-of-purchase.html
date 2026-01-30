@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Comprehensive guide to units of purchase in the building industry - pallets, bundles, bags, sheets, and more. Essential reference for construction estimators and procurement.">
+    <title>Units of Purchase in Construction | Takeoff and Estimating</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Units of Purchase Page Styles */
+        .units-hero {
+            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+            color: var(--color-white);
+            padding: 6rem 0 3rem;
+            text-align: center;
+        }
+
+        .units-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .units-hero p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .units-content {
+            padding: 3rem 0 5rem;
+            background: var(--color-gray-50);
+        }
+
+        /* Search and Filter */
+        .units-controls {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: 1.5rem 2rem;
+            margin: -2rem auto 2rem;
+            max-width: 800px;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.75rem;
+            border: 2px solid var(--color-gray-200);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        .search-box svg {
+            position: absolute;
+            left: 0.875rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-gray-400);
+        }
+
+        .filter-select {
+            padding: 0.75rem 2rem 0.75rem 1rem;
+            border: 2px solid var(--color-gray-200);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            background: var(--color-white);
+            cursor: pointer;
+            min-width: 180px;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        /* Category Navigation */
+        .category-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .category-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--color-gray-200);
+            background: var(--color-white);
+            border-radius: var(--radius-2xl);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-gray-600);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .category-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .category-btn.active {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        /* Units Table */
+        .units-table-wrapper {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .units-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .units-table thead {
+            background: var(--color-gray-800);
+            color: var(--color-white);
+        }
+
+        .units-table th {
+            padding: 1rem 1.25rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: sticky;
+            top: 0;
+            background: var(--color-gray-800);
+            z-index: 5;
+        }
+
+        .units-table td {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--color-gray-100);
+            font-size: 0.9375rem;
+            vertical-align: top;
+        }
+
+        .units-table tbody tr:hover {
+            background: var(--color-gray-50);
+        }
+
+        .units-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .unit-name {
+            font-weight: 600;
+            color: var(--color-gray-800);
+        }
+
+        .unit-category {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: var(--color-gray-100);
+            border-radius: var(--radius);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--color-gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+        }
+
+        .unit-category.bulk { background: #dbeafe; color: #1e40af; }
+        .unit-category.volume { background: #dcfce7; color: #166534; }
+        .unit-category.count { background: #fef3c7; color: #92400e; }
+        .unit-category.load { background: #f3e8ff; color: #7c3aed; }
+        .unit-category.sheet { background: #ffe4e6; color: #be123c; }
+        .unit-category.length { background: #cffafe; color: #0e7490; }
+        .unit-category.trade { background: #fed7aa; color: #c2410c; }
+        .unit-category.liquid { background: #e0e7ff; color: #4338ca; }
+
+        .quantity-type {
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            font-size: 0.8125rem;
+            color: var(--color-gray-600);
+            background: var(--color-gray-50);
+            padding: 0.375rem 0.5rem;
+            border-radius: var(--radius);
+        }
+
+        /* No results */
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--color-gray-500);
+        }
+
+        .no-results svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Category Sections */
+        .category-section {
+            margin-bottom: 3rem;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--color-gray-200);
+        }
+
+        .category-header h2 {
+            font-size: 1.375rem;
+            color: var(--color-gray-800);
+            margin: 0;
+        }
+
+        .category-count {
+            background: var(--color-gray-100);
+            color: var(--color-gray-600);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-2xl);
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        /* Summary Cards */
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-card {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .summary-card .count {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .summary-card .label {
+            font-size: 0.875rem;
+            color: var(--color-gray-600);
+            margin-top: 0.25rem;
+        }
+
+        /* Mobile Table */
+        @media (max-width: 768px) {
+            .units-table-wrapper {
+                overflow-x: auto;
+            }
+
+            .units-table {
+                min-width: 700px;
+            }
+
+            .units-controls {
+                flex-direction: column;
+            }
+
+            .search-box, .filter-select {
+                width: 100%;
+            }
+
+            .category-nav {
+                justify-content: flex-start;
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                padding-bottom: 0.5rem;
+            }
+
+            .category-btn {
+                flex-shrink: 0;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .units-hero, .units-controls, .category-nav, .navbar, .footer, .cta {
+                display: none;
+            }
+
+            .units-content {
+                padding: 0;
+                background: white;
+            }
+
+            .units-table th {
+                background: #f3f4f6;
+                color: #1f2937;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="images/logo-colour.svg" alt="Takeoff and Estimating" height="40">
+            </a>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dbx-cloud.html">DBx Cloud</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="resources.html" class="active">Resources</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="dbx-cloud.html#login-section" class="btn btn-primary btn-nav">Login / Sign Up</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="units-hero">
+        <div class="container">
+            <h1>Units of Purchase in Construction</h1>
+            <p>Comprehensive reference guide to purchasing units used in the building industry. Understand how materials are packaged, sold, and measured for accurate procurement and estimating.</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <section class="units-content">
+        <div class="container">
+            <!-- Search and Filter -->
+            <div class="units-controls">
+                <div class="search-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="M21 21l-4.35-4.35"></path>
+                    </svg>
+                    <input type="text" id="searchInput" placeholder="Search units (e.g., pallet, bag, roll...)">
+                </div>
+                <select id="categoryFilter" class="filter-select">
+                    <option value="all">All Categories</option>
+                    <option value="bulk">Bulk Units</option>
+                    <option value="volume">Volume/Container Units</option>
+                    <option value="count">Count-Based Units</option>
+                    <option value="load">Load Units</option>
+                    <option value="sheet">Sheet/Panel Units</option>
+                    <option value="length">Length-Based Units</option>
+                    <option value="trade">Trade-Specific Units</option>
+                    <option value="liquid">Liquid Units</option>
+                </select>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <div class="count">8</div>
+                    <div class="label">Categories</div>
+                </div>
+                <div class="summary-card">
+                    <div class="count">56</div>
+                    <div class="label">Unit Types</div>
+                </div>
+                <div class="summary-card">
+                    <div class="count">100%</div>
+                    <div class="label">Metric Compatible</div>
+                </div>
+            </div>
+
+            <!-- Category Quick Nav -->
+            <div class="category-nav">
+                <button class="category-btn active" data-category="all">All Units</button>
+                <button class="category-btn" data-category="bulk">Bulk</button>
+                <button class="category-btn" data-category="volume">Volume/Container</button>
+                <button class="category-btn" data-category="count">Count-Based</button>
+                <button class="category-btn" data-category="load">Load</button>
+                <button class="category-btn" data-category="sheet">Sheet/Panel</button>
+                <button class="category-btn" data-category="length">Length-Based</button>
+                <button class="category-btn" data-category="trade">Trade-Specific</button>
+                <button class="category-btn" data-category="liquid">Liquid</button>
+            </div>
+
+            <!-- Units Table -->
+            <div class="units-table-wrapper">
+                <table class="units-table" id="unitsTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;">Unit</th>
+                            <th style="width: 15%;">Category</th>
+                            <th style="width: 45%;">Description & Usage</th>
+                            <th style="width: 25%;">Quantity Type</th>
+                        </tr>
+                    </thead>
+                    <tbody id="unitsTableBody">
+                        <!-- Bulk Units -->
+                        <tr data-category="bulk">
+                            <td><span class="unit-name">Pallet</span></td>
+                            <td><span class="unit-category bulk">Bulk</span></td>
+                            <td>Standard shipping platform (typically wooden) loaded with multiple packages or products secured for transport and handling by forklift; common for bricks, tiles, bagged cement, etc.</td>
+                            <td><span class="quantity-type">Count (per pallet) or Weight (kg/tons)</span></td>
+                        </tr>
+                        <tr data-category="bulk">
+                            <td><span class="unit-name">Bundle</span></td>
+                            <td><span class="unit-category bulk">Bulk</span></td>
+                            <td>Multiple items bound together, often with strapping or shrink wrap; common for lumber, rebar, metal studs, pipes, etc.</td>
+                            <td><span class="quantity-type">Count or Length (linear meters)</span></td>
+                        </tr>
+                        <tr data-category="bulk">
+                            <td><span class="unit-name">Package</span></td>
+                            <td><span class="unit-category bulk">Bulk</span></td>
+                            <td>Generic term for wrapped or contained group of products; varies by material type.</td>
+                            <td><span class="quantity-type">Count, Weight, or Volume</span></td>
+                        </tr>
+                        <tr data-category="bulk">
+                            <td><span class="unit-name">Skid</span></td>
+                            <td><span class="unit-category bulk">Bulk</span></td>
+                            <td>Similar to pallet but without bottom deck boards; used for heavy materials.</td>
+                            <td><span class="quantity-type">Count or Weight (kg/tons)</span></td>
+                        </tr>
+                        <tr data-category="bulk">
+                            <td><span class="unit-name">Crate</span></td>
+                            <td><span class="unit-category bulk">Bulk</span></td>
+                            <td>Wooden box-like structure for shipping fragile or heavy items like windows, fixtures, or machinery.</td>
+                            <td><span class="quantity-type">Count or Weight (kg/tons)</span></td>
+                        </tr>
+                        <tr data-category="bulk">
+                            <td><span class="unit-name">Carton</span></td>
+                            <td><span class="unit-category bulk">Bulk</span></td>
+                            <td>Cardboard container typically for lighter items or small components.</td>
+                            <td><span class="quantity-type">Count or Weight (kg)</span></td>
+                        </tr>
+                        <tr data-category="bulk">
+                            <td><span class="unit-name">Box</span></td>
+                            <td><span class="unit-category bulk">Bulk</span></td>
+                            <td>Container with standard dimensions; sizes vary by product.</td>
+                            <td><span class="quantity-type">Count or Weight (kg)</span></td>
+                        </tr>
+                        <tr data-category="bulk">
+                            <td><span class="unit-name">Lot</span></td>
+                            <td><span class="unit-category bulk">Bulk</span></td>
+                            <td>Quantity of material manufactured together with same specifications and quality.</td>
+                            <td><span class="quantity-type">Variable (by manufacturer)</span></td>
+                        </tr>
+                        <tr data-category="bulk">
+                            <td><span class="unit-name">Batch</span></td>
+                            <td><span class="unit-category bulk">Bulk</span></td>
+                            <td>Specific production run of material with consistent properties; common for concrete, mortar, etc.</td>
+                            <td><span class="quantity-type">Volume (m³) or Weight (tons)</span></td>
+                        </tr>
+                        <tr data-category="bulk">
+                            <td><span class="unit-name">Stack</span></td>
+                            <td><span class="unit-category bulk">Bulk</span></td>
+                            <td>Organized pile of similar materials (often without packaging); common for lumber, panels.</td>
+                            <td><span class="quantity-type">Height (m), Volume, or Count</span></td>
+                        </tr>
+                        <tr data-category="bulk">
+                            <td><span class="unit-name">Lift</span></td>
+                            <td><span class="unit-category bulk">Bulk</span></td>
+                            <td>Group of materials raised and transported together; also refers to elevator-load quantity.</td>
+                            <td><span class="quantity-type">Weight (kg/tons) or Volume (m³)</span></td>
+                        </tr>
+
+                        <!-- Volume/Container Units -->
+                        <tr data-category="volume">
+                            <td><span class="unit-name">Bag</span></td>
+                            <td><span class="unit-category volume">Volume/Container</span></td>
+                            <td>Standard-sized sack (typically paper or plastic); common for cement (50kg), sand, aggregate, etc.</td>
+                            <td><span class="quantity-type">Weight (kg) or Volume (m³)</span></td>
+                        </tr>
+                        <tr data-category="volume">
+                            <td><span class="unit-name">Sack</span></td>
+                            <td><span class="unit-category volume">Volume/Container</span></td>
+                            <td>Similar to bag but often larger or made of burlap; for granular materials.</td>
+                            <td><span class="quantity-type">Weight (kg) or Volume (m³)</span></td>
+                        </tr>
+                        <tr data-category="volume">
+                            <td><span class="unit-name">Bulk Bag / FIBC</span></td>
+                            <td><span class="unit-category volume">Volume/Container</span></td>
+                            <td>Large flexible intermediate bulk container for bulk materials; typically 1-2 cubic meters capacity. Also called Super Sack.</td>
+                            <td><span class="quantity-type">Weight (kg/tons) or Volume (m³)</span></td>
+                        </tr>
+                        <tr data-category="volume">
+                            <td><span class="unit-name">Tote</span></td>
+                            <td><span class="unit-category volume">Volume/Container</span></td>
+                            <td>Intermediate bulk container often with rigid plastic shell and metal cage; for liquids or granular materials.</td>
+                            <td><span class="quantity-type">Volume (L) or Weight (kg)</span></td>
+                        </tr>
+                        <tr data-category="volume">
+                            <td><span class="unit-name">Drum</span></td>
+                            <td><span class="unit-category volume">Volume/Container</span></td>
+                            <td>Cylindrical container; for liquids like paint, solvents, adhesives.</td>
+                            <td><span class="quantity-type">Volume (L)</span></td>
+                        </tr>
+                        <tr data-category="volume">
+                            <td><span class="unit-name">Bucket</span></td>
+                            <td><span class="unit-category volume">Volume/Container</span></td>
+                            <td>Open-top container with handle; for paints, joint compounds, adhesives, etc.</td>
+                            <td><span class="quantity-type">Volume (L)</span></td>
+                        </tr>
+                        <tr data-category="volume">
+                            <td><span class="unit-name">Pail</span></td>
+                            <td><span class="unit-category volume">Volume/Container</span></td>
+                            <td>Similar to bucket but typically more industrial and often with lid.</td>
+                            <td><span class="quantity-type">Volume (L)</span></td>
+                        </tr>
+                        <tr data-category="volume">
+                            <td><span class="unit-name">Can</span></td>
+                            <td><span class="unit-category volume">Volume/Container</span></td>
+                            <td>Small metal or plastic container; for paints, solvents, oils.</td>
+                            <td><span class="quantity-type">Volume (L)</span></td>
+                        </tr>
+                        <tr data-category="volume">
+                            <td><span class="unit-name">Barrel</span></td>
+                            <td><span class="unit-category volume">Volume/Container</span></td>
+                            <td>Large cylindrical container; for liquids or loose materials.</td>
+                            <td><span class="quantity-type">Volume (L)</span></td>
+                        </tr>
+                        <tr data-category="volume">
+                            <td><span class="unit-name">Tanker Load</span></td>
+                            <td><span class="unit-category volume">Volume/Container</span></td>
+                            <td>Bulk liquid delivery via tank truck; for ready-mix concrete, fuel, etc.</td>
+                            <td><span class="quantity-type">Volume (m³) or Weight (tons)</span></td>
+                        </tr>
+                        <tr data-category="volume">
+                            <td><span class="unit-name">Hopper</span></td>
+                            <td><span class="unit-category volume">Volume/Container</span></td>
+                            <td>Funnel-shaped container for loose materials; used in batching plants.</td>
+                            <td><span class="quantity-type">Volume (m³) or Weight (tons)</span></td>
+                        </tr>
+                        <tr data-category="volume">
+                            <td><span class="unit-name">Silo Load</span></td>
+                            <td><span class="unit-category volume">Volume/Container</span></td>
+                            <td>Bulk delivery to vertical storage structure; for cement, sand, grain.</td>
+                            <td><span class="quantity-type">Volume (m³) or Weight (tons)</span></td>
+                        </tr>
+
+                        <!-- Count-Based Units -->
+                        <tr data-category="count">
+                            <td><span class="unit-name">Piece / Each (EA)</span></td>
+                            <td><span class="unit-category count">Count-Based</span></td>
+                            <td>Individual item counted separately; for fixtures, doors, windows, columns, etc.</td>
+                            <td><span class="quantity-type">Count (individual units)</span></td>
+                        </tr>
+                        <tr data-category="count">
+                            <td><span class="unit-name">Set</span></td>
+                            <td><span class="unit-category count">Count-Based</span></td>
+                            <td>Matched group of components that function together; for hardware, fixtures.</td>
+                            <td><span class="quantity-type">Count (complete sets)</span></td>
+                        </tr>
+                        <tr data-category="count">
+                            <td><span class="unit-name">Kit</span></td>
+                            <td><span class="unit-category count">Count-Based</span></td>
+                            <td>Collection of components packaged together for a specific project or assembly.</td>
+                            <td><span class="quantity-type">Count (complete kits)</span></td>
+                        </tr>
+                        <tr data-category="count">
+                            <td><span class="unit-name">Pack</span></td>
+                            <td><span class="unit-category count">Count-Based</span></td>
+                            <td>Small grouping of items wrapped together; for fasteners, tiles, etc.</td>
+                            <td><span class="quantity-type">Count or Pieces per pack</span></td>
+                        </tr>
+                        <tr data-category="count">
+                            <td><span class="unit-name">Case</span></td>
+                            <td><span class="unit-category count">Count-Based</span></td>
+                            <td>Container holding multiple identical items; often for retail packaging.</td>
+                            <td><span class="quantity-type">Count or Units per case</span></td>
+                        </tr>
+                        <tr data-category="count">
+                            <td><span class="unit-name">Roll</span></td>
+                            <td><span class="unit-category count">Count-Based</span></td>
+                            <td>Material wound around itself or a core; for roofing felt, insulation, wire, etc.</td>
+                            <td><span class="quantity-type">Length (m) or Area (m²) per roll</span></td>
+                        </tr>
+                        <tr data-category="count">
+                            <td><span class="unit-name">Coil</span></td>
+                            <td><span class="unit-category count">Count-Based</span></td>
+                            <td>Spiral of flexible material; for wire, rebar, metal strapping, etc.</td>
+                            <td><span class="quantity-type">Length (m) or Weight (kg)</span></td>
+                        </tr>
+                        <tr data-category="count">
+                            <td><span class="unit-name">Spool</span></td>
+                            <td><span class="unit-category count">Count-Based</span></td>
+                            <td>Cylindrical holder with flanges for wound materials; for wire, cable, etc.</td>
+                            <td><span class="quantity-type">Length (m) or Weight (kg)</span></td>
+                        </tr>
+                        <tr data-category="count">
+                            <td><span class="unit-name">Reel</span></td>
+                            <td><span class="unit-category count">Count-Based</span></td>
+                            <td>Large spool for heavy or industrial materials; for heavy cable, wire rope.</td>
+                            <td><span class="quantity-type">Length (m) or Weight (kg/tons)</span></td>
+                        </tr>
+
+                        <!-- Load Units -->
+                        <tr data-category="load">
+                            <td><span class="unit-name">Truckload</span></td>
+                            <td><span class="unit-category load">Load</span></td>
+                            <td>Full capacity of a truck; unit for bulk ordering.</td>
+                            <td><span class="quantity-type">Weight (tons) or Volume (m³)</span></td>
+                        </tr>
+                        <tr data-category="load">
+                            <td><span class="unit-name">Container (20ft/40ft)</span></td>
+                            <td><span class="unit-category load">Load</span></td>
+                            <td>Standardized shipping container; for international shipping.</td>
+                            <td><span class="quantity-type">Count or Volume (m³)</span></td>
+                        </tr>
+                        <tr data-category="load">
+                            <td><span class="unit-name">Flatbed</span></td>
+                            <td><span class="unit-category load">Load</span></td>
+                            <td>Open truck bed load; for lumber, steel, or other long materials.</td>
+                            <td><span class="quantity-type">Weight (tons) or Length (Lm)</span></td>
+                        </tr>
+                        <tr data-category="load">
+                            <td><span class="unit-name">Railcar</span></td>
+                            <td><span class="unit-category load">Load</span></td>
+                            <td>Railway wagon capacity; for bulk materials like aggregate, cement, steel.</td>
+                            <td><span class="quantity-type">Weight (tons) or Volume (m³)</span></td>
+                        </tr>
+                        <tr data-category="load">
+                            <td><span class="unit-name">Barge Load</span></td>
+                            <td><span class="unit-category load">Load</span></td>
+                            <td>Capacity of flat-bottomed boat; for very large deliveries of bulk materials.</td>
+                            <td><span class="quantity-type">Weight (tons) or Volume (m³)</span></td>
+                        </tr>
+                        <tr data-category="load">
+                            <td><span class="unit-name">Shipment</span></td>
+                            <td><span class="unit-category load">Load</span></td>
+                            <td>General term for materials delivered in one transport event.</td>
+                            <td><span class="quantity-type">Variable (by material)</span></td>
+                        </tr>
+
+                        <!-- Sheet/Panel Units -->
+                        <tr data-category="sheet">
+                            <td><span class="unit-name">Sheet</span></td>
+                            <td><span class="unit-category sheet">Sheet/Panel</span></td>
+                            <td>Flat piece of material with standard dimensions; for plywood, drywall, metal.</td>
+                            <td><span class="quantity-type">Count or Area (m²)</span></td>
+                        </tr>
+                        <tr data-category="sheet">
+                            <td><span class="unit-name">Panel</span></td>
+                            <td><span class="unit-category sheet">Sheet/Panel</span></td>
+                            <td>Similar to sheet but often prefabricated or with specific function.</td>
+                            <td><span class="quantity-type">Count or Area (m²)</span></td>
+                        </tr>
+                        <tr data-category="sheet">
+                            <td><span class="unit-name">Board</span></td>
+                            <td><span class="unit-category sheet">Sheet/Panel</span></td>
+                            <td>Flat, rectangular piece of material; for lumber, insulation, etc.</td>
+                            <td><span class="quantity-type">Count or Area (m²)</span></td>
+                        </tr>
+                        <tr data-category="sheet">
+                            <td><span class="unit-name">Plate</span></td>
+                            <td><span class="unit-category sheet">Sheet/Panel</span></td>
+                            <td>Flat piece of metal or glass with substantial thickness.</td>
+                            <td><span class="quantity-type">Count, Area (m²), or Weight (kg)</span></td>
+                        </tr>
+                        <tr data-category="sheet">
+                            <td><span class="unit-name">Batt</span></td>
+                            <td><span class="unit-category sheet">Sheet/Panel</span></td>
+                            <td>Pre-cut section of insulation material; typically for fiberglass or mineral wool.</td>
+                            <td><span class="quantity-type">Count or Area (m²)</span></td>
+                        </tr>
+
+                        <!-- Length-Based Units -->
+                        <tr data-category="length">
+                            <td><span class="unit-name">Stick</span></td>
+                            <td><span class="unit-category length">Length-Based</span></td>
+                            <td>Single length of material; common for lumber, conduit, etc.</td>
+                            <td><span class="quantity-type">Length (m) or Count</span></td>
+                        </tr>
+                        <tr data-category="length">
+                            <td><span class="unit-name">Length / Linear Meter</span></td>
+                            <td><span class="unit-category length">Length-Based</span></td>
+                            <td>Linear measurement of material; for pipe, lumber, molding.</td>
+                            <td><span class="quantity-type">Length (m / Lm)</span></td>
+                        </tr>
+                        <tr data-category="length">
+                            <td><span class="unit-name">Section</span></td>
+                            <td><span class="unit-category length">Length-Based</span></td>
+                            <td>Defined portion of a larger assembly; for structural components, spans.</td>
+                            <td><span class="quantity-type">Length (m) or Count</span></td>
+                        </tr>
+                        <tr data-category="length">
+                            <td><span class="unit-name">Segment</span></td>
+                            <td><span class="unit-category length">Length-Based</span></td>
+                            <td>Portion of material with defined start and end points.</td>
+                            <td><span class="quantity-type">Length (m) or Count</span></td>
+                        </tr>
+                        <tr data-category="length">
+                            <td><span class="unit-name">Strand</span></td>
+                            <td><span class="unit-category length">Length-Based</span></td>
+                            <td>Individual thread or wire; often for tensioning cables.</td>
+                            <td><span class="quantity-type">Length (m) or Weight (kg)</span></td>
+                        </tr>
+
+                        <!-- Trade-Specific Units -->
+                        <tr data-category="trade">
+                            <td><span class="unit-name">Square</span></td>
+                            <td><span class="unit-category trade">Trade-Specific</span></td>
+                            <td>Roofing unit covering 100 square feet (9.29 m²); used for shingles, tiles.</td>
+                            <td><span class="quantity-type">Area (9.29 m² per square)</span></td>
+                        </tr>
+                        <tr data-category="trade">
+                            <td><span class="unit-name">Cube</span></td>
+                            <td><span class="unit-category trade">Trade-Specific</span></td>
+                            <td>100 cubic feet of lumber (2.83 m³); volume measurement for timber.</td>
+                            <td><span class="quantity-type">Volume (2.83 m³ per cube)</span></td>
+                        </tr>
+                        <tr data-category="trade">
+                            <td><span class="unit-name">Unit Block</span></td>
+                            <td><span class="unit-category trade">Trade-Specific</span></td>
+                            <td>Standardized count of bricks or blocks (typically 500 bricks).</td>
+                            <td><span class="quantity-type">Count (bricks per unit)</span></td>
+                        </tr>
+                        <tr data-category="trade">
+                            <td><span class="unit-name">Frame</span></td>
+                            <td><span class="unit-category trade">Trade-Specific</span></td>
+                            <td>Assembled structural component; for walls, trusses.</td>
+                            <td><span class="quantity-type">Count (frames)</span></td>
+                        </tr>
+                        <tr data-category="trade">
+                            <td><span class="unit-name">Module</span></td>
+                            <td><span class="unit-category trade">Trade-Specific</span></td>
+                            <td>Prefabricated section of a building; for modular construction.</td>
+                            <td><span class="quantity-type">Count (modules)</span></td>
+                        </tr>
+                        <tr data-category="trade">
+                            <td><span class="unit-name">Span</span></td>
+                            <td><span class="unit-category trade">Trade-Specific</span></td>
+                            <td>Section between supporting elements; for beams, bridges.</td>
+                            <td><span class="quantity-type">Length (m) or Count</span></td>
+                        </tr>
+                        <tr data-category="trade">
+                            <td><span class="unit-name">Course</span></td>
+                            <td><span class="unit-category trade">Trade-Specific</span></td>
+                            <td>Horizontal layer of masonry units; for brick, block, stone.</td>
+                            <td><span class="quantity-type">Count or Length (m)</span></td>
+                        </tr>
+
+                        <!-- Liquid Units -->
+                        <tr data-category="liquid">
+                            <td><span class="unit-name">Cartridge</span></td>
+                            <td><span class="unit-category liquid">Liquid</span></td>
+                            <td>Sealed tube with applicator tip; for caulk, adhesive, sealant.</td>
+                            <td><span class="quantity-type">Volume (mL) or Count</span></td>
+                        </tr>
+                        <tr data-category="liquid">
+                            <td><span class="unit-name">Tube</span></td>
+                            <td><span class="unit-category liquid">Liquid</span></td>
+                            <td>Cylindrical container with cap; for adhesives, small-volume materials.</td>
+                            <td><span class="quantity-type">Volume (mL) or Count</span></td>
+                        </tr>
+                        <tr data-category="liquid">
+                            <td><span class="unit-name">Tank</span></td>
+                            <td><span class="unit-category liquid">Liquid</span></td>
+                            <td>Large container for gases or liquids; for propane, compressed air.</td>
+                            <td><span class="quantity-type">Volume (L) or Weight (kg)</span></td>
+                        </tr>
+                        <tr data-category="liquid">
+                            <td><span class="unit-name">Cylinder</span></td>
+                            <td><span class="unit-category liquid">Liquid</span></td>
+                            <td>Pressure vessel for gases; for welding gases, propane.</td>
+                            <td><span class="quantity-type">Volume (m³) or Weight (kg)</span></td>
+                        </tr>
+                        <tr data-category="liquid">
+                            <td><span class="unit-name">Container</span></td>
+                            <td><span class="unit-category liquid">Liquid</span></td>
+                            <td>Generic term for enclosed vessel holding material.</td>
+                            <td><span class="quantity-type">Volume (L) or Weight (kg)</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="no-results" id="noResults" style="display: none;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="M21 21l-4.35-4.35"></path>
+                    </svg>
+                    <p>No units found matching your search.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Resources -->
+    <section class="cta" style="background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);">
+        <div class="container">
+            <div class="cta-content">
+                <h2>More Estimating Resources</h2>
+                <p>Explore our library of free tools for construction professionals including formulas, unit converters, and classification viewers.</p>
+                <div class="cta-buttons">
+                    <a href="resources.html" class="btn btn-white btn-lg">View All Resources</a>
+                    <a href="estimator-formulas.html" class="btn btn-outline-white btn-lg">Estimator's Formulas</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="images/logo-reversed.svg" alt="Takeoff and Estimating" height="40" class="footer-logo">
+                    <p>Australia's trusted partner for construction estimating software solutions.</p>
+                    <div class="footer-contact">
+                        <p><strong>Phone:</strong> 1300 818 620</p>
+                        <p><strong>Email:</strong> info@takeoffandestimating.com.au</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Products</h4>
+                    <ul>
+                        <li><a href="dbx-cloud.html">DBx Cloud</a></li>
+                        <li><a href="#">Databuild</a></li>
+                        <li><a href="#">PlanSwift</a></li>
+                        <li><a href="#">Sigma Estimates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="estimator-formulas.html">Estimator's Formulas</a></li>
+                        <li><a href="unit-converter.html">Unit Converter</a></li>
+                        <li><a href="units-of-purchase.html">Units of Purchase</a></li>
+                        <li><a href="resources.html">All Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Takeoff and Estimating Pty Ltd. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Units of Purchase Filter and Search
+        (function() {
+            const searchInput = document.getElementById('searchInput');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            const tableBody = document.getElementById('unitsTableBody');
+            const noResults = document.getElementById('noResults');
+            const rows = tableBody.querySelectorAll('tr');
+
+            let currentCategory = 'all';
+            let currentSearch = '';
+
+            function filterTable() {
+                let visibleCount = 0;
+
+                rows.forEach(row => {
+                    const category = row.dataset.category;
+                    const text = row.textContent.toLowerCase();
+                    const matchesCategory = currentCategory === 'all' || category === currentCategory;
+                    const matchesSearch = currentSearch === '' || text.includes(currentSearch.toLowerCase());
+
+                    if (matchesCategory && matchesSearch) {
+                        row.style.display = '';
+                        visibleCount++;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+
+                noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+
+            // Search input
+            searchInput.addEventListener('input', (e) => {
+                currentSearch = e.target.value;
+                filterTable();
+            });
+
+            // Category filter dropdown
+            categoryFilter.addEventListener('change', (e) => {
+                currentCategory = e.target.value;
+                categoryBtns.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.category === currentCategory);
+                });
+                filterTable();
+            });
+
+            // Category buttons
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentCategory = btn.dataset.category;
+                    categoryFilter.value = currentCategory;
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    filterTable();
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
