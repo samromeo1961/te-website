@@ -1,0 +1,4239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniFormat II | Takeoff and Estimating</title>
+    <meta name="description" content="Free interactive reference tool for UniFormat II elemental classification. Browse building systems and assemblies.">
+    <meta name="keywords" content="UniFormat, elemental classification, building systems, cost estimating, ASTM, Takeoff and Estimating">
+    <meta name="author" content="Takeoff and Estimating Pty Ltd">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="UniFormat II | Takeoff and Estimating">
+    <meta property="og:description" content="Free interactive reference tool for UniFormat II elemental classification. Browse building systems and assemblies.">
+    <meta property="og:url" content="https://takeoffandestimating.com.au">
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23ffc629' width='100' height='100' rx='12'/><text x='50' y='68' font-size='42' text-anchor='middle' fill='%23002d74' font-family='Arial' font-weight='bold'>T%26E</text></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-navy: #002d74;
+            --brand-navy-light: #003d8f;
+            --brand-navy-dark: #001d4a;
+            --brand-yellow: #ffc629;
+            --brand-yellow-light: #fff3cc;
+            --brand-yellow-dark: #e6b000;
+
+            --bg-primary: #F8F9FA;
+            --bg-secondary: #FFFFFF;
+            --bg-card: #FFFFFF;
+            --bg-hover: #F0F4F8;
+            --bg-selected: #FFF8E0;
+            --border-color: #E2E8F0;
+            --text-primary: #002d74;
+            --text-secondary: #4A5568;
+            --text-muted: #718096;
+            --accent-primary: #ffc629;
+            --accent-secondary: #002d74;
+            --accent-blue: #3B82F6;
+            --accent-orange: #ea580c;
+            --accent-green: #059669;
+            --accent-purple: #7c3aed;
+            --accent-cyan: #0891b2;
+            --accent-pink: #db2777;
+            --tree-line: #CBD5E0;
+            --shadow: 0 2px 4px rgba(0, 45, 116, 0.08);
+            --shadow-lg: 0 8px 24px rgba(0, 45, 116, 0.12);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #001d4a;
+            --bg-secondary: #002d74;
+            --bg-card: #002d74;
+            --bg-hover: #003d8f;
+            --bg-selected: #3D3500;
+            --border-color: #003d8f;
+            --text-primary: #F8F9FA;
+            --text-secondary: #CBD5E0;
+            --text-muted: #718096;
+            --accent-primary: #ffc629;
+            --accent-secondary: #ffc629;
+            --tree-line: #003d8f;
+            --shadow: 0 2px 4px rgba(0,0,0,0.3);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .app-container { display: flex; height: 100vh; flex-direction: column; }
+        .main-content { display: flex; flex: 1; overflow: hidden; }
+
+        .yellow-stripe {
+            height: 8px;
+            background: repeating-linear-gradient(-55deg, var(--brand-yellow), var(--brand-yellow) 10px, transparent 10px, transparent 20px);
+        }
+
+        .app-header { background: var(--brand-navy); padding: 0; }
+
+        .header-main {
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-brand { display: flex; align-items: center; gap: 1.25rem; }
+
+        .brand-logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+        .brand-logo svg { height: 44px; width: auto; }
+
+        .brand-divider { width: 2px; height: 36px; background: rgba(255,255,255,0.2); border-radius: 1px; }
+
+        .brand-title { display: flex; align-items: center; gap: 0.75rem; }
+        .brand-title .app-name { color: white; font-size: 1.1rem; font-weight: 600; }
+        .brand-title .highlight { color: var(--brand-yellow); font-style: italic; }
+
+        .header-actions { display: flex; align-items: center; gap: 0.75rem; }
+
+        .header-btn {
+            background: transparent; border: 2px solid rgba(255,255,255,0.3);
+            color: white; padding: 0.5rem 1rem; border-radius: 25px;
+            font-family: inherit; font-size: 0.8rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; gap: 0.4rem;
+        }
+        .header-btn:hover { background: var(--brand-yellow); color: var(--brand-navy); border-color: var(--brand-yellow); }
+
+        .theme-toggle {
+            display: flex; align-items: center;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 25px; padding: 0.15rem;
+        }
+        .theme-btn {
+            width: 32px; height: 32px; border-radius: 50%; border: none;
+            background: transparent; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem; transition: all 0.2s;
+        }
+        .theme-btn.active { background: var(--brand-yellow); }
+
+        .version-badge { background: var(--brand-yellow); color: var(--brand-navy); padding: 0.25rem 0.65rem; border-radius: 20px; font-size: 0.65rem; font-weight: 700; }
+
+        /* Sidebar */
+        .sidebar {
+            width: 520px;
+            min-width: 380px;
+            max-width: 65vw;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            resize: horizontal;
+            overflow: auto;
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        /* Search */
+        .search-container { padding: 1rem; border-bottom: 1px solid var(--border-color); background: var(--bg-card); }
+        .search-box { position: relative; }
+        .search-box input {
+            width: 100%; padding: 0.85rem 1rem 0.85rem 3rem;
+            font-size: 0.9rem; font-family: inherit;
+            background: var(--bg-primary); border: 2px solid var(--border-color);
+            border-radius: 25px; color: var(--text-primary); transition: all 0.2s;
+        }
+        .search-box input:focus { outline: none; border-color: var(--brand-yellow); box-shadow: 0 0 0 4px rgba(255, 198, 41, 0.2); }
+        .search-box input::placeholder { color: var(--text-muted); }
+        .search-icon { position: absolute; left: 1.1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); width: 18px; height: 18px; }
+
+        /* Tree controls */
+        .tree-controls { padding: 0.6rem 1rem; display: flex; gap: 0.5rem; border-bottom: 1px solid var(--border-color); background: var(--bg-card); flex-wrap: wrap; }
+        .tree-btn {
+            padding: 0.45rem 0.85rem; font-family: inherit; font-size: 0.75rem; font-weight: 600;
+            background: var(--bg-primary); border: 2px solid var(--border-color);
+            border-radius: 20px; color: var(--text-secondary); cursor: pointer; transition: all 0.15s;
+        }
+        .tree-btn:hover { background: var(--brand-yellow); color: var(--brand-navy); border-color: var(--brand-yellow); }
+
+        /* Tree container */
+        .tree-container { flex: 1; overflow: auto; padding: 0.5rem 0; background: var(--bg-secondary); }
+
+        /* Tree node styles */
+        .tree-node { user-select: none; }
+        .tree-node-content {
+            display: flex; align-items: center; padding: 0.5rem 0.75rem 0.5rem 0;
+            cursor: pointer; transition: background 0.1s;
+            border-radius: 0 25px 25px 0; margin-right: 0.5rem;
+        }
+        .tree-node-content:hover { background: var(--bg-hover); }
+        .tree-node-content.selected { background: var(--bg-selected); border-left: 4px solid var(--brand-yellow); margin-left: -4px; padding-left: 4px; }
+
+        .tree-toggle { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.7rem; transition: transform 0.15s; flex-shrink: 0; }
+        .tree-toggle.expanded { transform: rotate(90deg); }
+        .tree-toggle.hidden { visibility: hidden; }
+
+        .tree-label { display: flex; align-items: center; gap: 0.6rem; flex: 1; min-width: 0; }
+        .tree-code { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.6rem; border-radius: 15px; white-space: nowrap; }
+        .tree-name { font-size: 0.85rem; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        .tree-children { display: none; margin-left: 0.75rem; border-left: 2px dashed var(--tree-line); }
+        .tree-node.expanded > .tree-children { display: block; }
+
+        /* Level-based coloring */
+        .level-0 > .tree-node-content .tree-code { background: var(--brand-yellow); color: var(--brand-navy); }
+        .level-1 > .tree-node-content .tree-code { background: rgba(0, 45, 116, 0.12); color: var(--brand-navy); }
+        .level-2 > .tree-node-content .tree-code { background: rgba(59, 130, 246, 0.12); color: var(--accent-blue); }
+        .level-3 > .tree-node-content .tree-code { background: rgba(5, 150, 105, 0.12); color: var(--accent-green); }
+        .level-4 > .tree-node-content .tree-code { background: rgba(124, 58, 237, 0.12); color: var(--accent-purple); }
+
+        [data-theme="dark"] .level-0 > .tree-node-content .tree-code { background: var(--brand-yellow); color: var(--brand-navy); }
+        [data-theme="dark"] .level-1 > .tree-node-content .tree-code { background: rgba(255, 198, 41, 0.2); color: var(--brand-yellow); }
+        [data-theme="dark"] .level-2 > .tree-node-content .tree-code { background: rgba(59, 130, 246, 0.2); color: #60A5FA; }
+        [data-theme="dark"] .level-3 > .tree-node-content .tree-code { background: rgba(16, 185, 129, 0.2); color: #34D399; }
+        [data-theme="dark"] .level-4 > .tree-node-content .tree-code { background: rgba(167, 139, 250, 0.2); color: #A78BFA; }
+
+        /* Detail panel */
+        .detail-panel { flex: 1; display: flex; flex-direction: column; background: var(--bg-primary); overflow: hidden; }
+        .detail-header { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border-color); background: var(--bg-secondary); }
+
+        .detail-breadcrumb { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+        .detail-breadcrumb span { cursor: pointer; padding: 0.2rem 0.45rem; border-radius: 12px; transition: all 0.15s; }
+        .detail-breadcrumb span:hover { color: var(--brand-navy); background: var(--brand-yellow-light); }
+        [data-theme="dark"] .detail-breadcrumb span:hover { color: var(--brand-navy); background: var(--brand-yellow); }
+        .detail-breadcrumb .separator { color: var(--text-muted); cursor: default; padding: 0; }
+        .detail-breadcrumb .separator:hover { color: var(--text-muted); background: transparent; }
+
+        .detail-title { display: flex; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
+        .detail-code { font-family: 'JetBrains Mono', monospace; font-size: 1.75rem; font-weight: 700; color: var(--brand-navy); background: var(--brand-yellow); padding: 0.3rem 0.85rem; border-radius: 8px; }
+        [data-theme="dark"] .detail-code { color: var(--brand-navy); background: var(--brand-yellow); }
+        .detail-name { font-size: 1.4rem; font-weight: 600; color: var(--text-primary); flex: 1; }
+
+        .detail-content { flex: 1; overflow: auto; padding: 1.5rem 2rem; }
+
+        /* Cards */
+        .info-card { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 16px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); }
+        .info-card h3 {
+            font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+            margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;
+            color: var(--brand-navy); position: relative; padding-bottom: 0.75rem;
+        }
+        [data-theme="dark"] .info-card h3 { color: var(--brand-yellow); }
+        .info-card h3::after { content: ''; position: absolute; bottom: 0; left: 0; width: 60px; height: 4px; background: repeating-linear-gradient(-55deg, var(--brand-yellow), var(--brand-yellow) 4px, transparent 4px, transparent 8px); }
+        .info-card h3 svg { width: 18px; height: 18px; }
+
+        .description-text { font-size: 0.95rem; color: var(--text-primary); line-height: 1.75; }
+
+        /* Stats */
+        .stats-grid { display: flex; gap: 2.5rem; flex-wrap: wrap; }
+        .stat { display: flex; flex-direction: column; }
+        .stat-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+        .stat-value { font-size: 1.75rem; font-weight: 700; color: var(--brand-navy); font-family: 'JetBrains Mono', monospace; }
+        [data-theme="dark"] .stat-value { color: var(--brand-yellow); }
+
+        /* Hierarchy */
+        .hierarchy-path { display: flex; flex-direction: column; gap: 0.5rem; }
+        .hierarchy-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 0.95rem; background: var(--bg-primary); border-radius: 12px; cursor: pointer; transition: all 0.15s; border: 2px solid transparent; }
+        .hierarchy-item:hover { background: var(--bg-hover); border-color: var(--brand-yellow); }
+        .hierarchy-item.current { background: var(--bg-selected); border: 2px solid var(--brand-yellow); }
+        .hierarchy-level { font-size: 0.65rem; color: var(--text-muted); background: var(--bg-hover); padding: 0.2rem 0.55rem; border-radius: 10px; min-width: 24px; text-align: center; font-weight: 700; }
+        .hierarchy-code { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 600; color: var(--brand-navy); }
+        [data-theme="dark"] .hierarchy-code { color: var(--brand-yellow); }
+        .hierarchy-name { font-size: 0.85rem; color: var(--text-primary); flex: 1; }
+
+        /* Children grid */
+        .children-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.75rem; }
+        .child-item { display: flex; align-items: center; gap: 0.7rem; padding: 0.85rem 1rem; background: var(--bg-primary); border: 2px solid var(--border-color); border-radius: 12px; cursor: pointer; transition: all 0.15s; }
+        .child-item:hover { background: var(--bg-hover); border-color: var(--brand-yellow); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        .child-item .code { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 600; color: var(--brand-navy); background: var(--brand-yellow-light); padding: 0.3rem 0.65rem; border-radius: 12px; white-space: nowrap; }
+        [data-theme="dark"] .child-item .code { background: rgba(255, 198, 41, 0.2); color: var(--brand-yellow); }
+        .child-item .name { font-size: 0.85rem; color: var(--text-primary); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .child-item .count { font-size: 0.7rem; color: var(--text-muted); background: var(--bg-secondary); padding: 0.2rem 0.55rem; border-radius: 10px; font-weight: 600; }
+        .child-item .arrow { color: var(--brand-yellow); font-size: 1rem; font-weight: bold; }
+
+        /* Empty state */
+        .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--text-muted); text-align: center; padding: 2rem; }
+        .empty-state-icon { font-size: 4rem; margin-bottom: 1rem; }
+        .empty-state h3 { font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+        .empty-state p { max-width: 320px; }
+
+        /* Highlight */
+        .highlight-text { background: rgba(255, 198, 41, 0.4); color: var(--text-primary); border-radius: 3px; padding: 0 3px; }
+        .tree-node.search-hidden { display: none; }
+        .tree-node.search-match > .tree-node-content { background: rgba(255, 198, 41, 0.15); }
+
+        .no-children { color: var(--text-muted); font-size: 0.85rem; font-style: italic; padding: 1rem; text-align: center; background: var(--bg-primary); border-radius: 12px; border: 2px dashed var(--border-color); }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+        /* Footer */
+        .app-footer { background: var(--brand-navy); }
+        .footer-content { padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .footer-brand { display: flex; align-items: center; gap: 1rem; }
+        .footer-logo svg { height: 32px; width: auto; }
+        .footer-text { color: rgba(255,255,255,0.7); font-size: 0.75rem; }
+        .footer-text a { color: var(--brand-yellow); text-decoration: none; font-weight: 600; }
+        .footer-text a:hover { text-decoration: underline; }
+        .footer-contact { display: flex; align-items: center; gap: 1.5rem; }
+        .footer-contact a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem; transition: color 0.2s; font-weight: 500; }
+        .footer-contact a:hover { color: var(--brand-yellow); }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .main-content { flex-direction: column; }
+            .sidebar { width: 100%; min-width: 100%; max-width: 100%; height: 50vh; min-height: 280px; resize: vertical; }
+            .detail-panel { height: 50vh; }
+            .detail-header { padding: 1rem 1.25rem; }
+            .detail-content { padding: 1rem 1.25rem; }
+            .detail-code { font-size: 1.35rem; }
+            .detail-name { font-size: 1.1rem; }
+            .header-main { padding: 0.5rem 1rem; }
+            .brand-title .app-name { font-size: 0.9rem; }
+            .header-btn span.btn-text { display: none; }
+            .footer-contact { display: none; }
+            .brand-logo svg { height: 36px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="resource-back-nav" style="background: #002d74; padding: 0.75rem 1.5rem; display: flex; align-items: center;">
+        <a href="../resources.html" style="color: #ffc629; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-family: Poppins, sans-serif; font-weight: 500;">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            Back to Resources
+        </a>
+    </nav>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="yellow-stripe"></div>
+            <div class="header-main">
+                <div class="header-brand">
+                    <a href="https://takeoffandestimating.com.au" target="_blank" class="brand-logo">
+                        <svg viewBox="0 0 1064 360" xmlns="http://www.w3.org/2000/svg">
+                            <g>
+                                <path d="M439.5479,112.5513H419.1466V101.3242h54.0795v11.2271H452.8248v57.1059H439.5479Z" style="fill: #ffc629"/>
+                                <path d="M489.8217,101.3242h12.1042l24.9892,68.333H513.4439l-5.5631-15.1307h-24.014l-5.5645,15.1307H464.831Zm15.1307,42.2692-9.0793-25.9674h-.1945l-8.7869,25.9674Z" style="fill: #ffc629"/>
+                                <path d="M532.1873,101.3242h13.2753v28.602h10.3483l16.4977-28.602h14.9347l-20.0109,34.0685,21.67,34.2645H573.6741L555.713,141.25h-10.25v28.4075H532.1873Z" style="fill: #ffc629"/>
+                                <path d="M594.1734,101.3242h49.3951v11.2271h-36.12V129.83h33.2878v11.03H607.4487v17.5723h36.12v11.2256H594.1734Z" style="fill: #ffc629"/>
+                                <path d="M650.7909,158.4316v-45.88l11.2271-11.2271H697.16l11.227,11.2271v45.88L697.16,169.6572H662.018Zm39.3406-.0979,4.9783-4.9783V117.626l-4.9783-4.9782H669.046l-4.9783,4.9782v35.7294l4.9783,4.9783Z" style="fill: #ffc629"/>
+                                <path d="M718.5375,101.3242h48.4184v11.2271H731.8128v18.9378H762.27v11.2256H731.8128v26.9425H718.5375Z" style="fill: #ffc629"/>
+                                <path d="M773.2032,101.3242h48.4185v11.2271H786.4785v18.9378h30.4573v11.2256H786.4785v26.9425H773.2032Z" style="fill: #ffc629"/>
+                                <path d="M851.3916,159.2124V140.6649l6.0529-6.1509-3.2209-3.3188V111.867l10.4448-10.5428H890.83l10.2489,10.3484v7.2224h-12.885v-3.1228l-3.0264-3.1244H870.135l-3.0264,3.1244v11.3235l3.2208,3.3188h20.8912v-6.4432h12.4946v6.4432h6.4432v11.1291h-6.2473v17.5708l-10.4448,10.5428H861.8379Zm36.4122-.8787,3.2208-3.3189V141.5436H867.4989l-3.2208,3.2208v10.3484l3.2208,3.2209Z" style="fill: #ffc629"/>
+                                <path d="M435.5019,187.9761h49.3947v11.2261H448.7779v17.2786h33.288v11.0309h-33.288v17.571h36.1187v11.2261H435.5019Z" style="fill: #ffffff"/>
+                                <path d="M491.63,245.7662v-9.7618h13.0814v5.7593l3.2211,3.2217h20.2066l3.319-3.319v-11.324l-3.2211-3.2211H502.3679l-10.542-10.5433V198.5187l10.542-10.5426h30.8477l10.5432,10.5426v9.86H530.6774v-5.8572L527.4563,199.3H508.1284l-3.2223,3.2211v10.0549l3.2223,3.2211h25.868L544.54,226.34V245.571l-10.7378,10.7378H502.1733Z" style="fill: #ffffff"/>
+                                <path d="M566.7961,199.2022H546.3937V187.9761h54.0807v11.2261H580.0721v57.1066h-13.276Z" style="fill: #ffffff"/>
+                                <path d="M607.21,187.9761h13.276v68.3327H607.21Z" style="fill: #ffffff"/>
+                                <path d="M632.1017,187.9761h12.2994L664.7056,232.1h.1958l20.4023-44.1237h12.2994v68.3327H684.8154V214.7233H684.62l-15.7163,32.0189h-8.2l-15.62-32.0189h-.1946v41.5855H632.1017Z" style="fill: #ffffff"/>
+                                <path d="M727.8646,187.9761h12.1036l24.99,68.3327H751.4881l-5.5648-15.1307H721.91l-5.5647,15.1307H702.8741Zm15.13,42.269-9.0783-25.9665h-.1946l-8.7858,25.9665Z" style="fill: #ffffff"/>
+                                <path d="M776.9656,199.2022H756.5633V187.9761H810.644v11.2261H790.2416v57.1066h-13.276Z" style="fill: #ffffff"/>
+                                <path d="M817.3811,187.9761h13.2761v68.3327H817.3811Z" style="fill: #ffffff"/>
+                                <path d="M842.2712,187.9761H854.18l30.4572,46.3688h.1946V187.9761H897.62v68.3327H885.7108l-30.4572-46.2709h-.1946v46.2709H842.2712Z" style="fill: #ffffff"/>
+                                <path d="M907.7715,245.0827v-45.88l11.2261-11.2261h33.9709L964,199.007v10.4453H950.724v-5.5641L946.1359,199.3h-20.11l-4.9785,4.9785v35.7283l4.9785,4.9785h20.3045l4.7839-4.7833V229.5616H936.4713V218.2375H964v26.8452l-11.2261,11.2261H918.9976Z" style="fill: #ffffff"/>
+                                <path d="M315.485,193.0132l-23.704.1032-5.2359.0229c-.3541.79-.6517,1.6205-1.045,2.3843q-.6682,1.2989-1.4266,2.5709c-.48.8081-.9914,1.6066-1.5239,2.3992-.0213.0313-.0392.0633-.0608.095a55.74,55.74,0,0,1-3.9215,5.1335l-.1594-.2727h0L262.4371,178.1c1.0158-.4766,1.9752-.9641,2.9444-1.45v0c1.2447-.6241,2.4461-1.257,3.6149-1.8961.0936-.0515.1888-.1022.2817-.1537,1.09-.6,2.1406-1.2079,3.163-1.8219q.2607-.1562.5181-.3133,1.4081-.858,2.7283-1.7333c.2491-.1652.4917-.3315.7359-.4979.7932-.5379,1.5661-1.08,2.31-1.6281.3145-.232.6158-.467.9217-.7012.651-.4964,1.2937-.995,1.9053-1.4994.381-.3157.7394-.6358,1.1054-.9544.5062-.44,1.0178-.8788,1.4944-1.3245.4694-.44.9036-.8866,1.3445-1.3321.3391-.3418.696-.68,1.0183-1.0257.7492-.8052,1.46-1.6181,2.1183-2.442.5738-.7181,1.099-1.4554,1.613-2.1976q.7149-1.0545,1.36-2.1371h0a37.4735,37.4735,0,0,0,5.2512-19.77q-.0735-16.8748-12.2336-27.0984a40.6949,40.6949,0,0,0-14.0233-7.6193L386.1141,100l.1424,32.668-71.0331.3095.1225,28.1248,54.8794-.2391.139,31.9108-51.2676.2234Zm.1484,34.0742-.1042-23.93a78.5587,78.5587,0,0,1-3.5153,7.3411,90.267,90.267,0,0,1-17.8583,22.6322l15.3683,26.5439,77.2845-.3368-.1418-32.56Z" style="fill: #ffffff"/>
+                                <path d="M209.2593,133.1148l-22.6887.0988.2458,56.41a47.0561,47.0561,0,0,0-9.8769,28.9819q.0789,18.1,10.1325,29.6723l.052,11.93-40.781.1777L145.79,133.3913l-45.6487.1989L100,101.2467l135.6217-.5909a41.7323,41.7323,0,0,0-14.2679,8.2293A34.0777,34.0777,0,0,0,209.2593,133.1148Z" style="fill: #ffffff"/>
+                                <path d="M232.8568,191.7506l20.7149,37.1217a42.8552,42.8552,0,0,1-11.0069,6.16,31.382,31.382,0,0,1-10.8081,2.1565,18.12,18.12,0,0,1-13.9258-5.8348,21.8571,21.8571,0,0,1-.61-28.339Q222.17,196.9894,232.8568,191.7506Zm15.7439-36.1988q9.9339-4.1539,14.3487-8.8247a15.0669,15.0669,0,0,0,4.3884-10.7284q-.0273-6.2739-3.6128-9.8822t-9.9676-3.58a13.9144,13.9144,0,0,0-9.9363,3.6131,12.2007,12.2007,0,0,0-3.7455,9.3193,24.1547,24.1547,0,0,0,2.15,9.4018A53.9972,53.9972,0,0,0,248.6007,155.5518Z" style="fill: #ffc629"/>
+                                <path d="M266.9031,252.37q-3.4772,2.0363-6.8132,3.7947a53.2345,53.2345,0,0,1-8.7431,3.652c-.6616.21-1.3665.3763-2.0461.5686h22.104Z" style="fill: #ffffff"/>
+                            </g>
+                        </svg>
+                    </a>
+                    <div class="brand-divider"></div>
+                    <div class="brand-title">
+                        <span class="app-name"><span class="highlight">UniFormat II</span></span>
+                        <span class="version-badge">E1557-97</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <div class="theme-toggle">
+                        <button class="theme-btn active" id="lightBtn" title="Light Mode">☀️</button>
+                        <button class="theme-btn" id="darkBtn" title="Dark Mode">🌙</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <aside class="sidebar">
+                <div class="search-container">
+                    <div class="search-box">
+                        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+                        <input type="text" id="searchInput" placeholder="Search codes or names... (Press /)">
+                    </div>
+                </div>
+                <div class="tree-controls">
+                    <button class="tree-btn" id="expandAll">Expand All</button>
+                    <button class="tree-btn" id="collapseAll">Collapse All</button>
+                    <button class="tree-btn" id="expandLevel1">Level 1</button>
+                    <button class="tree-btn" id="expandLevel2">Level 2</button>
+                </div>
+                <div class="tree-container" id="treeContainer"></div>
+            </aside>
+
+            <main class="detail-panel">
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-state-icon">🏢</div>
+                    <h3>Select an item</h3>
+                    <p>Click on any item in the tree to view its description and details</p>
+                    <p style="margin-top: 1rem; font-size: 0.85rem;">Press <kbd style="background: var(--brand-yellow); color: var(--brand-navy); padding: 0.25rem 0.6rem; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-weight: bold; box-shadow: 0 2px 0 var(--brand-yellow-dark);">/</kbd> to search</p>
+                </div>
+                <div id="detailView" style="display: none;">
+                    <div class="detail-header">
+                        <div class="detail-breadcrumb" id="breadcrumb"></div>
+                        <div class="detail-title">
+                            <span class="detail-code" id="detailCode"></span>
+                            <span class="detail-name" id="detailName"></span>
+                        </div>
+                    </div>
+                    <div class="detail-content">
+                        <div class="info-card description">
+                            <h3>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                </svg>
+                                Description
+                            </h3>
+                            <p class="description-text" id="descriptionText"></p>
+                        </div>
+
+                        <div class="info-card stats">
+                            <h3>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 3v18h18"></path>
+                                    <path d="M18 17V9"></path>
+                                    <path d="M13 17V5"></path>
+                                    <path d="M8 17v-3"></path>
+                                </svg>
+                                Statistics
+                            </h3>
+                            <div class="stats-grid">
+                                <div class="stat">
+                                    <span class="stat-label">Direct Children</span>
+                                    <span class="stat-value" id="statChildren">0</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-label">Total Descendants</span>
+                                    <span class="stat-value" id="statDescendants">0</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-label">Hierarchy Level</span>
+                                    <span class="stat-value" id="statLevel">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-card hierarchy">
+                            <h3>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 3v18h18"></path>
+                                    <path d="M7 16h6v-3H7zm0-5h10v-3H7z"></path>
+                                </svg>
+                                Hierarchy Path
+                            </h3>
+                            <div class="hierarchy-path" id="hierarchyPath"></div>
+                        </div>
+
+                        <div class="info-card children">
+                            <h3>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="7" height="7"></rect>
+                                    <rect x="14" y="3" width="7" height="7"></rect>
+                                    <rect x="14" y="14" width="7" height="7"></rect>
+                                    <rect x="3" y="14" width="7" height="7"></rect>
+                                </svg>
+                                Child Items
+                            </h3>
+                            <div id="childrenContainer"></div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <footer class="app-footer">
+            <div class="yellow-stripe"></div>
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="https://takeoffandestimating.com.au" target="_blank" class="footer-logo">
+                        <svg viewBox="0 0 1064 360" xmlns="http://www.w3.org/2000/svg">
+                            <g>
+                                <path d="M439.5479,112.5513H419.1466V101.3242h54.0795v11.2271H452.8248v57.1059H439.5479Z" style="fill: #ffc629"/>
+                                <path d="M489.8217,101.3242h12.1042l24.9892,68.333H513.4439l-5.5631-15.1307h-24.014l-5.5645,15.1307H464.831Zm15.1307,42.2692-9.0793-25.9674h-.1945l-8.7869,25.9674Z" style="fill: #ffc629"/>
+                                <path d="M532.1873,101.3242h13.2753v28.602h10.3483l16.4977-28.602h14.9347l-20.0109,34.0685,21.67,34.2645H573.6741L555.713,141.25h-10.25v28.4075H532.1873Z" style="fill: #ffc629"/>
+                                <path d="M594.1734,101.3242h49.3951v11.2271h-36.12V129.83h33.2878v11.03H607.4487v17.5723h36.12v11.2256H594.1734Z" style="fill: #ffc629"/>
+                                <path d="M650.7909,158.4316v-45.88l11.2271-11.2271H697.16l11.227,11.2271v45.88L697.16,169.6572H662.018Zm39.3406-.0979,4.9783-4.9783V117.626l-4.9783-4.9782H669.046l-4.9783,4.9782v35.7294l4.9783,4.9783Z" style="fill: #ffc629"/>
+                                <path d="M718.5375,101.3242h48.4184v11.2271H731.8128v18.9378H762.27v11.2256H731.8128v26.9425H718.5375Z" style="fill: #ffc629"/>
+                                <path d="M773.2032,101.3242h48.4185v11.2271H786.4785v18.9378h30.4573v11.2256H786.4785v26.9425H773.2032Z" style="fill: #ffc629"/>
+                                <path d="M851.3916,159.2124V140.6649l6.0529-6.1509-3.2209-3.3188V111.867l10.4448-10.5428H890.83l10.2489,10.3484v7.2224h-12.885v-3.1228l-3.0264-3.1244H870.135l-3.0264,3.1244v11.3235l3.2208,3.3188h20.8912v-6.4432h12.4946v6.4432h6.4432v11.1291h-6.2473v17.5708l-10.4448,10.5428H861.8379Zm36.4122-.8787,3.2208-3.3189V141.5436H867.4989l-3.2208,3.2208v10.3484l3.2208,3.2209Z" style="fill: #ffc629"/>
+                                <path d="M435.5019,187.9761h49.3947v11.2261H448.7779v17.2786h33.288v11.0309h-33.288v17.571h36.1187v11.2261H435.5019Z" style="fill: #ffffff"/>
+                                <path d="M491.63,245.7662v-9.7618h13.0814v5.7593l3.2211,3.2217h20.2066l3.319-3.319v-11.324l-3.2211-3.2211H502.3679l-10.542-10.5433V198.5187l10.542-10.5426h30.8477l10.5432,10.5426v9.86H530.6774v-5.8572L527.4563,199.3H508.1284l-3.2223,3.2211v10.0549l3.2223,3.2211h25.868L544.54,226.34V245.571l-10.7378,10.7378H502.1733Z" style="fill: #ffffff"/>
+                                <path d="M566.7961,199.2022H546.3937V187.9761h54.0807v11.2261H580.0721v57.1066h-13.276Z" style="fill: #ffffff"/>
+                                <path d="M607.21,187.9761h13.276v68.3327H607.21Z" style="fill: #ffffff"/>
+                                <path d="M632.1017,187.9761h12.2994L664.7056,232.1h.1958l20.4023-44.1237h12.2994v68.3327H684.8154V214.7233H684.62l-15.7163,32.0189h-8.2l-15.62-32.0189h-.1946v41.5855H632.1017Z" style="fill: #ffffff"/>
+                                <path d="M727.8646,187.9761h12.1036l24.99,68.3327H751.4881l-5.5648-15.1307H721.91l-5.5647,15.1307H702.8741Zm15.13,42.269-9.0783-25.9665h-.1946l-8.7858,25.9665Z" style="fill: #ffffff"/>
+                                <path d="M776.9656,199.2022H756.5633V187.9761H810.644v11.2261H790.2416v57.1066h-13.276Z" style="fill: #ffffff"/>
+                                <path d="M817.3811,187.9761h13.2761v68.3327H817.3811Z" style="fill: #ffffff"/>
+                                <path d="M842.2712,187.9761H854.18l30.4572,46.3688h.1946V187.9761H897.62v68.3327H885.7108l-30.4572-46.2709h-.1946v46.2709H842.2712Z" style="fill: #ffffff"/>
+                                <path d="M907.7715,245.0827v-45.88l11.2261-11.2261h33.9709L964,199.007v10.4453H950.724v-5.5641L946.1359,199.3h-20.11l-4.9785,4.9785v35.7283l4.9785,4.9785h20.3045l4.7839-4.7833V229.5616H936.4713V218.2375H964v26.8452l-11.2261,11.2261H918.9976Z" style="fill: #ffffff"/>
+                                <path d="M315.485,193.0132l-23.704.1032-5.2359.0229c-.3541.79-.6517,1.6205-1.045,2.3843q-.6682,1.2989-1.4266,2.5709c-.48.8081-.9914,1.6066-1.5239,2.3992-.0213.0313-.0392.0633-.0608.095a55.74,55.74,0,0,1-3.9215,5.1335l-.1594-.2727h0L262.4371,178.1c1.0158-.4766,1.9752-.9641,2.9444-1.45v0c1.2447-.6241,2.4461-1.257,3.6149-1.8961.0936-.0515.1888-.1022.2817-.1537,1.09-.6,2.1406-1.2079,3.163-1.8219q.2607-.1562.5181-.3133,1.4081-.858,2.7283-1.7333c.2491-.1652.4917-.3315.7359-.4979.7932-.5379,1.5661-1.08,2.31-1.6281.3145-.232.6158-.467.9217-.7012.651-.4964,1.2937-.995,1.9053-1.4994.381-.3157.7394-.6358,1.1054-.9544.5062-.44,1.0178-.8788,1.4944-1.3245.4694-.44.9036-.8866,1.3445-1.3321.3391-.3418.696-.68,1.0183-1.0257.7492-.8052,1.46-1.6181,2.1183-2.442.5738-.7181,1.099-1.4554,1.613-2.1976q.7149-1.0545,1.36-2.1371h0a37.4735,37.4735,0,0,0,5.2512-19.77q-.0735-16.8748-12.2336-27.0984a40.6949,40.6949,0,0,0-14.0233-7.6193L386.1141,100l.1424,32.668-71.0331.3095.1225,28.1248,54.8794-.2391.139,31.9108-51.2676.2234Zm.1484,34.0742-.1042-23.93a78.5587,78.5587,0,0,1-3.5153,7.3411,90.267,90.267,0,0,1-17.8583,22.6322l15.3683,26.5439,77.2845-.3368-.1418-32.56Z" style="fill: #ffffff"/>
+                                <path d="M209.2593,133.1148l-22.6887.0988.2458,56.41a47.0561,47.0561,0,0,0-9.8769,28.9819q.0789,18.1,10.1325,29.6723l.052,11.93-40.781.1777L145.79,133.3913l-45.6487.1989L100,101.2467l135.6217-.5909a41.7323,41.7323,0,0,0-14.2679,8.2293A34.0777,34.0777,0,0,0,209.2593,133.1148Z" style="fill: #ffffff"/>
+                                <path d="M232.8568,191.7506l20.7149,37.1217a42.8552,42.8552,0,0,1-11.0069,6.16,31.382,31.382,0,0,1-10.8081,2.1565,18.12,18.12,0,0,1-13.9258-5.8348,21.8571,21.8571,0,0,1-.61-28.339Q222.17,196.9894,232.8568,191.7506Zm15.7439-36.1988q9.9339-4.1539,14.3487-8.8247a15.0669,15.0669,0,0,0,4.3884-10.7284q-.0273-6.2739-3.6128-9.8822t-9.9676-3.58a13.9144,13.9144,0,0,0-9.9363,3.6131,12.2007,12.2007,0,0,0-3.7455,9.3193,24.1547,24.1547,0,0,0,2.15,9.4018A53.9972,53.9972,0,0,0,248.6007,155.5518Z" style="fill: #ffc629"/>
+                                <path d="M266.9031,252.37q-3.4772,2.0363-6.8132,3.7947a53.2345,53.2345,0,0,1-8.7431,3.652c-.6616.21-1.3665.3763-2.0461.5686h22.104Z" style="fill: #ffffff"/>
+                            </g>
+                        </svg>
+                    </a>
+                    <div class="footer-text">
+                        <strong>UniFormat II</strong> Reference Tool by <a href="https://takeoffandestimating.com.au" target="_blank">Takeoff and Estimating</a>
+                    </div>
+                </div>
+                <div class="footer-contact">
+                    <a href="tel:1300818620">📞 1300 818 620</a>
+                    <a href="mailto:info@takeoffandestimating.com.au">✉️ info@takeoffandestimating.com.au</a>
+                    <a href="https://takeoffandestimating.com.au" target="_blank">🌐 Website</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Classification Tree Data
+        const treeData = [
+  {
+    "id": "A",
+    "id_display": "A",
+    "name": "SUBSTRUCTURE",
+    "description": "SUBSTRUCTURE     classification item.",
+    "children": [
+      {
+        "id": "A10",
+        "id_display": "A10",
+        "name": "Foundations",
+        "description": "Foundations     classification item.",
+        "children": [
+          {
+            "id": "A1010",
+            "id_display": "A1010",
+            "name": "Standard Foundations",
+            "description": "Standard Foundations    classification item.",
+            "children": [
+              {
+                "id": "A1011",
+                "id_display": "A1011",
+                "name": "Wall Foundations",
+                "description": "Wall Foundations    classification item.",
+                "children": []
+              },
+              {
+                "id": "A1012",
+                "id_display": "A1012",
+                "name": "Column Foundations & Pile Caps",
+                "description": "Column Foundations & Pile Caps classification item.",
+                "children": []
+              },
+              {
+                "id": "A1013",
+                "id_display": "A1013",
+                "name": "Perimeter Drainage & Insulation",
+                "description": "Perimeter Drainage & Insulation  classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "A1020",
+            "id_display": "A1020",
+            "name": "Special Foundations",
+            "description": "Special Foundations    classification item.",
+            "children": [
+              {
+                "id": "A1021",
+                "id_display": "A1021",
+                "name": "Pile Foundations",
+                "description": "Pile Foundations    classification item.",
+                "children": []
+              },
+              {
+                "id": "A1022",
+                "id_display": "A1022",
+                "name": "Grade Beams",
+                "description": "Grade Beams    classification item.",
+                "children": []
+              },
+              {
+                "id": "A1023",
+                "id_display": "A1023",
+                "name": "Caissons",
+                "description": "Caissons     classification item.",
+                "children": []
+              },
+              {
+                "id": "A1024",
+                "id_display": "A1024",
+                "name": "Underprinting",
+                "description": "Underprinting     classification item.",
+                "children": []
+              },
+              {
+                "id": "A1025",
+                "id_display": "A1025",
+                "name": "Dewatering",
+                "description": "Dewatering     classification item.",
+                "children": []
+              },
+              {
+                "id": "A1026",
+                "id_display": "A1026",
+                "name": "Raft Foundations",
+                "description": "Raft Foundations    classification item.",
+                "children": []
+              },
+              {
+                "id": "A1027",
+                "id_display": "A1027",
+                "name": "Pressure Injected Grouting",
+                "description": "Pressure Injected Grouting   classification item.",
+                "children": []
+              },
+              {
+                "id": "A1029",
+                "id_display": "A1029",
+                "name": "Other Special Conditions",
+                "description": "Other Special Conditions   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "A1030",
+            "id_display": "A1030",
+            "name": "Slab on Grade",
+            "description": "Slab on Grade   classification item.",
+            "children": [
+              {
+                "id": "A1031",
+                "id_display": "A1031",
+                "name": "Standard Slab on Grade",
+                "description": "Standard Slab on Grade  classification item.",
+                "children": []
+              },
+              {
+                "id": "A1032",
+                "id_display": "A1032",
+                "name": "Structural Slab on Grade",
+                "description": "Structural Slab on Grade  classification item.",
+                "children": []
+              },
+              {
+                "id": "A1033",
+                "id_display": "A1033",
+                "name": "Inclined Slab on Grade",
+                "description": "Inclined Slab on Grade  classification item.",
+                "children": []
+              },
+              {
+                "id": "A1034",
+                "id_display": "A1034",
+                "name": "Trenches, Pits & Bases",
+                "description": "Trenches, Pits & Bases  classification item.",
+                "children": []
+              },
+              {
+                "id": "A1035",
+                "id_display": "A1035",
+                "name": "Under-Slab Drainage & Insulation",
+                "description": "Under-Slab Drainage & Insulation  classification item.",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "A20",
+        "id_display": "A20",
+        "name": "Basement Construction",
+        "description": "Basement Construction    classification item.",
+        "children": [
+          {
+            "id": "A2010",
+            "id_display": "A2010",
+            "name": "Basement Excavation",
+            "description": "Basement Excavation    classification item.",
+            "children": [
+              {
+                "id": "A2011",
+                "id_display": "A2011",
+                "name": "Excavation for Basements",
+                "description": "Excavation for Basements   classification item.",
+                "children": []
+              },
+              {
+                "id": "A2012",
+                "id_display": "A2012",
+                "name": "Structure Back Fill & Compaction",
+                "description": "Structure Back Fill & Compaction classification item.",
+                "children": []
+              },
+              {
+                "id": "A2013",
+                "id_display": "A2013",
+                "name": "Shoring",
+                "description": "Shoring     classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "A2020",
+            "id_display": "A2020",
+            "name": "Basement Walls",
+            "description": "Basement Walls    classification item.",
+            "children": [
+              {
+                "id": "A2021",
+                "id_display": "A2021",
+                "name": "Basement Wall Construction",
+                "description": "Basement Wall Construction   classification item.",
+                "children": []
+              },
+              {
+                "id": "A2022",
+                "id_display": "A2022",
+                "name": "Moisture Protection",
+                "description": "Moisture Protection    classification item.",
+                "children": []
+              },
+              {
+                "id": "A2023",
+                "id_display": "A2023",
+                "name": "Basement Wall Insulation",
+                "description": "Basement Wall Insulation   classification item.",
+                "children": []
+              },
+              {
+                "id": "A2024",
+                "id_display": "A2024",
+                "name": "Interior Skin",
+                "description": "Interior Skin    classification item.",
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "B",
+    "id_display": "B",
+    "name": "SHELL",
+    "description": "SHELL     classification item.",
+    "children": [
+      {
+        "id": "B10",
+        "id_display": "B10",
+        "name": "Superstructure",
+        "description": "Superstructure     classification item.",
+        "children": [
+          {
+            "id": "B1010",
+            "id_display": "B1010",
+            "name": "Floor Construction",
+            "description": "Floor Construction    classification item.",
+            "children": [
+              {
+                "id": "B1011",
+                "id_display": "B1011",
+                "name": "Suspended Basement Floors Construction",
+                "description": "Suspended Basement Floors Construction  classification item.",
+                "children": []
+              },
+              {
+                "id": "B1012",
+                "id_display": "B1012",
+                "name": "Upper Floors Construction",
+                "description": "Upper Floors Construction   classification item.",
+                "children": []
+              },
+              {
+                "id": "B1013",
+                "id_display": "B1013",
+                "name": "Balcony Floors Construction",
+                "description": "Balcony Floors Construction   classification item.",
+                "children": []
+              },
+              {
+                "id": "B1014",
+                "id_display": "B1014",
+                "name": "Ramps",
+                "description": "Ramps     classification item.",
+                "children": []
+              },
+              {
+                "id": "B1015",
+                "id_display": "B1015",
+                "name": "Exterior Stairs and Fire Escapes",
+                "description": "Exterior Stairs and Fire Escapes classification item.",
+                "children": []
+              },
+              {
+                "id": "B1016",
+                "id_display": "B1016",
+                "name": "Floor Raceway Systems",
+                "description": "Floor Raceway Systems   classification item.",
+                "children": []
+              },
+              {
+                "id": "B1019",
+                "id_display": "B1019",
+                "name": "Other Floor Construction",
+                "description": "Other Floor Construction   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "B1020",
+            "id_display": "B1020",
+            "name": "Roof Construction",
+            "description": "Roof Construction    classification item.",
+            "children": [
+              {
+                "id": "B1021",
+                "id_display": "B1021",
+                "name": "Flat Roof Construction",
+                "description": "Flat Roof Construction   classification item.",
+                "children": []
+              },
+              {
+                "id": "B1022",
+                "id_display": "B1022",
+                "name": "Pitched Roof Construction",
+                "description": "Pitched Roof Construction   classification item.",
+                "children": []
+              },
+              {
+                "id": "B1023",
+                "id_display": "B1023",
+                "name": "Canopies",
+                "description": "Canopies     classification item.",
+                "children": []
+              },
+              {
+                "id": "B1029",
+                "id_display": "B1029",
+                "name": "Other Roof Systems",
+                "description": "Other Roof Systems   classification item.",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "B20",
+        "id_display": "B20",
+        "name": "Exterior Enclosure",
+        "description": "Exterior Enclosure    classification item.",
+        "children": [
+          {
+            "id": "B2010",
+            "id_display": "B2010",
+            "name": "Exterior Walls",
+            "description": "Exterior Walls    classification item.",
+            "children": [
+              {
+                "id": "B2011",
+                "id_display": "B2011",
+                "name": "Exterior Wall Construction",
+                "description": "Exterior Wall Construction   classification item.",
+                "children": []
+              },
+              {
+                "id": "B2012",
+                "id_display": "B2012",
+                "name": "Parapets",
+                "description": "Parapets     classification item.",
+                "children": []
+              },
+              {
+                "id": "B2013",
+                "id_display": "B2013",
+                "name": "Exterior Louvers, Screens, and Fencing",
+                "description": "Exterior Louvers, Screens, and Fencing classification item.",
+                "children": []
+              },
+              {
+                "id": "B2014",
+                "id_display": "B2014",
+                "name": "Exterior Sun Control Devices",
+                "description": "Exterior Sun Control Devices  classification item.",
+                "children": []
+              },
+              {
+                "id": "B2015",
+                "id_display": "B2015",
+                "name": "Balcony Walls & Handrails",
+                "description": "Balcony Walls & Handrails  classification item.",
+                "children": []
+              },
+              {
+                "id": "B2016",
+                "id_display": "B2016",
+                "name": "Exterior Soffits",
+                "description": "Exterior Soffits    classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "B2020",
+            "id_display": "B2020",
+            "name": "Exterior Windows",
+            "description": "Exterior Windows    classification item.",
+            "children": [
+              {
+                "id": "B2021",
+                "id_display": "B2021",
+                "name": "Windows",
+                "description": "Windows     classification item.",
+                "children": []
+              },
+              {
+                "id": "B2022",
+                "id_display": "B2022",
+                "name": "Curtain Walls",
+                "description": "Curtain Walls    classification item.",
+                "children": []
+              },
+              {
+                "id": "B2023",
+                "id_display": "B2023",
+                "name": "Storefronts",
+                "description": "Storefronts     classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "B2030",
+            "id_display": "B2030",
+            "name": "Exterior Doors",
+            "description": "Exterior Doors    classification item.",
+            "children": [
+              {
+                "id": "B2031",
+                "id_display": "B2031",
+                "name": "Glazed Doors & Entrances",
+                "description": "Glazed Doors & Entrances  classification item.",
+                "children": []
+              },
+              {
+                "id": "B2032",
+                "id_display": "B2032",
+                "name": "Solid Exterior Doors",
+                "description": "Solid Exterior Doors   classification item.",
+                "children": []
+              },
+              {
+                "id": "B2033",
+                "id_display": "B2033",
+                "name": "Revolving Doors",
+                "description": "Revolving Doors    classification item.",
+                "children": []
+              },
+              {
+                "id": "B2034",
+                "id_display": "B2034",
+                "name": "Overhead Doors",
+                "description": "Overhead Doors    classification item.",
+                "children": []
+              },
+              {
+                "id": "B2039",
+                "id_display": "B2039",
+                "name": "Other Doors & Entrances",
+                "description": "Other Doors & Entrances  classification item.",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "B30",
+        "id_display": "B30",
+        "name": "Roofing",
+        "description": "Roofing     classification item.",
+        "children": [
+          {
+            "id": "B3010",
+            "id_display": "B3010",
+            "name": "Roof Coverings",
+            "description": "Roof Coverings    classification item.",
+            "children": [
+              {
+                "id": "B3011",
+                "id_display": "B3011",
+                "name": "Roof Finishes",
+                "description": "Roof Finishes    classification item.",
+                "children": []
+              },
+              {
+                "id": "B3012",
+                "id_display": "B3012",
+                "name": "Traffic Toppings & Paving Membranes",
+                "description": "Traffic Toppings & Paving Membranes classification item.",
+                "children": []
+              },
+              {
+                "id": "B3013",
+                "id_display": "B3013",
+                "name": "Roof Insulation & Fill",
+                "description": "Roof Insulation & Fill  classification item.",
+                "children": []
+              },
+              {
+                "id": "B3014",
+                "id_display": "B3014",
+                "name": "Flashings & Trim",
+                "description": "Flashings & Trim   classification item.",
+                "children": []
+              },
+              {
+                "id": "B3015",
+                "id_display": "B3015",
+                "name": "Roof Eaves and Soffits",
+                "description": "Roof Eaves and Soffits  classification item.",
+                "children": []
+              },
+              {
+                "id": "B3016",
+                "id_display": "B3016",
+                "name": "Gutters and Downspouts",
+                "description": "Gutters and Downspouts   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "B3020",
+            "id_display": "B3020",
+            "name": "Roof Openings",
+            "description": "Roof Openings    classification item.",
+            "children": [
+              {
+                "id": "B3021",
+                "id_display": "B3021",
+                "name": "Glazed Roof Openings",
+                "description": "Glazed Roof Openings   classification item.",
+                "children": []
+              },
+              {
+                "id": "B3022",
+                "id_display": "B3022",
+                "name": "Roof Hatches",
+                "description": "Roof Hatches    classification item.",
+                "children": []
+              },
+              {
+                "id": "B3023",
+                "id_display": "B3023",
+                "name": "Gravity Roof Ventilators",
+                "description": "Gravity Roof Ventilators   classification item.",
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "C",
+    "id_display": "C",
+    "name": "INTERIORS",
+    "description": "INTERIORS     classification item.",
+    "children": [
+      {
+        "id": "C10",
+        "id_display": "C10",
+        "name": "Interior Construction",
+        "description": "Interior Construction    classification item.",
+        "children": [
+          {
+            "id": "C1010",
+            "id_display": "C1010",
+            "name": "Partitions",
+            "description": "Partitions     classification item.",
+            "children": [
+              {
+                "id": "C1011",
+                "id_display": "C1011",
+                "name": "Fixed Partitions",
+                "description": "Fixed Partitions    classification item.",
+                "children": []
+              },
+              {
+                "id": "C1012",
+                "id_display": "C1012",
+                "name": "Demountable Partitions",
+                "description": "Demountable Partitions    classification item.",
+                "children": []
+              },
+              {
+                "id": "C1013",
+                "id_display": "C1013",
+                "name": "Retractable Partitions",
+                "description": "Retractable Partitions    classification item.",
+                "children": []
+              },
+              {
+                "id": "C1014",
+                "id_display": "C1014",
+                "name": "Site Built Toilet Partitions",
+                "description": "Site Built Toilet Partitions  classification item.",
+                "children": []
+              },
+              {
+                "id": "C1015",
+                "id_display": "C1015",
+                "name": "Site Built Compartments Cubicles",
+                "description": "Site Built Compartments Cubicles  classification item.",
+                "children": []
+              },
+              {
+                "id": "C1016",
+                "id_display": "C1016",
+                "name": "Interior Balustrades and Screens",
+                "description": "Interior Balustrades and Screens  classification item.",
+                "children": []
+              },
+              {
+                "id": "C1017",
+                "id_display": "C1017",
+                "name": "Interior Windows & Storefronts",
+                "description": "Interior Windows & Storefronts  classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "C1020",
+            "id_display": "C1020",
+            "name": "Interior Doors",
+            "description": "Interior Doors    classification item.",
+            "children": [
+              {
+                "id": "C1021",
+                "id_display": "C1021",
+                "name": "Interior Doors",
+                "description": "Interior Doors    classification item.",
+                "children": []
+              },
+              {
+                "id": "C1022",
+                "id_display": "C1022",
+                "name": "Interior Door Frames",
+                "description": "Interior Door Frames   classification item.",
+                "children": []
+              },
+              {
+                "id": "C1023",
+                "id_display": "C1023",
+                "name": "Interior Door Hardware",
+                "description": "Interior Door Hardware   classification item.",
+                "children": []
+              },
+              {
+                "id": "C1024",
+                "id_display": "C1024",
+                "name": "Interior Door Wall Opening Elements",
+                "description": "Interior Door Wall Opening Elements classification item.",
+                "children": []
+              },
+              {
+                "id": "C1025",
+                "id_display": "C1025",
+                "name": "Interior Door Sidelights & Transoms",
+                "description": "Interior Door Sidelights & Transoms classification item.",
+                "children": []
+              },
+              {
+                "id": "C1026",
+                "id_display": "C1026",
+                "name": "Interior Hatches & Access Doors",
+                "description": "Interior Hatches & Access Doors classification item.",
+                "children": []
+              },
+              {
+                "id": "C1027",
+                "id_display": "C1027",
+                "name": "Door Painting & Decoration",
+                "description": "Door Painting & Decoration  classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "C1030",
+            "id_display": "C1030",
+            "name": "Fittings",
+            "description": "Fittings     classification item.",
+            "children": [
+              {
+                "id": "C1031",
+                "id_display": "C1031",
+                "name": "Fabricated Toilet Partitions",
+                "description": "Fabricated Toilet Partitions   classification item.",
+                "children": []
+              },
+              {
+                "id": "C1032",
+                "id_display": "C1032",
+                "name": "Fabricated Compartments & Cubicles",
+                "description": "Fabricated Compartments & Cubicles  classification item.",
+                "children": []
+              },
+              {
+                "id": "C1033",
+                "id_display": "C1033",
+                "name": "Storage Shelving and Lockers",
+                "description": "Storage Shelving and Lockers  classification item.",
+                "children": []
+              },
+              {
+                "id": "C1034",
+                "id_display": "C1034",
+                "name": "Ornamental Metals and Handrails",
+                "description": "Ornamental Metals and Handrails  classification item.",
+                "children": []
+              },
+              {
+                "id": "C1035",
+                "id_display": "C1035",
+                "name": "Identifying Devices",
+                "description": "Identifying Devices    classification item.",
+                "children": []
+              },
+              {
+                "id": "C1036",
+                "id_display": "C1036",
+                "name": "Closet Specialties",
+                "description": "Closet Specialties    classification item.",
+                "children": []
+              },
+              {
+                "id": "C1037",
+                "id_display": "C1037",
+                "name": "General Fittings & Misc. Metals",
+                "description": "General Fittings & Misc. Metals classification item.",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "C20",
+        "id_display": "C20",
+        "name": "Stairs",
+        "description": "Stairs     classification item.",
+        "children": [
+          {
+            "id": "C2010",
+            "id_display": "C2010",
+            "name": "Stair Construction",
+            "description": "Stair Construction    classification item.",
+            "children": [
+              {
+                "id": "C2011",
+                "id_display": "C2011",
+                "name": "Regular Stairs",
+                "description": "Regular Stairs    classification item.",
+                "children": []
+              },
+              {
+                "id": "C2012",
+                "id_display": "C2012",
+                "name": "Curved Stairs",
+                "description": "Curved Stairs    classification item.",
+                "children": []
+              },
+              {
+                "id": "C2013",
+                "id_display": "C2013",
+                "name": "Spiral Stairs",
+                "description": "Spiral Stairs    classification item.",
+                "children": []
+              },
+              {
+                "id": "C2014",
+                "id_display": "C2014",
+                "name": "Stair Handrails and Balustrades",
+                "description": "Stair Handrails and Balustrades  classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "C2020",
+            "id_display": "C2020",
+            "name": "Stair Finishes",
+            "description": "Stair Finishes    classification item.",
+            "children": [
+              {
+                "id": "C2021",
+                "id_display": "C2021",
+                "name": "Stair, Tread, and Landing Finishes",
+                "description": "Stair, Tread, and Landing Finishes classification item.",
+                "children": []
+              },
+              {
+                "id": "C2022",
+                "id_display": "C2022",
+                "name": "Stair Soffit Finishes",
+                "description": "Stair Soffit Finishes   classification item.",
+                "children": []
+              },
+              {
+                "id": "C2023",
+                "id_display": "C2023",
+                "name": "Stair Handrail & Balustrade Finishes",
+                "description": "Stair Handrail & Balustrade Finishes classification item.",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "C30",
+        "id_display": "C30",
+        "name": "Interior Finishes",
+        "description": "Interior Finishes    classification item.",
+        "children": [
+          {
+            "id": "C3010",
+            "id_display": "C3010",
+            "name": "Wall Finishes",
+            "description": "Wall Finishes    classification item.",
+            "children": [
+              {
+                "id": "C3011",
+                "id_display": "C3011",
+                "name": "Wall Finishes to Inside ExteriorWalls",
+                "description": "Wall Finishes to Inside ExteriorWalls classification item.",
+                "children": []
+              },
+              {
+                "id": "C3012",
+                "id_display": "C3012",
+                "name": "Wall Finishes to Interior Walls",
+                "description": "Wall Finishes to Interior Walls classification item.",
+                "children": []
+              },
+              {
+                "id": "C3013",
+                "id_display": "C3013",
+                "name": "Column Finishes",
+                "description": "Column Finishes    classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "C3020",
+            "id_display": "C3020",
+            "name": "Floor Finishes",
+            "description": "Floor Finishes    classification item.",
+            "children": [
+              {
+                "id": "C3021",
+                "id_display": "C3021",
+                "name": "Floor Toppings",
+                "description": "Floor Toppings    classification item.",
+                "children": []
+              },
+              {
+                "id": "C3022",
+                "id_display": "C3022",
+                "name": "Traffic Membranes",
+                "description": "Traffic Membranes    classification item.",
+                "children": []
+              },
+              {
+                "id": "C3023",
+                "id_display": "C3023",
+                "name": "Hardeners and Sealers",
+                "description": "Hardeners and Sealers   classification item.",
+                "children": []
+              },
+              {
+                "id": "C3024",
+                "id_display": "C3024",
+                "name": "Flooring",
+                "description": "Flooring     classification item.",
+                "children": []
+              },
+              {
+                "id": "C3025",
+                "id_display": "C3025",
+                "name": "Carpeting",
+                "description": "Carpeting     classification item.",
+                "children": []
+              },
+              {
+                "id": "C3026",
+                "id_display": "C3026",
+                "name": "Bases, Curbs and Trim",
+                "description": "Bases, Curbs and Trim  classification item.",
+                "children": []
+              },
+              {
+                "id": "C3027",
+                "id_display": "C3027",
+                "name": "Access Pedastal Flooring",
+                "description": "Access Pedastal Flooring   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "C3030",
+            "id_display": "C3030",
+            "name": "Ceiling Finishes",
+            "description": "Ceiling Finishes    classification item.",
+            "children": [
+              {
+                "id": "C3031",
+                "id_display": "C3031",
+                "name": "Ceiling Finishes",
+                "description": "Ceiling Finishes    classification item.",
+                "children": []
+              },
+              {
+                "id": "C3032",
+                "id_display": "C3032",
+                "name": "Suspended Ceilings",
+                "description": "Suspended Ceilings    classification item.",
+                "children": []
+              },
+              {
+                "id": "C3033",
+                "id_display": "C3033",
+                "name": "Other Ceilings",
+                "description": "Other Ceilings    classification item.",
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "D",
+    "id_display": "D",
+    "name": "SERVICES",
+    "description": "SERVICES     classification item.",
+    "children": [
+      {
+        "id": "D10",
+        "id_display": "D10",
+        "name": "Conveying",
+        "description": "Conveying     classification item.",
+        "children": [
+          {
+            "id": "D1010",
+            "id_display": "D1010",
+            "name": "Elevators & Lifts",
+            "description": "Elevators & Lifts   classification item.",
+            "children": [
+              {
+                "id": "D1011",
+                "id_display": "D1011",
+                "name": "Passenger Elevators",
+                "description": "Passenger Elevators    classification item.",
+                "children": []
+              },
+              {
+                "id": "D1012",
+                "id_display": "D1012",
+                "name": "Freight Elevators",
+                "description": "Freight Elevators    classification item.",
+                "children": []
+              },
+              {
+                "id": "D1013",
+                "id_display": "D1013",
+                "name": "Lifts",
+                "description": "Lifts     classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "D1020",
+            "id_display": "D1020",
+            "name": "Escalators & Moving Walks",
+            "description": "Escalators & Moving Walks  classification item.",
+            "children": [
+              {
+                "id": "D1021",
+                "id_display": "D1021",
+                "name": "Escalators",
+                "description": "Escalators     classification item.",
+                "children": []
+              },
+              {
+                "id": "D1022",
+                "id_display": "D1022",
+                "name": "Moving Walks",
+                "description": "Moving Walks    classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "D1090",
+            "id_display": "D1090",
+            "name": "Other Conveying Systems",
+            "description": "Other Conveying Systems   classification item.",
+            "children": [
+              {
+                "id": "D1091",
+                "id_display": "D1091",
+                "name": "Dumbwaiters",
+                "description": "Dumbwaiters     classification item.",
+                "children": []
+              },
+              {
+                "id": "D1092",
+                "id_display": "D1092",
+                "name": "Pneumatic Tube Systems",
+                "description": "Pneumatic Tube Systems   classification item.",
+                "children": []
+              },
+              {
+                "id": "D1093",
+                "id_display": "D1093",
+                "name": "Hoists & Cranes",
+                "description": "Hoists & Cranes   classification item.",
+                "children": []
+              },
+              {
+                "id": "D1094",
+                "id_display": "D1094",
+                "name": "Conveyors",
+                "description": "Conveyors     classification item.",
+                "children": []
+              },
+              {
+                "id": "D1095",
+                "id_display": "D1095",
+                "name": "Chutes",
+                "description": "Chutes     classification item.",
+                "children": []
+              },
+              {
+                "id": "D1096",
+                "id_display": "D1096",
+                "name": "Turntables",
+                "description": "Turntables     classification item.",
+                "children": []
+              },
+              {
+                "id": "D1097",
+                "id_display": "D1097",
+                "name": "Baggage Handling & Loading Systems",
+                "description": "Baggage Handling & Loading Systems classification item.",
+                "children": []
+              },
+              {
+                "id": "D1098",
+                "id_display": "D1098",
+                "name": "Transportation Systems",
+                "description": "Transportation Systems    classification item.",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "D20",
+        "id_display": "D20",
+        "name": "Plumbing",
+        "description": "Plumbing     classification item.",
+        "children": [
+          {
+            "id": "D2010",
+            "id_display": "D2010",
+            "name": "Plumbing Fixtures",
+            "description": "Plumbing Fixtures    classification item.",
+            "children": [
+              {
+                "id": "D2011",
+                "id_display": "D2011",
+                "name": "Water Closets",
+                "description": "Water Closets    classification item.",
+                "children": []
+              },
+              {
+                "id": "D2012",
+                "id_display": "D2012",
+                "name": "Urinals",
+                "description": "Urinals     classification item.",
+                "children": []
+              },
+              {
+                "id": "D2013",
+                "id_display": "D2013",
+                "name": "Lavatories",
+                "description": "Lavatories     classification item.",
+                "children": []
+              },
+              {
+                "id": "D2014",
+                "id_display": "D2014",
+                "name": "Sinks",
+                "description": "Sinks     classification item.",
+                "children": []
+              },
+              {
+                "id": "D2015",
+                "id_display": "D2015",
+                "name": "Bathtubs",
+                "description": "Bathtubs     classification item.",
+                "children": []
+              },
+              {
+                "id": "D2016",
+                "id_display": "D2016",
+                "name": "Wash Fountains",
+                "description": "Wash Fountains    classification item.",
+                "children": []
+              },
+              {
+                "id": "D2017",
+                "id_display": "D2017",
+                "name": "Showers",
+                "description": "Showers     classification item.",
+                "children": []
+              },
+              {
+                "id": "D2018",
+                "id_display": "D2018",
+                "name": "Drinking Fountains and Coolers",
+                "description": "Drinking Fountains and Coolers  classification item.",
+                "children": []
+              },
+              {
+                "id": "D2019",
+                "id_display": "D2019",
+                "name": "Bidets and Other Plumbing Fixtures",
+                "description": "Bidets and Other Plumbing Fixtures classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "D2020",
+            "id_display": "D2020",
+            "name": "Domestic Water Distribution",
+            "description": "Domestic Water Distribution   classification item.",
+            "children": [
+              {
+                "id": "D2021",
+                "id_display": "D2021",
+                "name": "Cold Water Service",
+                "description": "Cold Water Service   classification item.",
+                "children": []
+              },
+              {
+                "id": "D2022",
+                "id_display": "D2022",
+                "name": "Hot Water Service",
+                "description": "Hot Water Service   classification item.",
+                "children": []
+              },
+              {
+                "id": "D2023",
+                "id_display": "D2023",
+                "name": "Domestic Water Supply Equipment",
+                "description": "Domestic Water Supply Equipment  classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "D2030",
+            "id_display": "D2030",
+            "name": "Sanitary Waste",
+            "description": "Sanitary Waste    classification item.",
+            "children": [
+              {
+                "id": "D2031",
+                "id_display": "D2031",
+                "name": "Waste Piping",
+                "description": "Waste Piping    classification item.",
+                "children": []
+              },
+              {
+                "id": "D2032",
+                "id_display": "D2032",
+                "name": "Vent Piping",
+                "description": "Vent Piping    classification item.",
+                "children": []
+              },
+              {
+                "id": "D2033",
+                "id_display": "D2033",
+                "name": "Floor Drains",
+                "description": "Floor Drains    classification item.",
+                "children": []
+              },
+              {
+                "id": "D2034",
+                "id_display": "D2034",
+                "name": "Sanitary Waste Equipment",
+                "description": "Sanitary Waste Equipment   classification item.",
+                "children": []
+              },
+              {
+                "id": "D2035",
+                "id_display": "D2035",
+                "name": "Pipe Insulation",
+                "description": "Pipe Insulation    classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "D2040",
+            "id_display": "D2040",
+            "name": "Rain Water Drainage",
+            "description": "Rain Water Drainage   classification item.",
+            "children": [
+              {
+                "id": "D2041",
+                "id_display": "D2041",
+                "name": "Pipe & Fittings",
+                "description": "Pipe & Fittings   classification item.",
+                "children": []
+              },
+              {
+                "id": "D2042",
+                "id_display": "D2042",
+                "name": "Roof Drains",
+                "description": "Roof Drains    classification item.",
+                "children": []
+              },
+              {
+                "id": "D2043",
+                "id_display": "D2043",
+                "name": "Rainwater Drainage Equipment",
+                "description": "Rainwater Drainage Equipment   classification item.",
+                "children": []
+              },
+              {
+                "id": "D2044",
+                "id_display": "D2044",
+                "name": "Pipe Insulation",
+                "description": "Pipe Insulation    classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "D2090",
+            "id_display": "D2090",
+            "name": "Other Plumbing Systems",
+            "description": "Other Plumbing Systems   classification item.",
+            "children": [
+              {
+                "id": "D2091",
+                "id_display": "D2091",
+                "name": "Gas Distribution",
+                "description": "Gas Distribution    classification item.",
+                "children": []
+              },
+              {
+                "id": "D2092",
+                "id_display": "D2092",
+                "name": "Acid Waste Systems",
+                "description": "Acid Waste Systems   classification item.",
+                "children": []
+              },
+              {
+                "id": "D2093",
+                "id_display": "D2093",
+                "name": "Interceptors",
+                "description": "Interceptors     classification item.",
+                "children": []
+              },
+              {
+                "id": "D2094",
+                "id_display": "D2094",
+                "name": "Pool Piping and Equipment",
+                "description": "Pool Piping and Equipment  classification item.",
+                "children": []
+              },
+              {
+                "id": "D2095",
+                "id_display": "D2095",
+                "name": "Decorative Fountain Piping Devices",
+                "description": "Decorative Fountain Piping Devices  classification item.",
+                "children": []
+              },
+              {
+                "id": "D2099",
+                "id_display": "D2099",
+                "name": "Other Piping Systems",
+                "description": "Other Piping Systems   classification item.",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "D30",
+        "id_display": "D30",
+        "name": "HVAC",
+        "description": "HVAC     classification item.",
+        "children": [
+          {
+            "id": "D3010",
+            "id_display": "D3010",
+            "name": "Energy Supply",
+            "description": "Energy Supply    classification item.",
+            "children": [
+              {
+                "id": "D3011",
+                "id_display": "D3011",
+                "name": "Oil Supply System",
+                "description": "Oil Supply System   classification item.",
+                "children": []
+              },
+              {
+                "id": "D3012",
+                "id_display": "D3012",
+                "name": "Gas Supply System",
+                "description": "Gas Supply System   classification item.",
+                "children": []
+              },
+              {
+                "id": "D3013",
+                "id_display": "D3013",
+                "name": "Coal Supply System",
+                "description": "Coal Supply System   classification item.",
+                "children": []
+              },
+              {
+                "id": "D3014",
+                "id_display": "D3014",
+                "name": "Steam Supply System",
+                "description": "Steam Supply System   classification item.",
+                "children": []
+              },
+              {
+                "id": "D3015",
+                "id_display": "D3015",
+                "name": "Hot Water Supply System",
+                "description": "Hot Water Supply System  classification item.",
+                "children": []
+              },
+              {
+                "id": "D3016",
+                "id_display": "D3016",
+                "name": "Solar Energy System",
+                "description": "Solar Energy System   classification item.",
+                "children": []
+              },
+              {
+                "id": "D3017",
+                "id_display": "D3017",
+                "name": "Wind Energy System",
+                "description": "Wind Energy System   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "D3020",
+            "id_display": "D3020",
+            "name": "Heat Generating Systems",
+            "description": "Heat Generating Systems   classification item.",
+            "children": [
+              {
+                "id": "D3021",
+                "id_display": "D3021",
+                "name": "Boilers",
+                "description": "Boilers     classification item.",
+                "children": []
+              },
+              {
+                "id": "D3022",
+                "id_display": "D3022",
+                "name": "Boiler Room Piping & Specialties",
+                "description": "Boiler Room Piping & Specialties classification item.",
+                "children": []
+              },
+              {
+                "id": "D3023",
+                "id_display": "D3023",
+                "name": "Auxiliary Equipment",
+                "description": "Auxiliary Equipment    classification item.",
+                "children": []
+              },
+              {
+                "id": "D3024",
+                "id_display": "D3024",
+                "name": "Insulation",
+                "description": "Insulation     classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "D3030",
+            "id_display": "D3030",
+            "name": "Cooling Generating Systems",
+            "description": "Cooling Generating Systems   classification item.",
+            "children": [
+              {
+                "id": "D3031",
+                "id_display": "D3031",
+                "name": "Chilled Water Systems",
+                "description": "Chilled Water Systems   classification item.",
+                "children": []
+              },
+              {
+                "id": "D3032",
+                "id_display": "D3032",
+                "name": "Direct Expansion Systems",
+                "description": "Direct Expansion Systems   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "D3040",
+            "id_display": "D3040",
+            "name": "Distribution Systems",
+            "description": "Distribution Systems    classification item.",
+            "children": [
+              {
+                "id": "D3041",
+                "id_display": "D3041",
+                "name": "Air Distribution Systems",
+                "description": "Air Distribution Systems   classification item.",
+                "children": []
+              },
+              {
+                "id": "D3042",
+                "id_display": "D3042",
+                "name": "Exhaust Ventilation Systems",
+                "description": "Exhaust Ventilation Systems   classification item.",
+                "children": []
+              },
+              {
+                "id": "D3043",
+                "id_display": "D3043",
+                "name": "Steam Distribution Systems",
+                "description": "Steam Distribution Systems   classification item.",
+                "children": []
+              },
+              {
+                "id": "D3044",
+                "id_display": "D3044",
+                "name": "Hot Water Distribution",
+                "description": "Hot Water Distribution   classification item.",
+                "children": []
+              },
+              {
+                "id": "D3045",
+                "id_display": "D3045",
+                "name": "Chilled Water Distribution",
+                "description": "Chilled Water Distribution   classification item.",
+                "children": []
+              },
+              {
+                "id": "D3046",
+                "id_display": "D3046",
+                "name": "Change-over Distribution System",
+                "description": "Change-over Distribution System   classification item.",
+                "children": []
+              },
+              {
+                "id": "D3047",
+                "id_display": "D3047",
+                "name": "Glycol Distribution Systems",
+                "description": "Glycol Distribution Systems   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "D3050",
+            "id_display": "D3050",
+            "name": "Terminal & Package Units",
+            "description": "Terminal & Package Units  classification item.",
+            "children": [
+              {
+                "id": "D3051",
+                "id_display": "D3051",
+                "name": "Terminal Self-Contained Units",
+                "description": "Terminal Self-Contained Units   classification item.",
+                "children": []
+              },
+              {
+                "id": "D3052",
+                "id_display": "D3052",
+                "name": "Package Units",
+                "description": "Package Units    classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "D3060",
+            "id_display": "D3060",
+            "name": "Controls & Instrumentation",
+            "description": "Controls & Instrumentation   classification item.",
+            "children": [
+              {
+                "id": "D3061",
+                "id_display": "D3061",
+                "name": "Heating Generating Systems",
+                "description": "Heating Generating Systems   classification item.",
+                "children": []
+              },
+              {
+                "id": "D3062",
+                "id_display": "D3062",
+                "name": "Cooling Generating Systems",
+                "description": "Cooling Generating Systems   classification item.",
+                "children": []
+              },
+              {
+                "id": "D3063",
+                "id_display": "D3063",
+                "name": "Heating/Cooling Air Handling Units",
+                "description": "Heating/Cooling Air Handling Units  classification item.",
+                "children": []
+              },
+              {
+                "id": "D3064",
+                "id_display": "D3064",
+                "name": "Exhaust & Ventilating Systems",
+                "description": "Exhaust & Ventilating Systems  classification item.",
+                "children": []
+              },
+              {
+                "id": "D3065",
+                "id_display": "D3065",
+                "name": "Hoods and Exhaust Systems",
+                "description": "Hoods and Exhaust Systems  classification item.",
+                "children": []
+              },
+              {
+                "id": "D3066",
+                "id_display": "D3066",
+                "name": "Terminal Devices",
+                "description": "Terminal Devices    classification item.",
+                "children": []
+              },
+              {
+                "id": "D3067",
+                "id_display": "D3067",
+                "name": "Energy Monitoring & Control",
+                "description": "Energy Monitoring & Control  classification item.",
+                "children": []
+              },
+              {
+                "id": "D3068",
+                "id_display": "D3068",
+                "name": "Building Automation Systems",
+                "description": "Building Automation Systems   classification item.",
+                "children": []
+              },
+              {
+                "id": "D3069",
+                "id_display": "D3069",
+                "name": "Other Controls & Instrumentation",
+                "description": "Other Controls & Instrumentation  classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "D3070",
+            "id_display": "D3070",
+            "name": "Systems Testing & Balancing",
+            "description": "Systems Testing & Balancing  classification item.",
+            "children": [
+              {
+                "id": "D3071",
+                "id_display": "D3071",
+                "name": "Piping System Testing & Balancing",
+                "description": "Piping System Testing & Balancing classification item.",
+                "children": []
+              },
+              {
+                "id": "D3072",
+                "id_display": "D3072",
+                "name": "Air Systems Testing & Balancing",
+                "description": "Air Systems Testing & Balancing classification item.",
+                "children": []
+              },
+              {
+                "id": "D3073",
+                "id_display": "D3073",
+                "name": "HVAC Commissioning",
+                "description": "HVAC Commissioning    classification item.",
+                "children": []
+              },
+              {
+                "id": "D3079",
+                "id_display": "D3079",
+                "name": "Other Systems Testing and Balancing",
+                "description": "Other Systems Testing and Balancing classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "D3090",
+            "id_display": "D3090",
+            "name": "Other HVAC Systems & Equipment",
+            "description": "Other HVAC Systems & Equipment classification item.",
+            "children": [
+              {
+                "id": "D3091",
+                "id_display": "D3091",
+                "name": "Special Cooling Systems & Devices",
+                "description": "Special Cooling Systems & Devices classification item.",
+                "children": []
+              },
+              {
+                "id": "D3092",
+                "id_display": "D3092",
+                "name": "Special Humidity Control",
+                "description": "Special Humidity Control   classification item.",
+                "children": []
+              },
+              {
+                "id": "D3093",
+                "id_display": "D3093",
+                "name": "Dust & Fume Collectors",
+                "description": "Dust & Fume Collectors  classification item.",
+                "children": []
+              },
+              {
+                "id": "D3094",
+                "id_display": "D3094",
+                "name": "Air Curtains",
+                "description": "Air Curtains    classification item.",
+                "children": []
+              },
+              {
+                "id": "D3095",
+                "id_display": "D3095",
+                "name": "Air Purifiers",
+                "description": "Air Purifiers    classification item.",
+                "children": []
+              },
+              {
+                "id": "D3096",
+                "id_display": "D3096",
+                "name": "Paint Spray Booth Ventilation",
+                "description": "Paint Spray Booth Ventilation  classification item.",
+                "children": []
+              },
+              {
+                "id": "D3097",
+                "id_display": "D3097",
+                "name": "General Construction Items (HVAC)",
+                "description": "General Construction Items (HVAC)  classification item.",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "D40",
+        "id_display": "D40",
+        "name": "Fire Protection",
+        "description": "Fire Protection    classification item.",
+        "children": [
+          {
+            "id": "D4010",
+            "id_display": "D4010",
+            "name": "Sprinklers",
+            "description": "Sprinklers     classification item.",
+            "children": [
+              {
+                "id": "D4011",
+                "id_display": "D4011",
+                "name": "Sprinkler Water Supply",
+                "description": "Sprinkler Water Supply   classification item.",
+                "children": []
+              },
+              {
+                "id": "D4012",
+                "id_display": "D4012",
+                "name": "Sprinkler Pumping Equipment",
+                "description": "Sprinkler Pumping Equipment   classification item.",
+                "children": []
+              },
+              {
+                "id": "D4013",
+                "id_display": "D4013",
+                "name": "Dry Sprinkler System",
+                "description": "Dry Sprinkler System   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "D4020",
+            "id_display": "D4020",
+            "name": "Standpipes",
+            "description": "Standpipes     classification item.",
+            "children": [
+              {
+                "id": "D4021",
+                "id_display": "D4021",
+                "name": "Standpipe Water Supply",
+                "description": "Standpipe Water Supply   classification item.",
+                "children": []
+              },
+              {
+                "id": "D4022",
+                "id_display": "D4022",
+                "name": "Pumping Equipment",
+                "description": "Pumping Equipment    classification item.",
+                "children": []
+              },
+              {
+                "id": "D4023",
+                "id_display": "D4023",
+                "name": "Standpipe Equipment",
+                "description": "Standpipe Equipment    classification item.",
+                "children": []
+              },
+              {
+                "id": "D4024",
+                "id_display": "D4024",
+                "name": "Fire Hose Equipment",
+                "description": "Fire Hose Equipment   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "D4030",
+            "id_display": "D4030",
+            "name": "Fire Protection Specialties",
+            "description": "Fire Protection Specialties   classification item.",
+            "children": [
+              {
+                "id": "D4031",
+                "id_display": "D4031",
+                "name": "Fire Extinguishers",
+                "description": "Fire Extinguishers    classification item.",
+                "children": []
+              },
+              {
+                "id": "D4032",
+                "id_display": "D4032",
+                "name": "Fire Extinguisher Cabinets",
+                "description": "Fire Extinguisher Cabinets   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "D4090",
+            "id_display": "D4090",
+            "name": "Other Fire Protection Systems",
+            "description": "Other Fire Protection Systems  classification item.",
+            "children": [
+              {
+                "id": "D4091",
+                "id_display": "D4091",
+                "name": "Carbon Dioxide Systems",
+                "description": "Carbon Dioxide Systems   classification item.",
+                "children": []
+              },
+              {
+                "id": "D4092",
+                "id_display": "D4092",
+                "name": "Foam Generating Equipment",
+                "description": "Foam Generating Equipment   classification item.",
+                "children": []
+              },
+              {
+                "id": "D4093",
+                "id_display": "D4093",
+                "name": "Clean Agent Systems",
+                "description": "Clean Agent Systems   classification item.",
+                "children": []
+              },
+              {
+                "id": "D4094",
+                "id_display": "D4094",
+                "name": "Dry Chemical System",
+                "description": "Dry Chemical System   classification item.",
+                "children": []
+              },
+              {
+                "id": "D4095",
+                "id_display": "D4095",
+                "name": "Hood & Duct Fire Protection",
+                "description": "Hood & Duct Fire Protection classification item.",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "D50",
+        "id_display": "D50",
+        "name": "Electrical",
+        "description": "Electrical     classification item.",
+        "children": [
+          {
+            "id": "D5010",
+            "id_display": "D5010",
+            "name": "Electrical Service & Distribution",
+            "description": "Electrical Service & Distribution  classification item.",
+            "children": [
+              {
+                "id": "D5011",
+                "id_display": "D5011",
+                "name": "High Tension Service & Dist.",
+                "description": "High Tension Service & Dist. classification item.",
+                "children": []
+              },
+              {
+                "id": "D5012",
+                "id_display": "D5012",
+                "name": "Low Tension Service & Dist.",
+                "description": "Low Tension Service & Dist. classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "D5020",
+            "id_display": "D5020",
+            "name": "Lighting and Branch Wiring",
+            "description": "Lighting and Branch Wiring  classification item.",
+            "children": [
+              {
+                "id": "D5021",
+                "id_display": "D5021",
+                "name": "Branch Wiring Devices",
+                "description": "Branch Wiring Devices   classification item.",
+                "children": []
+              },
+              {
+                "id": "D5022",
+                "id_display": "D5022",
+                "name": "Lighting Equipment",
+                "description": "Lighting Equipment    classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "D5030",
+            "id_display": "D5030",
+            "name": "Communications & Security",
+            "description": "Communications & Security   classification item.",
+            "children": [
+              {
+                "id": "D5031",
+                "id_display": "D5031",
+                "name": "Public Address & Music Systems",
+                "description": "Public Address & Music Systems classification item.",
+                "children": []
+              },
+              {
+                "id": "D5032",
+                "id_display": "D5032",
+                "name": "Intercommunication & Paging System",
+                "description": "Intercommunication & Paging System  classification item.",
+                "children": []
+              },
+              {
+                "id": "D5033",
+                "id_display": "D5033",
+                "name": "Telephone Systems",
+                "description": "Telephone Systems    classification item.",
+                "children": []
+              },
+              {
+                "id": "D5034",
+                "id_display": "D5034",
+                "name": "Call Systems",
+                "description": "Call Systems    classification item.",
+                "children": []
+              },
+              {
+                "id": "D5035",
+                "id_display": "D5035",
+                "name": "Television Systems",
+                "description": "Television Systems    classification item.",
+                "children": []
+              },
+              {
+                "id": "D5036",
+                "id_display": "D5036",
+                "name": "Clock and Program Systems",
+                "description": "Clock and Program Systems  classification item.",
+                "children": []
+              },
+              {
+                "id": "D5037",
+                "id_display": "D5037",
+                "name": "Fire Alarm Systems",
+                "description": "Fire Alarm Systems   classification item.",
+                "children": []
+              },
+              {
+                "id": "D5038",
+                "id_display": "D5038",
+                "name": "Security and Detection Systems",
+                "description": "Security and Detection Systems  classification item.",
+                "children": []
+              },
+              {
+                "id": "D5039",
+                "id_display": "D5039",
+                "name": "Local Area Networks",
+                "description": "Local Area Networks   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "D5090",
+            "id_display": "D5090",
+            "name": "Other Electrical Systems",
+            "description": "Other Electrical Systems   classification item.",
+            "children": [
+              {
+                "id": "D5091",
+                "id_display": "D5091",
+                "name": "Grounding Systems",
+                "description": "Grounding Systems    classification item.",
+                "children": []
+              },
+              {
+                "id": "D5092",
+                "id_display": "D5092",
+                "name": "Emergency Light & Power Systems",
+                "description": "Emergency Light & Power Systems classification item.",
+                "children": []
+              },
+              {
+                "id": "D5093",
+                "id_display": "D5093",
+                "name": "Floor Raceway Systems",
+                "description": "Floor Raceway Systems   classification item.",
+                "children": []
+              },
+              {
+                "id": "D5094",
+                "id_display": "D5094",
+                "name": "Other Special Systems & Devices",
+                "description": "Other Special Systems & Devices classification item.",
+                "children": []
+              },
+              {
+                "id": "D5095",
+                "id_display": "D5095",
+                "name": "General Construction Items (Elect.)",
+                "description": "General Construction Items (Elect.)  classification item.",
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "E",
+    "id_display": "E",
+    "name": "EQUIPMENT & FURNISHINGS",
+    "description": "EQUIPMENT & FURNISHINGS   classification item.",
+    "children": [
+      {
+        "id": "E10",
+        "id_display": "E10",
+        "name": "Equipment",
+        "description": "Equipment     classification item.",
+        "children": [
+          {
+            "id": "E1010",
+            "id_display": "E1010",
+            "name": "Commercial Equipment",
+            "description": "Commercial Equipment    classification item.",
+            "children": [
+              {
+                "id": "E1011",
+                "id_display": "E1011",
+                "name": "Security & Vault Equipment",
+                "description": "Security & Vault Equipment  classification item.",
+                "children": []
+              },
+              {
+                "id": "E1012",
+                "id_display": "E1012",
+                "name": "Teller and Service Equipment",
+                "description": "Teller and Service Equipment  classification item.",
+                "children": []
+              },
+              {
+                "id": "E1013",
+                "id_display": "E1013",
+                "name": "Registration Equipment",
+                "description": "Registration Equipment    classification item.",
+                "children": []
+              },
+              {
+                "id": "E1014",
+                "id_display": "E1014",
+                "name": "Checkroom Equipment",
+                "description": "Checkroom Equipment    classification item.",
+                "children": []
+              },
+              {
+                "id": "E1015",
+                "id_display": "E1015",
+                "name": "Mercantile Equipment",
+                "description": "Mercantile Equipment    classification item.",
+                "children": []
+              },
+              {
+                "id": "E1016",
+                "id_display": "E1016",
+                "name": "Laundry & Dry Cleaning Equipment",
+                "description": "Laundry & Dry Cleaning Equipment classification item.",
+                "children": []
+              },
+              {
+                "id": "E1017",
+                "id_display": "E1017",
+                "name": "Vending Equipment",
+                "description": "Vending Equipment    classification item.",
+                "children": []
+              },
+              {
+                "id": "E1018",
+                "id_display": "E1018",
+                "name": "Office Equipment",
+                "description": "Office Equipment    classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "E1020",
+            "id_display": "E1020",
+            "name": "Institutional Equipment",
+            "description": "Institutional Equipment    classification item.",
+            "children": [
+              {
+                "id": "E1021",
+                "id_display": "E1021",
+                "name": "Ecclesiastical Equipment",
+                "description": "Ecclesiastical Equipment    classification item.",
+                "children": []
+              },
+              {
+                "id": "E1022",
+                "id_display": "E1022",
+                "name": "Library Equipment",
+                "description": "Library Equipment    classification item.",
+                "children": []
+              },
+              {
+                "id": "E1023",
+                "id_display": "E1023",
+                "name": "Theater & Stage Equipment",
+                "description": "Theater & Stage Equipment  classification item.",
+                "children": []
+              },
+              {
+                "id": "E1024",
+                "id_display": "E1024",
+                "name": "Instrumental Equipment",
+                "description": "Instrumental Equipment    classification item.",
+                "children": []
+              },
+              {
+                "id": "E1025",
+                "id_display": "E1025",
+                "name": "Audio-visual Equipment",
+                "description": "Audio-visual Equipment    classification item.",
+                "children": []
+              },
+              {
+                "id": "E1026",
+                "id_display": "E1026",
+                "name": "Detention Equipment",
+                "description": "Detention Equipment    classification item.",
+                "children": []
+              },
+              {
+                "id": "E1027",
+                "id_display": "E1027",
+                "name": "Laboratory Equipment",
+                "description": "Laboratory Equipment    classification item.",
+                "children": []
+              },
+              {
+                "id": "E1028",
+                "id_display": "E1028",
+                "name": "Medical Equipment",
+                "description": "Medical Equipment    classification item.",
+                "children": []
+              },
+              {
+                "id": "E1029",
+                "id_display": "E1029",
+                "name": "Other Institutional Equipment",
+                "description": "Other Institutional Equipment   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "E1030",
+            "id_display": "E1030",
+            "name": "Vehicular Equipment",
+            "description": "Vehicular Equipment    classification item.",
+            "children": [
+              {
+                "id": "E1031",
+                "id_display": "E1031",
+                "name": "Vehicular Service Equipment",
+                "description": "Vehicular Service Equipment   classification item.",
+                "children": []
+              },
+              {
+                "id": "E1032",
+                "id_display": "E1032",
+                "name": "Parking Control Equipment",
+                "description": "Parking Control Equipment   classification item.",
+                "children": []
+              },
+              {
+                "id": "E1033",
+                "id_display": "E1033",
+                "name": "Loading Dock Equipment",
+                "description": "Loading Dock Equipment   classification item.",
+                "children": []
+              },
+              {
+                "id": "E1039",
+                "id_display": "E1039",
+                "name": "Other Vehicular Equipment",
+                "description": "Other Vehicular Equipment   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "E1090",
+            "id_display": "E1090",
+            "name": "Other Equipment",
+            "description": "Other Equipment    classification item.",
+            "children": [
+              {
+                "id": "E1091",
+                "id_display": "E1091",
+                "name": "Maintenance Equipment",
+                "description": "Maintenance Equipment    classification item.",
+                "children": []
+              },
+              {
+                "id": "E1092",
+                "id_display": "E1092",
+                "name": "Solid Waste Handling Equipment",
+                "description": "Solid Waste Handling Equipment  classification item.",
+                "children": []
+              },
+              {
+                "id": "E1093",
+                "id_display": "E1093",
+                "name": "Food Service Equipment",
+                "description": "Food Service Equipment   classification item.",
+                "children": []
+              },
+              {
+                "id": "E1094",
+                "id_display": "E1094",
+                "name": "Residential Equipment",
+                "description": "Residential Equipment    classification item.",
+                "children": []
+              },
+              {
+                "id": "E1095",
+                "id_display": "E1095",
+                "name": "Unit Kitchens",
+                "description": "Unit Kitchens    classification item.",
+                "children": []
+              },
+              {
+                "id": "E1097",
+                "id_display": "E1097",
+                "name": "Window Washing Equipment",
+                "description": "Window Washing Equipment   classification item.",
+                "children": []
+              },
+              {
+                "id": "E1099",
+                "id_display": "E1099",
+                "name": "Other Equipment",
+                "description": "Other Equipment    classification item.",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "E20",
+        "id_display": "E20",
+        "name": "Furnishings",
+        "description": "Furnishings     classification item.",
+        "children": [
+          {
+            "id": "E2010",
+            "id_display": "E2010",
+            "name": "Fixed Furnishings",
+            "description": "Fixed Furnishings    classification item.",
+            "children": [
+              {
+                "id": "E2011",
+                "id_display": "E2011",
+                "name": "Fixed Artwork",
+                "description": "Fixed Artwork    classification item.",
+                "children": []
+              },
+              {
+                "id": "E2012",
+                "id_display": "E2012",
+                "name": "Fixed Casework",
+                "description": "Fixed Casework    classification item.",
+                "children": []
+              },
+              {
+                "id": "E2013",
+                "id_display": "E2013",
+                "name": "Blinds and Other Window Treatment",
+                "description": "Blinds and Other Window Treatment classification item.",
+                "children": []
+              },
+              {
+                "id": "E2014",
+                "id_display": "E2014",
+                "name": "Fixed Floor Grilles and Mats",
+                "description": "Fixed Floor Grilles and Mats classification item.",
+                "children": []
+              },
+              {
+                "id": "E2015",
+                "id_display": "E2015",
+                "name": "Fixed Multiple Seating",
+                "description": "Fixed Multiple Seating   classification item.",
+                "children": []
+              },
+              {
+                "id": "E2016",
+                "id_display": "E2016",
+                "name": "Fixed Interior Landscaping",
+                "description": "Fixed Interior Landscaping   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "E2020",
+            "id_display": "E2020",
+            "name": "Movable Furnishings",
+            "description": "Movable Furnishings    classification item.",
+            "children": [
+              {
+                "id": "E2021",
+                "id_display": "E2021",
+                "name": "Movable Artwork",
+                "description": "Movable Artwork    classification item.",
+                "children": []
+              },
+              {
+                "id": "E2022",
+                "id_display": "E2022",
+                "name": "Furniture & Accessories",
+                "description": "Furniture & Accessories   classification item.",
+                "children": []
+              },
+              {
+                "id": "E2023",
+                "id_display": "E2023",
+                "name": "Movable Rugs and Mats",
+                "description": "Movable Rugs and Mats  classification item.",
+                "children": []
+              },
+              {
+                "id": "E2024",
+                "id_display": "E2024",
+                "name": "Movable Interior Landscaping",
+                "description": "Movable Interior Landscaping   classification item.",
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "F",
+    "id_display": "F",
+    "name": "SPECIAL CONSTRUCTION & DEMOLITION",
+    "description": "SPECIAL CONSTRUCTION & DEMOLITION  classification item.",
+    "children": [
+      {
+        "id": "F10",
+        "id_display": "F10",
+        "name": "Special Construction",
+        "description": "Special Construction    classification item.",
+        "children": [
+          {
+            "id": "F1010",
+            "id_display": "F1010",
+            "name": "Special Structures",
+            "description": "Special Structures    classification item.",
+            "children": [
+              {
+                "id": "F1011",
+                "id_display": "F1011",
+                "name": "Air Supported Structures",
+                "description": "Air Supported Structures   classification item.",
+                "children": []
+              },
+              {
+                "id": "F1012",
+                "id_display": "F1012",
+                "name": "Pre-engineered Structures",
+                "description": "Pre-engineered Structures    classification item.",
+                "children": []
+              },
+              {
+                "id": "F1013",
+                "id_display": "F1013",
+                "name": "Other Special Structures",
+                "description": "Other Special Structures   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "F1020",
+            "id_display": "F1020",
+            "name": "Integrated Construction",
+            "description": "Integrated Construction    classification item.",
+            "children": [
+              {
+                "id": "F1021",
+                "id_display": "F1021",
+                "name": "Integrated Assemblies",
+                "description": "Integrated Assemblies    classification item.",
+                "children": []
+              },
+              {
+                "id": "F1022",
+                "id_display": "F1022",
+                "name": "Special Purpose Rooms",
+                "description": "Special Purpose Rooms   classification item.",
+                "children": []
+              },
+              {
+                "id": "F1023",
+                "id_display": "F1023",
+                "name": "Other Integrated Construction",
+                "description": "Other Integrated Construction   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "F1030",
+            "id_display": "F1030",
+            "name": "Special Construction Systems",
+            "description": "Special Construction Systems   classification item.",
+            "children": [
+              {
+                "id": "F1031",
+                "id_display": "F1031",
+                "name": "Sound, Vibration & Seismic Const.",
+                "description": "Sound, Vibration & Seismic Const. classification item.",
+                "children": []
+              },
+              {
+                "id": "F1032",
+                "id_display": "F1032",
+                "name": "Radiation Protection",
+                "description": "Radiation Protection    classification item.",
+                "children": []
+              },
+              {
+                "id": "F1033",
+                "id_display": "F1033",
+                "name": "Special Security Systems",
+                "description": "Special Security Systems   classification item.",
+                "children": []
+              },
+              {
+                "id": "F1034",
+                "id_display": "F1034",
+                "name": "Vaults",
+                "description": "Vaults     classification item.",
+                "children": []
+              },
+              {
+                "id": "F1039",
+                "id_display": "F1039",
+                "name": "Other Special Construction Systems",
+                "description": "Other Special Construction Systems  classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "F1040",
+            "id_display": "F1040",
+            "name": "Special Facilities",
+            "description": "Special Facilities    classification item.",
+            "children": [
+              {
+                "id": "F1041",
+                "id_display": "F1041",
+                "name": "Aquatic Facilities",
+                "description": "Aquatic Facilities    classification item.",
+                "children": []
+              },
+              {
+                "id": "F1042",
+                "id_display": "F1042",
+                "name": "Ice Rinks",
+                "description": "Ice Rinks    classification item.",
+                "children": []
+              },
+              {
+                "id": "F1043",
+                "id_display": "F1043",
+                "name": "Site Constructed Incinerators",
+                "description": "Site Constructed Incinerators   classification item.",
+                "children": []
+              },
+              {
+                "id": "F1044",
+                "id_display": "F1044",
+                "name": "Kennels & Animal Shelters",
+                "description": "Kennels & Animal Shelters  classification item.",
+                "children": []
+              },
+              {
+                "id": "F1045",
+                "id_display": "F1045",
+                "name": "Liquid & Gas Storage Tanks",
+                "description": "Liquid & Gas Storage Tanks classification item.",
+                "children": []
+              },
+              {
+                "id": "F1049",
+                "id_display": "F1049",
+                "name": "Other Special Facilities",
+                "description": "Other Special Facilities   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "F1050",
+            "id_display": "F1050",
+            "name": "Special Controls and Instrumentation",
+            "description": "Special Controls and Instrumentation  classification item.",
+            "children": [
+              {
+                "id": "F1051",
+                "id_display": "F1051",
+                "name": "Recording Instrumentation",
+                "description": "Recording Instrumentation    classification item.",
+                "children": []
+              },
+              {
+                "id": "F1052",
+                "id_display": "F1052",
+                "name": "Building Automation System",
+                "description": "Building Automation System   classification item.",
+                "children": []
+              },
+              {
+                "id": "F1059",
+                "id_display": "F1059",
+                "name": "Other Special Controls & Instrumentation",
+                "description": "Other Special Controls & Instrumentation classification item.",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "F20",
+        "id_display": "F20",
+        "name": "Selective Building Demolition",
+        "description": "Selective Building Demolition   classification item.",
+        "children": [
+          {
+            "id": "F2010",
+            "id_display": "F2010",
+            "name": "Building Elements Demolition",
+            "description": "Building Elements Demolition   classification item.",
+            "children": [
+              {
+                "id": "F2011",
+                "id_display": "F2011",
+                "name": "Building Interior Demolition",
+                "description": "Building Interior Demolition   classification item.",
+                "children": []
+              },
+              {
+                "id": "F2012",
+                "id_display": "F2012",
+                "name": "Building Exterior Demolition",
+                "description": "Building Exterior Demolition   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "F2020",
+            "id_display": "F2020",
+            "name": "Hazardous Components Abatement",
+            "description": "Hazardous Components Abatement   classification item.",
+            "children": [
+              {
+                "id": "F2021",
+                "id_display": "F2021",
+                "name": "Removal of Hazardous Components",
+                "description": "Removal of Hazardous Components  classification item.",
+                "children": []
+              },
+              {
+                "id": "F2022",
+                "id_display": "F2022",
+                "name": "Encapsulation of Hazardous Components",
+                "description": "Encapsulation of Hazardous Components  classification item.",
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "G",
+    "id_display": "G",
+    "name": "BUILDING SITEWORK",
+    "description": "BUILDING SITEWORK    classification item.",
+    "children": [
+      {
+        "id": "G10",
+        "id_display": "G10",
+        "name": "Site Preparation",
+        "description": "Site Preparation    classification item.",
+        "children": [
+          {
+            "id": "G1010",
+            "id_display": "G1010",
+            "name": "Site Clearing",
+            "description": "Site Clearing    classification item.",
+            "children": [
+              {
+                "id": "G1011",
+                "id_display": "G1011",
+                "name": "Clearing & Grubbing",
+                "description": "Clearing & Grubbing   classification item.",
+                "children": []
+              },
+              {
+                "id": "G1012",
+                "id_display": "G1012",
+                "name": "Tree Removal & Thinning",
+                "description": "Tree Removal & Thinning  classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "G1020",
+            "id_display": "G1020",
+            "name": "Site Demolition and Relocations",
+            "description": "Site Demolition and Relocations  classification item.",
+            "children": [
+              {
+                "id": "G1021",
+                "id_display": "G1021",
+                "name": "Building Demolition",
+                "description": "Building Demolition    classification item.",
+                "children": []
+              },
+              {
+                "id": "G1022",
+                "id_display": "G1022",
+                "name": "Demolition of Site Components",
+                "description": "Demolition of Site Components  classification item.",
+                "children": []
+              },
+              {
+                "id": "G1023",
+                "id_display": "G1023",
+                "name": "Relocation of Building & Utilities",
+                "description": "Relocation of Building & Utilities classification item.",
+                "children": []
+              },
+              {
+                "id": "G1024",
+                "id_display": "G1024",
+                "name": "Utilities Relocation",
+                "description": "Utilities Relocation    classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "G1030",
+            "id_display": "G1030",
+            "name": "Site Earthwork",
+            "description": "Site Earthwork    classification item.",
+            "children": [
+              {
+                "id": "G1031",
+                "id_display": "G1031",
+                "name": "Site Grading Excavation",
+                "description": "Site Grading Excavation   classification item.",
+                "children": []
+              },
+              {
+                "id": "G1032",
+                "id_display": "G1032",
+                "name": "Borrow Fill",
+                "description": "Borrow Fill    classification item.",
+                "children": []
+              },
+              {
+                "id": "G1033",
+                "id_display": "G1033",
+                "name": "Soil Stabilization & Treatment",
+                "description": "Soil Stabilization & Treatment  classification item.",
+                "children": []
+              },
+              {
+                "id": "G1034",
+                "id_display": "G1034",
+                "name": "Site Dewatering",
+                "description": "Site Dewatering    classification item.",
+                "children": []
+              },
+              {
+                "id": "G1035",
+                "id_display": "G1035",
+                "name": "Site Shoring",
+                "description": "Site Shoring    classification item.",
+                "children": []
+              },
+              {
+                "id": "G1036",
+                "id_display": "G1036",
+                "name": "Embankments",
+                "description": "Embankments     classification item.",
+                "children": []
+              },
+              {
+                "id": "G1037",
+                "id_display": "G1037",
+                "name": "Erosion Control",
+                "description": "Erosion Control    classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "G1040",
+            "id_display": "G1040",
+            "name": "Hazardous Waste Remediation",
+            "description": "Hazardous Waste Remediation   classification item.",
+            "children": [
+              {
+                "id": "G1041",
+                "id_display": "G1041",
+                "name": "Removal of Contaminated Soil",
+                "description": "Removal of Contaminated Soil  classification item.",
+                "children": []
+              },
+              {
+                "id": "G1042",
+                "id_display": "G1042",
+                "name": "Soil Restoration & Treatment",
+                "description": "Soil Restoration & Treatment  classification item.",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "G20",
+        "id_display": "G20",
+        "name": "Site Improvements",
+        "description": "Site Improvements    classification item.",
+        "children": [
+          {
+            "id": "G2010",
+            "id_display": "G2010",
+            "name": "Roadways",
+            "description": "Roadways     classification item.",
+            "children": [
+              {
+                "id": "G2011",
+                "id_display": "G2011",
+                "name": "Bases and Sub-Bases",
+                "description": "Bases and Sub-Bases   classification item.",
+                "children": []
+              },
+              {
+                "id": "G2012",
+                "id_display": "G2012",
+                "name": "Paving & Surfacing",
+                "description": "Paving & Surfacing   classification item.",
+                "children": []
+              },
+              {
+                "id": "G2013",
+                "id_display": "G2013",
+                "name": "Curbs Gutters & Drains",
+                "description": "Curbs Gutters & Drains  classification item.",
+                "children": []
+              },
+              {
+                "id": "G2014",
+                "id_display": "G2014",
+                "name": "Guardrails and Barriers",
+                "description": "Guardrails and Barriers   classification item.",
+                "children": []
+              },
+              {
+                "id": "G2015",
+                "id_display": "G2015",
+                "name": "Painted Lines",
+                "description": "Painted Lines    classification item.",
+                "children": []
+              },
+              {
+                "id": "G2016",
+                "id_display": "G2016",
+                "name": "Markings & Signage",
+                "description": "Markings & Signage   classification item.",
+                "children": []
+              },
+              {
+                "id": "G2017",
+                "id_display": "G2017",
+                "name": "Vehicular Bridges",
+                "description": "Vehicular Bridges    classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "G2020",
+            "id_display": "G2020",
+            "name": "Parking Lots",
+            "description": "Parking Lots    classification item.",
+            "children": [
+              {
+                "id": "G2021",
+                "id_display": "G2021",
+                "name": "Bases and Sub-Bases",
+                "description": "Bases and Sub-Bases   classification item.",
+                "children": []
+              },
+              {
+                "id": "G2022",
+                "id_display": "G2022",
+                "name": "Paving & Surfacing",
+                "description": "Paving & Surfacing   classification item.",
+                "children": []
+              },
+              {
+                "id": "G2023",
+                "id_display": "G2023",
+                "name": "Curbs, Rails & Barriers",
+                "description": "Curbs, Rails & Barriers  classification item.",
+                "children": []
+              },
+              {
+                "id": "G2024",
+                "id_display": "G2024",
+                "name": "Parking Booths & Equipment",
+                "description": "Parking Booths & Equipment  classification item.",
+                "children": []
+              },
+              {
+                "id": "G2025",
+                "id_display": "G2025",
+                "name": "Markings & Signage",
+                "description": "Markings & Signage   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "G2030",
+            "id_display": "G2030",
+            "name": "Pedestrian Paving",
+            "description": "Pedestrian Paving    classification item.",
+            "children": [
+              {
+                "id": "G2031",
+                "id_display": "G2031",
+                "name": "Paving & Surfacing",
+                "description": "Paving & Surfacing   classification item.",
+                "children": []
+              },
+              {
+                "id": "G2032",
+                "id_display": "G2032",
+                "name": "Edging",
+                "description": "Edging     classification item.",
+                "children": []
+              },
+              {
+                "id": "G2033",
+                "id_display": "G2033",
+                "name": "Exterior Steps",
+                "description": "Exterior Steps    classification item.",
+                "children": []
+              },
+              {
+                "id": "G2034",
+                "id_display": "G2034",
+                "name": "Pedestrian Bridges",
+                "description": "Pedestrian Bridges    classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "G2040",
+            "id_display": "G2040",
+            "name": "Site Development",
+            "description": "Site Development    classification item.",
+            "children": [
+              {
+                "id": "G2041",
+                "id_display": "G2041",
+                "name": "Fences & Gates",
+                "description": "Fences & Gates   classification item.",
+                "children": []
+              },
+              {
+                "id": "G2042",
+                "id_display": "G2042",
+                "name": "Retaining Walls",
+                "description": "Retaining Walls    classification item.",
+                "children": []
+              },
+              {
+                "id": "G2043",
+                "id_display": "G2043",
+                "name": "Terrace & Perimeter Walls",
+                "description": "Terrace & Perimeter Walls  classification item.",
+                "children": []
+              },
+              {
+                "id": "G2044",
+                "id_display": "G2044",
+                "name": "Signage",
+                "description": "Signage     classification item.",
+                "children": []
+              },
+              {
+                "id": "G2045",
+                "id_display": "G2045",
+                "name": "Site Furnishings",
+                "description": "Site Furnishings    classification item.",
+                "children": []
+              },
+              {
+                "id": "G2046",
+                "id_display": "G2046",
+                "name": "Fountains, Pools, & Watercourses",
+                "description": "Fountains, Pools, & Watercourses  classification item.",
+                "children": []
+              },
+              {
+                "id": "G2047",
+                "id_display": "G2047",
+                "name": "Playing Fields",
+                "description": "Playing Fields    classification item.",
+                "children": []
+              },
+              {
+                "id": "G2048",
+                "id_display": "G2048",
+                "name": "Flagpoles",
+                "description": "Flagpoles     classification item.",
+                "children": []
+              },
+              {
+                "id": "G2049",
+                "id_display": "G2049",
+                "name": "Miscellaneous Structures",
+                "description": "Miscellaneous Structures    classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "G2050",
+            "id_display": "G2050",
+            "name": "Landscaping",
+            "description": "Landscaping     classification item.",
+            "children": [
+              {
+                "id": "G2051",
+                "id_display": "G2051",
+                "name": "Fine Grading & Soil Preparation",
+                "description": "Fine Grading & Soil Preparation classification item.",
+                "children": []
+              },
+              {
+                "id": "G2052",
+                "id_display": "G2052",
+                "name": "Erosion Control Measures",
+                "description": "Erosion Control Measures   classification item.",
+                "children": []
+              },
+              {
+                "id": "G2053",
+                "id_display": "G2053",
+                "name": "Top Soil and Planting Beds",
+                "description": "Top Soil and Planting Beds classification item.",
+                "children": []
+              },
+              {
+                "id": "G2054",
+                "id_display": "G2054",
+                "name": "Seeding and Sodding",
+                "description": "Seeding and Sodding   classification item.",
+                "children": []
+              },
+              {
+                "id": "G2055",
+                "id_display": "G2055",
+                "name": "Planting",
+                "description": "Planting     classification item.",
+                "children": []
+              },
+              {
+                "id": "G2056",
+                "id_display": "G2056",
+                "name": "Planters",
+                "description": "Planters     classification item.",
+                "children": []
+              },
+              {
+                "id": "G2057",
+                "id_display": "G2057",
+                "name": "Irrigation Systems",
+                "description": "Irrigation Systems    classification item.",
+                "children": []
+              },
+              {
+                "id": "G2059",
+                "id_display": "G2059",
+                "name": "Other Landscape Features",
+                "description": "Other Landscape Features   classification item.",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "G30",
+        "id_display": "G30",
+        "name": "Site Mechanical Utilities",
+        "description": "Site Mechanical Utilities   classification item.",
+        "children": [
+          {
+            "id": "G3010",
+            "id_display": "G3010",
+            "name": "Water Supply",
+            "description": "Water Supply    classification item.",
+            "children": [
+              {
+                "id": "G3011",
+                "id_display": "G3011",
+                "name": "Potable Water Distribution and Storage",
+                "description": "Potable Water Distribution and Storage classification item.",
+                "children": []
+              },
+              {
+                "id": "G3012",
+                "id_display": "G3012",
+                "name": "Non-potable Water Distrib. and Storage",
+                "description": "Non-potable Water Distrib. and Storage classification item.",
+                "children": []
+              },
+              {
+                "id": "G3013",
+                "id_display": "G3013",
+                "name": "Well Systems",
+                "description": "Well Systems    classification item.",
+                "children": []
+              },
+              {
+                "id": "G3014",
+                "id_display": "G3014",
+                "name": "Fire Protection Distribution and Storage",
+                "description": "Fire Protection Distribution and Storage classification item.",
+                "children": []
+              },
+              {
+                "id": "G3015",
+                "id_display": "G3015",
+                "name": "Pumping Stations",
+                "description": "Pumping Stations    classification item.",
+                "children": []
+              },
+              {
+                "id": "G3016",
+                "id_display": "G3016",
+                "name": "Package Water Treatment Plants",
+                "description": "Package Water Treatment Plants  classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "G3020",
+            "id_display": "G3020",
+            "name": "Sanitary Sewer",
+            "description": "Sanitary Sewer    classification item.",
+            "children": [
+              {
+                "id": "G3021",
+                "id_display": "G3021",
+                "name": "Piping",
+                "description": "Piping     classification item.",
+                "children": []
+              },
+              {
+                "id": "G3022",
+                "id_display": "G3022",
+                "name": "Manholes & Cleanouts",
+                "description": "Manholes & Cleanouts   classification item.",
+                "children": []
+              },
+              {
+                "id": "G3023",
+                "id_display": "G3023",
+                "name": "Septic Disposal Systems",
+                "description": "Septic Disposal Systems   classification item.",
+                "children": []
+              },
+              {
+                "id": "G3024",
+                "id_display": "G3024",
+                "name": "Lift Stations",
+                "description": "Lift Stations    classification item.",
+                "children": []
+              },
+              {
+                "id": "G3025",
+                "id_display": "G3025",
+                "name": "Packaged Water Waste Treatment Plants",
+                "description": "Packaged Water Waste Treatment Plants classification item.",
+                "children": []
+              },
+              {
+                "id": "G3026",
+                "id_display": "G3026",
+                "name": "Septic Tanks",
+                "description": "Septic Tanks    classification item.",
+                "children": []
+              },
+              {
+                "id": "G3027",
+                "id_display": "G3027",
+                "name": "Drain Fields",
+                "description": "Drain Fields    classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "G3030",
+            "id_display": "G3030",
+            "name": "Storm Sewer",
+            "description": "Storm Sewer    classification item.",
+            "children": [
+              {
+                "id": "G3031",
+                "id_display": "G3031",
+                "name": "Piping",
+                "description": "Piping     classification item.",
+                "children": []
+              },
+              {
+                "id": "G3032",
+                "id_display": "G3032",
+                "name": "Manholes",
+                "description": "Manholes     classification item.",
+                "children": []
+              },
+              {
+                "id": "G3033",
+                "id_display": "G3033",
+                "name": "Headwalls & Catch Basins",
+                "description": "Headwalls & Catch Basins  classification item.",
+                "children": []
+              },
+              {
+                "id": "G3034",
+                "id_display": "G3034",
+                "name": "Lift Stations",
+                "description": "Lift Stations    classification item.",
+                "children": []
+              },
+              {
+                "id": "G3035",
+                "id_display": "G3035",
+                "name": "Retention Ponds",
+                "description": "Retention Ponds    classification item.",
+                "children": []
+              },
+              {
+                "id": "G3036",
+                "id_display": "G3036",
+                "name": "Ditches & Culverts",
+                "description": "Ditches & Culverts   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "G3040",
+            "id_display": "G3040",
+            "name": "Heating Distribution",
+            "description": "Heating Distribution    classification item.",
+            "children": [
+              {
+                "id": "G3041",
+                "id_display": "G3041",
+                "name": "Steam Supply",
+                "description": "Steam Supply    classification item.",
+                "children": []
+              },
+              {
+                "id": "G3042",
+                "id_display": "G3042",
+                "name": "Condensate Return",
+                "description": "Condensate Return    classification item.",
+                "children": []
+              },
+              {
+                "id": "G3043",
+                "id_display": "G3043",
+                "name": "Hot Water Supply System",
+                "description": "Hot Water Supply System  classification item.",
+                "children": []
+              },
+              {
+                "id": "G3044",
+                "id_display": "G3044",
+                "name": "Pumping Stations",
+                "description": "Pumping Stations    classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "G3050",
+            "id_display": "G3050",
+            "name": "Cooling Distribution",
+            "description": "Cooling Distribution    classification item.",
+            "children": [
+              {
+                "id": "G3051",
+                "id_display": "G3051",
+                "name": "Chilled Water Piping",
+                "description": "Chilled Water Piping   classification item.",
+                "children": []
+              },
+              {
+                "id": "G3052",
+                "id_display": "G3052",
+                "name": "Wells for Cooling/Heating",
+                "description": "Wells for Cooling/Heating   classification item.",
+                "children": []
+              },
+              {
+                "id": "G3053",
+                "id_display": "G3053",
+                "name": "Pumping Stations",
+                "description": "Pumping Stations    classification item.",
+                "children": []
+              },
+              {
+                "id": "G3054",
+                "id_display": "G3054",
+                "name": "Cooling Towers on Site",
+                "description": "Cooling Towers on Site  classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "G3060",
+            "id_display": "G3060",
+            "name": "Fuel Distribution",
+            "description": "Fuel Distribution    classification item.",
+            "children": [
+              {
+                "id": "G3061",
+                "id_display": "G3061",
+                "name": "Fuel Piping",
+                "description": "Fuel Piping    classification item.",
+                "children": []
+              },
+              {
+                "id": "G3062",
+                "id_display": "G3062",
+                "name": "Fuel Equipment",
+                "description": "Fuel Equipment    classification item.",
+                "children": []
+              },
+              {
+                "id": "G3063",
+                "id_display": "G3063",
+                "name": "Fuel Storage Tanks",
+                "description": "Fuel Storage Tanks   classification item.",
+                "children": []
+              },
+              {
+                "id": "G3064",
+                "id_display": "G3064",
+                "name": "Fuel Dispensing Stations",
+                "description": "Fuel Dispensing Stations   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "G3090",
+            "id_display": "G3090",
+            "name": "Other Site Mechanical Utilities",
+            "description": "Other Site Mechanical Utilities  classification item.",
+            "children": [
+              {
+                "id": "G3091",
+                "id_display": "G3091",
+                "name": "Industrial Waste Systems",
+                "description": "Industrial Waste Systems   classification item.",
+                "children": []
+              },
+              {
+                "id": "G3092",
+                "id_display": "G3092",
+                "name": "POL Distribution Systems",
+                "description": "POL Distribution Systems   classification item.",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "G40",
+        "id_display": "G40",
+        "name": "Site Electrical Utilities",
+        "description": "Site Electrical Utilities   classification item.",
+        "children": [
+          {
+            "id": "G4010",
+            "id_display": "G4010",
+            "name": "Electrical Distribution",
+            "description": "Electrical Distribution    classification item.",
+            "children": [
+              {
+                "id": "G4011",
+                "id_display": "G4011",
+                "name": "Substations",
+                "description": "Substations     classification item.",
+                "children": []
+              },
+              {
+                "id": "G4012",
+                "id_display": "G4012",
+                "name": "Overhead Power Distribution",
+                "description": "Overhead Power Distribution   classification item.",
+                "children": []
+              },
+              {
+                "id": "G4013",
+                "id_display": "G4013",
+                "name": "Underground Power Distribution",
+                "description": "Underground Power Distribution   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "G4020",
+            "id_display": "G4020",
+            "name": "Site Lighting",
+            "description": "Site Lighting    classification item.",
+            "children": [
+              {
+                "id": "G4021",
+                "id_display": "G4021",
+                "name": "Fixtures & Transformers",
+                "description": "Fixtures & Transformers   classification item.",
+                "children": []
+              },
+              {
+                "id": "G4022",
+                "id_display": "G4022",
+                "name": "Poles",
+                "description": "Poles     classification item.",
+                "children": []
+              },
+              {
+                "id": "G4023",
+                "id_display": "G4023",
+                "name": "Wiring Conduits & Ductbanks",
+                "description": "Wiring Conduits & Ductbanks  classification item.",
+                "children": []
+              },
+              {
+                "id": "G4024",
+                "id_display": "G4024",
+                "name": "Site Lighting Controls",
+                "description": "Site Lighting Controls   classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "G4030",
+            "id_display": "G4030",
+            "name": "Site Communications & Security",
+            "description": "Site Communications & Security  classification item.",
+            "children": [
+              {
+                "id": "G4031",
+                "id_display": "G4031",
+                "name": "Site Communications Systems",
+                "description": "Site Communications Systems   classification item.",
+                "children": []
+              },
+              {
+                "id": "G4032",
+                "id_display": "G4032",
+                "name": "Site Security & Alarm Systems",
+                "description": "Site Security & Alarm Systems classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "G4090",
+            "id_display": "G4090",
+            "name": "Other Site Electrical Utilities",
+            "description": "Other Site Electrical Utilities  classification item.",
+            "children": [
+              {
+                "id": "G4091",
+                "id_display": "G4091",
+                "name": "Cathodic Protection",
+                "description": "Cathodic Protection    classification item.",
+                "children": []
+              },
+              {
+                "id": "G4092",
+                "id_display": "G4092",
+                "name": "Site Emergency Power Generation",
+                "description": "Site Emergency Power Generation  classification item.",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "G90",
+        "id_display": "G90",
+        "name": "Other Site Construction",
+        "description": "Other Site Construction   classification item.",
+        "children": [
+          {
+            "id": "G9010",
+            "id_display": "G9010",
+            "name": "Service and Pedestrian Tunnels",
+            "description": "Service and Pedestrian Tunnels  classification item.",
+            "children": [
+              {
+                "id": "G9011",
+                "id_display": "G9011",
+                "name": "Service Tunnels",
+                "description": "Service Tunnels    classification item.",
+                "children": []
+              },
+              {
+                "id": "G9012",
+                "id_display": "G9012",
+                "name": "Trench Boxes",
+                "description": "Trench Boxes    classification item.",
+                "children": []
+              },
+              {
+                "id": "G9013",
+                "id_display": "G9013",
+                "name": "Pedestrian Tunnels",
+                "description": "Pedestrian Tunnels    classification item.",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "G9090",
+            "id_display": "G9090",
+            "name": "Other Site Systems & Equipment",
+            "description": "Other Site Systems & Equipment classification item.",
+            "children": [
+              {
+                "id": "G9091",
+                "id_display": "G9091",
+                "name": "Snow Melting Systems",
+                "description": "Snow Melting Systems   classification item.",
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+];
+
+        // Build lookup maps for fast access
+        const nodeMap = new Map();
+        const parentMap = new Map();
+        let selectedNode = null;
+
+        function buildMaps(nodes, parent = null) {
+            nodes.forEach(node => {
+                nodeMap.set(node.id, node);
+                if (parent) parentMap.set(node.id, parent.id);
+                if (node.children && node.children.length > 0) {
+                    buildMaps(node.children, node);
+                }
+            });
+        }
+        buildMaps(treeData);
+
+        // Render tree
+        function renderTree(nodes, container, level = 0) {
+            nodes.forEach(node => {
+                const nodeEl = document.createElement('div');
+                nodeEl.className = `tree-node level-${level}`;
+                nodeEl.dataset.id = node.id;
+                nodeEl.dataset.level = level;
+
+                const hasChildren = node.children && node.children.length > 0;
+
+                nodeEl.innerHTML = `
+                    <div class="tree-node-content">
+                        <span class="tree-toggle ${hasChildren ? '' : 'hidden'}">▶</span>
+                        <div class="tree-label">
+                            <span class="tree-code">${node.id_display}</span>
+                            <span class="tree-name">${node.name}</span>
+                        </div>
+                    </div>
+                    <div class="tree-children"></div>
+                `;
+
+                const content = nodeEl.querySelector('.tree-node-content');
+                const toggle = nodeEl.querySelector('.tree-toggle');
+
+                content.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    selectNode(node.id);
+                });
+
+                if (hasChildren) {
+                    toggle.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        toggleNode(nodeEl);
+                    });
+                    renderTree(node.children, nodeEl.querySelector('.tree-children'), level + 1);
+                }
+
+                container.appendChild(nodeEl);
+            });
+        }
+
+        function toggleNode(nodeEl, expand = null) {
+            const shouldExpand = expand !== null ? expand : !nodeEl.classList.contains('expanded');
+            nodeEl.classList.toggle('expanded', shouldExpand);
+            const toggle = nodeEl.querySelector(':scope > .tree-node-content .tree-toggle');
+            if (toggle) toggle.classList.toggle('expanded', shouldExpand);
+        }
+
+        function selectNode(nodeId) {
+            document.querySelectorAll('.tree-node-content.selected').forEach(el => el.classList.remove('selected'));
+
+            const nodeEl = document.querySelector(`.tree-node[data-id="${nodeId}"]`);
+            if (nodeEl) {
+                nodeEl.querySelector('.tree-node-content').classList.add('selected');
+
+                // Expand parents
+                let parent = nodeEl.parentElement;
+                while (parent && parent.classList) {
+                    if (parent.classList.contains('tree-node')) {
+                        toggleNode(parent, true);
+                    }
+                    parent = parent.parentElement;
+                }
+
+                nodeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+
+            selectedNode = nodeId;
+            showDetail(nodeId);
+        }
+
+        function showDetail(nodeId) {
+            const node = nodeMap.get(nodeId);
+            if (!node) return;
+
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('detailView').style.display = 'block';
+
+            document.getElementById('detailCode').textContent = node.id_display;
+            document.getElementById('detailName').textContent = node.name;
+            document.getElementById('descriptionText').textContent = node.description || 'No description available.';
+
+            // Stats
+            document.getElementById('statChildren').textContent = node.children ? node.children.length : 0;
+            document.getElementById('statDescendants').textContent = countDescendants(node);
+            document.getElementById('statLevel').textContent = getPath(nodeId).length;
+
+            // Breadcrumb
+            const path = getPath(nodeId);
+            const breadcrumb = document.getElementById('breadcrumb');
+            breadcrumb.innerHTML = path.map((id, i) => {
+                const n = nodeMap.get(id);
+                return `<span onclick="selectNode('${id}')">${n.id_display}</span>${i < path.length - 1 ? '<span class="separator">›</span>' : ''}`;
+            }).join('');
+
+            // Hierarchy
+            const hierarchyPath = document.getElementById('hierarchyPath');
+            hierarchyPath.innerHTML = path.map((id, i) => {
+                const n = nodeMap.get(id);
+                return `
+                    <div class="hierarchy-item ${id === nodeId ? 'current' : ''}" onclick="selectNode('${id}')">
+                        <span class="hierarchy-level">L${i + 1}</span>
+                        <span class="hierarchy-code">${n.id_display}</span>
+                        <span class="hierarchy-name">${n.name}</span>
+                    </div>
+                `;
+            }).join('');
+
+            // Children
+            const childrenContainer = document.getElementById('childrenContainer');
+            if (node.children && node.children.length > 0) {
+                childrenContainer.innerHTML = `
+                    <div class="children-grid">
+                        ${node.children.map(child => `
+                            <div class="child-item" onclick="selectNode('${child.id}')">
+                                <span class="code">${child.id_display}</span>
+                                <span class="name">${child.name}</span>
+                                ${child.children && child.children.length > 0 ? `<span class="count">${child.children.length}</span>` : ''}
+                                <span class="arrow">→</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                childrenContainer.innerHTML = '<div class="no-children">No child items</div>';
+            }
+        }
+
+        function getPath(nodeId) {
+            const path = [nodeId];
+            let current = nodeId;
+            while (parentMap.has(current)) {
+                current = parentMap.get(current);
+                path.unshift(current);
+            }
+            return path;
+        }
+
+        function countDescendants(node) {
+            if (!node.children || node.children.length === 0) return 0;
+            return node.children.reduce((sum, child) => sum + 1 + countDescendants(child), 0);
+        }
+
+        // Search
+        const searchInput = document.getElementById('searchInput');
+        let searchTimeout;
+
+        searchInput.addEventListener('input', () => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => search(searchInput.value), 200);
+        });
+
+        function search(term) {
+            const lowerTerm = term.toLowerCase().trim();
+
+            document.querySelectorAll('.tree-node').forEach(node => {
+                node.classList.remove('search-hidden', 'search-match');
+            });
+
+            document.querySelectorAll('.highlight-text').forEach(el => {
+                el.outerHTML = el.textContent;
+            });
+
+            if (!lowerTerm) return;
+
+            const matchingIds = new Set();
+
+            nodeMap.forEach((node, id) => {
+                if (node.id_display.toLowerCase().includes(lowerTerm) ||
+                    node.name.toLowerCase().includes(lowerTerm)) {
+                    matchingIds.add(id);
+                    let current = id;
+                    while (parentMap.has(current)) {
+                        current = parentMap.get(current);
+                        matchingIds.add(current);
+                    }
+                }
+            });
+
+            document.querySelectorAll('.tree-node').forEach(nodeEl => {
+                const nodeId = nodeEl.dataset.id;
+                if (!matchingIds.has(nodeId)) {
+                    nodeEl.classList.add('search-hidden');
+                } else {
+                    const node = nodeMap.get(nodeId);
+                    if (node.id_display.toLowerCase().includes(lowerTerm) ||
+                        node.name.toLowerCase().includes(lowerTerm)) {
+                        nodeEl.classList.add('search-match');
+                        toggleNode(nodeEl, true);
+                    }
+                }
+            });
+        }
+
+        // Controls
+        document.getElementById('expandAll').addEventListener('click', () => {
+            document.querySelectorAll('.tree-node').forEach(n => toggleNode(n, true));
+        });
+
+        document.getElementById('collapseAll').addEventListener('click', () => {
+            document.querySelectorAll('.tree-node').forEach(n => toggleNode(n, false));
+        });
+
+        document.getElementById('expandLevel1').addEventListener('click', () => {
+            document.querySelectorAll('.tree-node').forEach(n => {
+                toggleNode(n, parseInt(n.dataset.level) < 1);
+            });
+        });
+
+        document.getElementById('expandLevel2').addEventListener('click', () => {
+            document.querySelectorAll('.tree-node').forEach(n => {
+                toggleNode(n, parseInt(n.dataset.level) < 2);
+            });
+        });
+
+        // Theme
+        const lightBtn = document.getElementById('lightBtn');
+        const darkBtn = document.getElementById('darkBtn');
+
+        function setTheme(theme) {
+            document.body.dataset.theme = theme;
+            lightBtn.classList.toggle('active', theme !== 'dark');
+            darkBtn.classList.toggle('active', theme === 'dark');
+            localStorage.setItem('theme', theme);
+        }
+
+        lightBtn.addEventListener('click', () => setTheme('light'));
+        darkBtn.addEventListener('click', () => setTheme('dark'));
+
+        // Init
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        setTheme(savedTheme);
+
+        const treeContainer = document.getElementById('treeContainer');
+        renderTree(treeData, treeContainer);
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '/' && document.activeElement !== searchInput) {
+                e.preventDefault();
+                searchInput.focus();
+            }
+            if (e.key === 'Escape') {
+                searchInput.value = '';
+                search('');
+                searchInput.blur();
+            }
+        });
+    </script>
+</body>
+</html>
