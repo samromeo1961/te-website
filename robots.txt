@@ -1,0 +1,8 @@
+# Robots.txt for Takeoff and Estimating website
+# https://takeoffandestimating.com.au
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://samromeo1961.github.io/te-website/sitemap.xml
